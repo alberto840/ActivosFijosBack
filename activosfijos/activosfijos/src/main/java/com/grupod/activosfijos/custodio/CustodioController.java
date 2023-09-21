@@ -22,7 +22,7 @@ public class CustodioController {
     public CustodioController(CustodioService custodioService) {
         this.custodioService = custodioService;
     }
-
+    
     @GetMapping
     public List<CustodioEntity> getCustodio(){
         return custodioService.getCustodio();

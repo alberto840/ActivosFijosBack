@@ -22,18 +22,12 @@ public class CustodioService {
     public List<CustodioEntity>getCustodio(){
         return this.custodioRepository.findAll();
     }
-    public ResponseEntity<Object> addNewCustodio(CustodioEntity custodio){
-        Optional<CustodioEntity> res = custodioRepository.findCustodioBycustodioId(custodio.getId_custodio());
+    public ResponseEntity<Object> addNewCustodio(CustodioEntity custodio) {  
         HashMap<String, Object> datos = new HashMap<>();
 
-        if(res.isPresent()){
-            datos.put("error", true);
-            datos.put("message", "Ya existe custodio con este id");
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
         custodioRepository.save(custodio);
         datos.put("datos", custodio);
-        datos.put("message", "Se registró con exito el custodio");
+        datos.put("message", "Se creo el custodio correctamente");
         return new ResponseEntity<>(datos, HttpStatus.CREATED);
-    }
+    } 
 }

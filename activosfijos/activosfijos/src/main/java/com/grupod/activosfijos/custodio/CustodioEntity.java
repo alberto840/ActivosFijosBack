@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 @Table
 public class CustodioEntity {
 
+    //Atributos
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id_custodio;
@@ -16,6 +17,7 @@ public class CustodioEntity {
     private String custodio_correo;
     private Integer custodio_estado;
 
+    //Constructor lleno
     public CustodioEntity(Integer id_custodio, String custodio_nombre, String custodio_apellido_paterno,
             String custodio_apellido_materno, String custodio_telefono, String custodio_correo,
             Integer custodio_estado) {
@@ -28,9 +30,11 @@ public class CustodioEntity {
         this.custodio_estado = custodio_estado;
     }
 
+    //Constructor vacio
     public CustodioEntity() {
     }
     
+    //Getters y setters
     public Integer getId_custodio() {
         return id_custodio;
     }
