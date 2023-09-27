@@ -1,7 +1,5 @@
-package com.grupod.activosfijos.custodio;
-
+package com.grupod.activosfijos.usuario;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -13,23 +11,24 @@ import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin
 @RestController
-@RequestMapping(path = "api/v1/custodio")
-public class CustodioController {
-    
-    private final CustodioService custodioService;
+@RequestMapping(path = "api/v1/usuario")
+public class UsuarioController {
+
+    private final UsuarioService usuarioService;
 
     @Autowired
-    public CustodioController(CustodioService custodioService) {
-        this.custodioService = custodioService;
+    public UsuarioController(UsuarioService usuarioService) {
+        this.usuarioService = usuarioService;
     }
     
     @GetMapping
-    public List<CustodioEntity> getCustodio(){
-        return custodioService.getCustodio();
+    public List<UsuarioEntity> getUsuario(){
+        return usuarioService.getUsuario();
     }
 
     @PostMapping
-    public ResponseEntity<Object> registerNewCustodio(@RequestBody CustodioEntity custodio){
-        return this.custodioService.addNewCustodio(custodio);
+    public ResponseEntity<Object> registerNewUsuario(@RequestBody UsuarioEntity user){
+        return this.usuarioService.addNewUsuario(user);
     }
+    
 }

@@ -1,7 +1,6 @@
-package com.grupod.activosfijos.custodio;
+package com.grupod.activosfijos.marca;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -13,23 +12,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin
 @RestController
-@RequestMapping(path = "api/v1/custodio")
-public class CustodioController {
-    
-    private final CustodioService custodioService;
+@RequestMapping(path = "api/v1/marca")
+public class MarcaController {
+    private final MarcaService marcaService;
 
     @Autowired
-    public CustodioController(CustodioService custodioService) {
-        this.custodioService = custodioService;
+    public MarcaController(MarcaService marcaService) {
+        this.marcaService = marcaService;
     }
     
     @GetMapping
-    public List<CustodioEntity> getCustodio(){
-        return custodioService.getCustodio();
+    public List<MarcaEntity> getMarca(){
+        return marcaService.getMarca();
     }
 
     @PostMapping
-    public ResponseEntity<Object> registerNewCustodio(@RequestBody CustodioEntity custodio){
-        return this.custodioService.addNewCustodio(custodio);
+    public ResponseEntity<Object> registerNewMarca(@RequestBody MarcaEntity marca){
+        return this.marcaService.addNewMarca(marca);
     }
 }
