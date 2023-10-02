@@ -3,3 +3,4 @@ aqui tiene que ir los archivos:
 - ubicacionActivoRepository.java
 - ubicacionActivoService.java
 - ubicacionActivoController.java
+//Archivos creados
