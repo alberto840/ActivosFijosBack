@@ -6,8 +6,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+
 @RestController
-@RequestMapping("/monedas")
+@RequestMapping("api/v1/monedas")
 public class MonedaController {
     private final MonedaService monedaService;
 

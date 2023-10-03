@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/ubicacion-activo")
+@RequestMapping("api/v1/ubicacion-activo")
 public class ubicacionActivoController {
     private final ubicacionActivoService ubicacionActivoService;
 

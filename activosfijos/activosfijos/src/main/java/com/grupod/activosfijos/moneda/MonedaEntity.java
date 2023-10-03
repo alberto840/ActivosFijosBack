@@ -1,12 +1,9 @@
 package com.grupod.activosfijos.moneda;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jdk.jfr.Enabled;
 
-@Enabled
+@Entity
 @Table
 public class MonedaEntity {
     @Id

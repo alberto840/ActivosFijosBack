@@ -1,9 +1,9 @@
-package com.grupod.activosfijos.moneda;
+package com.grupod.activosfijos.pais;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface MonedaRepository extends JpaRepository<MonedaEntity,Integer> {
+public interface paisRepository extends JpaRepository<paisEntity,Integer> {
 
 }
