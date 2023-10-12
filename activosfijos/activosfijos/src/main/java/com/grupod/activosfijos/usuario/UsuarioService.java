@@ -8,9 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.grupod.activosfijos.marca.MarcaEntity;
-import com.grupod.activosfijos.marca.MarcaRepository;
-
 @Service
 public class UsuarioService {
     private final UsuarioRepository usuarioRepository;

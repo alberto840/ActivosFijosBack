@@ -13,36 +13,25 @@ public class ActivoEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id_activo;
     private String activo_nombre;
-    private BigDecimal activo_valorCompra;
-    private String activo_estadoUsoCompra;
-    private Integer activo_cantidad;
-    private Boolean activo_estado;
-    private Integer categoria_id_activo;
-    private Integer imagen_id_imagen;
-    private Integer marca_id_marca;
-    private String activo_comprobante;
-    private Integer imagen_comprobante;
-
-    //Constructor vacio
-    public ActivoEntity() {
-    }
-    //Constructor lleno
-    public ActivoEntity(Integer id_activo, String activo_nombre, BigDecimal activo_valorCompra,
-            String activo_estadoUsoCompra, Integer activo_cantidad, Boolean activo_estado, Integer categoria_id_activo,
-            Integer imagen_id_imagen, Integer marca_id_marca, String activo_comprobante, Integer imagen_comprobante) {
+    private String activo_marca;
+    private Integer activo_id;
+    private BigDecimal  activo_valor;
+    private String activo_categoria;
+    private String activo_custodio;
+    private String activo_direccion;
+    public ActivoEntity(Integer id_activo, String activo_nombre, String activo_marca, Integer activo_id,
+            BigDecimal activo_valor, String activo_categoria, String activo_custodio, String activo_direccion) {
         this.id_activo = id_activo;
         this.activo_nombre = activo_nombre;
-        this.activo_valorCompra = activo_valorCompra;
-        this.activo_estadoUsoCompra = activo_estadoUsoCompra;
-        this.activo_cantidad = activo_cantidad;
-        this.activo_estado = activo_estado;
-        this.categoria_id_activo = categoria_id_activo;
-        this.imagen_id_imagen = imagen_id_imagen;
-        this.marca_id_marca = marca_id_marca;
-        this.activo_comprobante = activo_comprobante;
-        this.imagen_comprobante = imagen_comprobante;
+        this.activo_marca = activo_marca;
+        this.activo_id = activo_id;
+        this.activo_valor = activo_valor;
+        this.activo_categoria = activo_categoria;
+        this.activo_custodio = activo_custodio;
+        this.activo_direccion = activo_direccion;
     }
-    //Getters setters
+    public ActivoEntity() {
+    }
     public Integer getId_activo() {
         return id_activo;
     }
@@ -55,60 +44,42 @@ public class ActivoEntity {
     public void setActivo_nombre(String activo_nombre) {
         this.activo_nombre = activo_nombre;
     }
-    public BigDecimal getActivo_valorCompra() {
-        return activo_valorCompra;
+    public String getActivo_marca() {
+        return activo_marca;
     }
-    public void setActivo_valorCompra(BigDecimal activo_valorCompra) {
-        this.activo_valorCompra = activo_valorCompra;
+    public void setActivo_marca(String activo_marca) {
+        this.activo_marca = activo_marca;
     }
-    public String getActivo_estadoUsoCompra() {
-        return activo_estadoUsoCompra;
+    public Integer getActivo_id() {
+        return activo_id;
     }
-    public void setActivo_estadoUsoCompra(String activo_estadoUsoCompra) {
-        this.activo_estadoUsoCompra = activo_estadoUsoCompra;
+    public void setActivo_id(Integer activo_id) {
+        this.activo_id = activo_id;
     }
-    public Integer getActivo_cantidad() {
-        return activo_cantidad;
+    public BigDecimal getActivo_valor() {
+        return activo_valor;
     }
-    public void setActivo_cantidad(Integer activo_cantidad) {
-        this.activo_cantidad = activo_cantidad;
+    public void setActivo_valor(BigDecimal activo_valor) {
+        this.activo_valor = activo_valor;
     }
-    public Boolean getActivo_estado() {
-        return activo_estado;
+    public String getActivo_categoria() {
+        return activo_categoria;
     }
-    public void setActivo_estado(Boolean activo_estado) {
-        this.activo_estado = activo_estado;
+    public void setActivo_categoria(String activo_categoria) {
+        this.activo_categoria = activo_categoria;
     }
-    public Integer getCategoria_id_activo() {
-        return categoria_id_activo;
+    public String getActivo_custodio() {
+        return activo_custodio;
     }
-    public void setCategoria_id_activo(Integer categoria_id_activo) {
-        this.categoria_id_activo = categoria_id_activo;
+    public void setActivo_custodio(String activo_custodio) {
+        this.activo_custodio = activo_custodio;
     }
-    public Integer getImagen_id_imagen() {
-        return imagen_id_imagen;
+    public String getActivo_direccion() {
+        return activo_direccion;
     }
-    public void setImagen_id_imagen(Integer imagen_id_imagen) {
-        this.imagen_id_imagen = imagen_id_imagen;
+    public void setActivo_direccion(String activo_direccion) {
+        this.activo_direccion = activo_direccion;
     }
-    public Integer getMarca_id_marca() {
-        return marca_id_marca;
-    }
-    public void setMarca_id_marca(Integer marca_id_marca) {
-        this.marca_id_marca = marca_id_marca;
-    }
-    public String getActivo_comprobante() {
-        return activo_comprobante;
-    }
-    public void setActivo_comprobante(String activo_comprobante) {
-        this.activo_comprobante = activo_comprobante;
-    }
-    public Integer getImagen_comprobante() {
-        return imagen_comprobante;
-    }
-    public void setImagen_comprobante(Integer imagen_comprobante) {
-        this.imagen_comprobante = imagen_comprobante;
-    }
-
+    
     
 }

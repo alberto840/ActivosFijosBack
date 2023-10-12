@@ -9,10 +9,10 @@ import java.util.Optional;
 @Service
 public class departamentoService {
 
-    private final DepartamentoRepository departamentoRepository;
+    private final departamentoRepository departamentoRepository;
 
     @Autowired
-    public departamentoService(DepartamentoRepository departamentoRepository) {
+    public departamentoService(departamentoRepository departamentoRepository) {
         this.departamentoRepository = departamentoRepository;
     }
     public List<departamentoEntity> getAllDepartamentos() {
