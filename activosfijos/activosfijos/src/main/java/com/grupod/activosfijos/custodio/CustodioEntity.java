@@ -15,12 +15,12 @@ public class CustodioEntity {
     private String custodio_apellido_materno;
     private String custodio_telefono;
     private String custodio_correo;
-    private Integer custodio_estado;
+    private String custodio_estado;
 
     //Constructor lleno
     public CustodioEntity(Integer id_custodio, String custodio_nombre, String custodio_apellido_paterno,
             String custodio_apellido_materno, String custodio_telefono, String custodio_correo,
-            Integer custodio_estado) {
+            String custodio_estado) {
         this.id_custodio = id_custodio;
         this.custodio_nombre = custodio_nombre;
         this.custodio_apellido_paterno = custodio_apellido_paterno;
@@ -71,10 +71,10 @@ public class CustodioEntity {
     public void setCustodio_correo(String custodio_correo) {
         this.custodio_correo = custodio_correo;
     }
-    public Integer getCustodio_estado() {
+    public String getCustodio_estado() {
         return custodio_estado;
     }
-    public void setCustodio_estado(Integer custodio_estado) {
+    public void setCustodio_estado(String custodio_estado) {
         this.custodio_estado = custodio_estado;
     }
 

@@ -9,17 +9,17 @@ public class BloqueEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id_bloque;
     private String bloque_nombre;
-    private Integer departamento_id_departamento;
+    private Integer direccion_id_direccion;;
 
     //Constructor vacio
     public BloqueEntity() {
     }
 
     //Constructor lleno
-    public BloqueEntity(Integer id_bloque, String bloque_nombre, Integer departamento_id_departamento) {
+    public BloqueEntity(Integer id_bloque, String bloque_nombre, Integer direccion_id_direccion) {
         this.id_bloque = id_bloque;
         this.bloque_nombre = bloque_nombre;
-        this.departamento_id_departamento = departamento_id_departamento;
+        this.direccion_id_direccion = direccion_id_direccion;;
     }
 
     //Getters y setters
@@ -35,11 +35,13 @@ public class BloqueEntity {
     public void setBloque_nombre(String bloque_nombre) {
         this.bloque_nombre = bloque_nombre;
     }
-    public Integer getDepartamento_id_departamento() {
-        return departamento_id_departamento;
+
+    public Integer getDireccion_id_direccion() {
+        return direccion_id_direccion;
     }
-    public void setDepartamento_id_departamento(Integer departamento_id_departamento) {
-        this.departamento_id_departamento = departamento_id_departamento;
+
+    public void setDireccion_id_direccion(Integer direccion_id_direccion) {
+        this.direccion_id_direccion = direccion_id_direccion;;
     }
 
     

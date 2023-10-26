@@ -5,8 +5,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.grupod.activosfijos.custodio.CustodioEntity;
+
+import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin
 @RestController
 @RequestMapping("api/v1/departamentos")
 public class departamentoController {
@@ -15,6 +19,10 @@ public class departamentoController {
     @Autowired
     public departamentoController(departamentoService departamentoService){
         this.departamentoService = departamentoService;
+    }
+    @GetMapping
+    public List<departamentoEntity> getCustodio(){
+        return departamentoService.getAllDepartamentos();
     }
     @GetMapping("/{id}")
     public ResponseEntity<departamentoEntity> getDepartamentoById(@PathVariable Integer id) {
@@ -45,5 +53,15 @@ public class departamentoController {
         }
         departamentoService.deleteDepartamento(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+    @PostMapping("/list")
+    public ResponseEntity<String> registrarNewDepartamentos(@RequestBody List<departamentoEntity> departamentos) {
+        for (departamentoEntity departamento : departamentos) {
+
+            // Llamar al servicio para agregar el Custodio
+            this.departamentoService.saveDepartamento(departamento);
+        }
+
+        return ResponseEntity.ok("Se recibieron y procesaron los departamentos.");
     }
 }

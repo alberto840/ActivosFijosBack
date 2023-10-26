@@ -11,7 +11,7 @@ public class ubicacionActivoEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id_ubicacionActivo;
     private Integer ubicacionActivo_cantidad;
-    private String activo_id_activo;
+    private Integer activo_id_activo;
     private Date ubicacionActivo_fecha;
     private Integer aula_id_aula;
     private Integer usuario_id_usuario;
@@ -20,7 +20,7 @@ public class ubicacionActivoEntity {
     }
 
     public ubicacionActivoEntity(Integer id_ubicacionActivo, Integer ubicacionActivo_cantidad,
-                                 String activo_id_activo, Date ubicacionActivo_fecha, Integer aula_id_aula,
+                                 Integer activo_id_activo, Date ubicacionActivo_fecha, Integer aula_id_aula,
                                  Integer usuario_id_usuario) {
         this.id_ubicacionActivo = id_ubicacionActivo;
         this.ubicacionActivo_cantidad = ubicacionActivo_cantidad;
@@ -46,11 +46,11 @@ public class ubicacionActivoEntity {
         this.ubicacionActivo_cantidad = ubicacionActivo_cantidad;
     }
 
-    public String getActivo_id_activo() {
+    public Integer getActivo_id_activo() {
         return activo_id_activo;
     }
 
-    public void setActivo_id_activo(String activo_id_activo) {
+    public void setActivo_id_activo(Integer activo_id_activo) {
         this.activo_id_activo = activo_id_activo;
     }
 

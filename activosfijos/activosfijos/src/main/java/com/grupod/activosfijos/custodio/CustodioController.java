@@ -29,7 +29,18 @@ public class CustodioController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> registerNewCustodio(@RequestBody CustodioEntity custodio){
+        public ResponseEntity<Object> registerNewCustodio(@RequestBody CustodioEntity custodio){
         return this.custodioService.addNewCustodio(custodio);
+    }
+
+    @PostMapping("/list")
+    public ResponseEntity<String> registrarNewCustodios(@RequestBody List<CustodioEntity> custodios) {
+        for (CustodioEntity custodio : custodios) {
+
+            // Llamar al servicio para agregar el Custodio
+            this.custodioService.addNewCustodio(custodio);
+        }
+
+        return ResponseEntity.ok("Se recibieron y procesaron las personas.");
     }
 }

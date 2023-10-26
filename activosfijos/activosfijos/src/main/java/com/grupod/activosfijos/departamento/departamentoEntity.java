@@ -10,12 +10,12 @@ public class departamentoEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id_departamento;
     private String departamento_nombre;
-    private String pais_id_pais;
+    private Integer pais_id_pais;
 
     public departamentoEntity() {
     }
 
-    public departamentoEntity(Integer id_departamento, String departamento_nombre, String pais_id_pais) {
+    public departamentoEntity(Integer id_departamento, String departamento_nombre, Integer pais_id_pais) {
         this.id_departamento = id_departamento;
         this.departamento_nombre = departamento_nombre;
         this.pais_id_pais = pais_id_pais;
@@ -37,11 +37,11 @@ public class departamentoEntity {
         this.departamento_nombre = departamento_nombre;
     }
 
-    public String getPais_id_pais() {
+    public Integer getPais_id_pais() {
         return pais_id_pais;
     }
 
-    public void setPais_id_pais(String pais_id_pais) {
+    public void setPais_id_pais(Integer pais_id_pais) {
         this.pais_id_pais = pais_id_pais;
     }
 

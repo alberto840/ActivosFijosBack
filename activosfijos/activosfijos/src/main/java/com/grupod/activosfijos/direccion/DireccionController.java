@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.grupod.activosfijos.custodio.CustodioEntity;
+import com.grupod.activosfijos.departamento.departamentoEntity;
 import com.grupod.activosfijos.marca.MarcaEntity;
 import com.grupod.activosfijos.marca.MarcaService;
 
@@ -31,5 +33,15 @@ public class DireccionController {
     @PostMapping
     public ResponseEntity<Object> registerNewDireccion(@RequestBody DireccionEntity direccion){
         return this.direccionService.addNewDireccion(direccion);
+    }
+    @PostMapping("/list")
+    public ResponseEntity<String> registrarNewDirecciones(@RequestBody List<DireccionEntity> sucursales) {
+        for (DireccionEntity sucursal : sucursales) {
+
+            // Llamar al servicio para agregar el Custodio
+            this.direccionService.addNewDireccion(sucursal);
+        }
+
+        return ResponseEntity.ok("Se recibieron y procesaron sucursales.");
     }
 }

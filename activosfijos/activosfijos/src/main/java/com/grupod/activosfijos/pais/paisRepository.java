@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface paisRepository extends JpaRepository<paisEntity,Integer> {
+public interface PaisRepository extends JpaRepository<paisEntity,Integer> {
 
 }

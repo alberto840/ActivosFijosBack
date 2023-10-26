@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.grupod.activosfijos.aula.AulaEntity;
 import com.grupod.activosfijos.aula.AulaService;
+import com.grupod.activosfijos.direccion.DireccionEntity;
 
 @CrossOrigin
 @RestController
@@ -32,5 +33,15 @@ public class BloqueController {
     @PostMapping
     public ResponseEntity<Object> registerNewBloque(@RequestBody BloqueEntity bloque){
         return this.bloqueService.addNewBloque(bloque);
+    }
+    @PostMapping("/list")
+    public ResponseEntity<String> registrarNewBloques(@RequestBody List<BloqueEntity> bloques) {
+        for (BloqueEntity bloque : bloques) {
+
+            // Llamar al servicio para agregar el Custodio
+            this.bloqueService.addNewBloque(bloque);
+        }
+
+        return ResponseEntity.ok("Se recibieron y procesaron bloques.");
     }
 }

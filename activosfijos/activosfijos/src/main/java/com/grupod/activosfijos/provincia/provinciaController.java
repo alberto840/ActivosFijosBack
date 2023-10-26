@@ -6,10 +6,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import com.grupod.activosfijos.custodio.CustodioEntity;
+
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin
 @Controller
+@RestController
 @RequestMapping("api/v1/provincias")
 public class provinciaController {
     private final provinciaService provinciaService;
@@ -53,5 +57,15 @@ public class provinciaController {
         }
         provinciaService.deleteProvincia(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+    @PostMapping("/list")
+    public ResponseEntity<String> registrarNewProvincias(@RequestBody List<provinciaEntity> provincias) {
+        for (provinciaEntity provincia : provincias) {
+
+            // Llamar al servicio para agregar el Custodio
+            this.provinciaService.saveProvincia(provincia);
+        }
+
+        return ResponseEntity.ok("Se recibieron y procesaron las provincias.");
     }
 }

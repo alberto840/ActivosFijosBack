@@ -11,7 +11,7 @@ public class DireccionEntity {
     private String direccion_zona;
     private String direccion_calle;
     private String direccion_detalle;
-    private Integer municipio_id_municipio;
+    private Integer provincia_id_provincia;
 
     //Constructor vacio
     public DireccionEntity() {
@@ -19,12 +19,12 @@ public class DireccionEntity {
 
     //Constructor lleno
     public DireccionEntity(Integer id_direccion, String direccion_zona, String direccion_calle,
-            String direccion_detalle, Integer municipio_id_municipio) {
+            String direccion_detalle, Integer provincia_id_provincia) {
         this.id_direccion = id_direccion;
         this.direccion_zona = direccion_zona;
         this.direccion_calle = direccion_calle;
         this.direccion_detalle = direccion_detalle;
-        this.municipio_id_municipio = municipio_id_municipio;
+        this.provincia_id_provincia = provincia_id_provincia;
     }
 
     //Getters y setters
@@ -61,12 +61,12 @@ public class DireccionEntity {
         this.direccion_detalle = direccion_detalle;
     }
 
-    public Integer getMunicipio_id_municipio() {
-        return municipio_id_municipio;
+    public Integer getProvincia_id_provincia() {
+        return provincia_id_provincia;
     }
 
-    public void setMunicipio_id_municipio(Integer municipio_id_municipio) {
-        this.municipio_id_municipio = municipio_id_municipio;
+    public void setProvincia_id_provincia(Integer provincia_id_provincia) {
+        this.provincia_id_provincia = provincia_id_provincia;
     }
 
     
