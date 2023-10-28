@@ -31,4 +31,15 @@ public class ActivoController {
     public ResponseEntity<Object> registerNewActivo(@RequestBody ActivoEntity activo){
         return this.activoService.addNewActivo(activo);
     }
+
+    @PostMapping("/list")
+    public ResponseEntity<String> registrarNewActivos(@RequestBody List<ActivoEntity> activos) {
+        for (ActivoEntity activo : activos) {
+
+            // Llamar al servicio para agregar el Custodio
+            this.activoService.addNewActivo(activo);
+        }
+
+        return ResponseEntity.ok("Se recibieron y procesaron activos.");
+    }
 }
