@@ -1,4 +1,4 @@
-package com.grupod.activosfijos.activo;
+package com.grupod.activosfijos.historialActivos;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -7,12 +7,16 @@ import jakarta.persistence.*;
 
 @Entity
 @Table
-public class ActivoEntity {
-    
-    //Atributos
+public class HistorialActivosEntity {
+     //Atributos
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_activo;
+    private Integer id_historial;    
+    private Integer activo_id_activo; 
+    private Date activo_fecha_historial;
+    private Integer usuario_historial;
+    private Integer valor_historial;
+
     private String activo_nombre;
     private Date activo_fecha;
     private Integer activo_categoria;
@@ -31,17 +35,23 @@ public class ActivoEntity {
     private String activo_estado;
     private String activo_estado_uso;
     private Integer grupo_id_grupo;
-    
-    public ActivoEntity() {
+
+
+    public HistorialActivosEntity() {
     }
 
-    public ActivoEntity(Integer id_activo, String activo_nombre, Date activo_fecha, Integer activo_categoria,
-            Integer marca_id_marca, String activo_comprobante, Integer pais_id_pais,
+    public HistorialActivosEntity(Integer id_historial, Integer activo_id_activo, Date activo_fecha_historial,
+            Integer usuario_historial, Integer valor_historial, String activo_nombre, Date activo_fecha,
+            Integer activo_categoria, Integer marca_id_marca, String activo_comprobante, Integer pais_id_pais,
             Integer departamento_id_departamento, Integer provincia_id_provincia, Integer direccion_id_direccion,
             Integer bloque_id_bloque, Integer aula_id_aula, BigDecimal activo_valor_inicial,
             BigDecimal activo_valor_actual, String custodio_id_custodio, String activo_detalle, String activo_estado,
             String activo_estado_uso, Integer grupo_id_grupo) {
-        this.id_activo = id_activo;
+        this.id_historial = id_historial;
+        this.activo_id_activo = activo_id_activo;
+        this.activo_fecha_historial = activo_fecha_historial;
+        this.usuario_historial = usuario_historial;
+        this.valor_historial = valor_historial;
         this.activo_nombre = activo_nombre;
         this.activo_fecha = activo_fecha;
         this.activo_categoria = activo_categoria;
@@ -62,161 +72,145 @@ public class ActivoEntity {
         this.grupo_id_grupo = grupo_id_grupo;
     }
 
-    public Integer getId_activo() {
-        return id_activo;
+    public Integer getId_historial() {
+        return id_historial;
     }
-
+    public void setId_historial(Integer id_historial) {
+        this.id_historial = id_historial;
+    }
+    public Date getActivo_fecha_historial() {
+        return activo_fecha_historial;
+    }
+    public void setActivo_fecha_historial(Date activo_fecha_historial) {
+        this.activo_fecha_historial = activo_fecha_historial;
+    }
+    public Integer getUsuario_historial() {
+        return usuario_historial;
+    }
+    public void setUsuario_historial(Integer usuario_historial) {
+        this.usuario_historial = usuario_historial;
+    }
+    public Integer getValor_historial() {
+        return valor_historial;
+    }
+    public void setValor_historial(Integer valor_historial) {
+        this.valor_historial = valor_historial;
+    }
+    public String getActivo_nombre() {
+        return activo_nombre;
+    }
+    public void setActivo_nombre(String activo_nombre) {
+        this.activo_nombre = activo_nombre;
+    }
+    public Date getActivo_fecha() {
+        return activo_fecha;
+    }
+    public void setActivo_fecha(Date activo_fecha) {
+        this.activo_fecha = activo_fecha;
+    }
+    public Integer getActivo_categoria() {
+        return activo_categoria;
+    }
+    public void setActivo_categoria(Integer activo_categoria) {
+        this.activo_categoria = activo_categoria;
+    }
+    public Integer getMarca_id_marca() {
+        return marca_id_marca;
+    }
+    public void setMarca_id_marca(Integer marca_id_marca) {
+        this.marca_id_marca = marca_id_marca;
+    }
+    public String getActivo_comprobante() {
+        return activo_comprobante;
+    }
+    public void setActivo_comprobante(String activo_comprobante) {
+        this.activo_comprobante = activo_comprobante;
+    }
+    public Integer getPais_id_pais() {
+        return pais_id_pais;
+    }
+    public void setPais_id_pais(Integer pais_id_pais) {
+        this.pais_id_pais = pais_id_pais;
+    }
+    public Integer getDepartamento_id_departamento() {
+        return departamento_id_departamento;
+    }
+    public void setDepartamento_id_departamento(Integer departamento_id_departamento) {
+        this.departamento_id_departamento = departamento_id_departamento;
+    }
+    public Integer getProvincia_id_provincia() {
+        return provincia_id_provincia;
+    }
+    public void setProvincia_id_provincia(Integer provincia_id_provincia) {
+        this.provincia_id_provincia = provincia_id_provincia;
+    }
+    public Integer getDireccion_id_direccion() {
+        return direccion_id_direccion;
+    }
+    public void setDireccion_id_direccion(Integer direccion_id_direccion) {
+        this.direccion_id_direccion = direccion_id_direccion;
+    }
+    public Integer getBloque_id_bloque() {
+        return bloque_id_bloque;
+    }
+    public void setBloque_id_bloque(Integer bloque_id_bloque) {
+        this.bloque_id_bloque = bloque_id_bloque;
+    }
+    public Integer getAula_id_aula() {
+        return aula_id_aula;
+    }
+    public void setAula_id_aula(Integer aula_id_aula) {
+        this.aula_id_aula = aula_id_aula;
+    }
+    public BigDecimal getActivo_valor_inicial() {
+        return activo_valor_inicial;
+    }
+    public void setActivo_valor_inicial(BigDecimal activo_valor_inicial) {
+        this.activo_valor_inicial = activo_valor_inicial;
+    }
+    public BigDecimal getActivo_valor_actual() {
+        return activo_valor_actual;
+    }
+    public void setActivo_valor_actual(BigDecimal activo_valor_actual) {
+        this.activo_valor_actual = activo_valor_actual;
+    }
+    public String getCustodio_id_custodio() {
+        return custodio_id_custodio;
+    }
+    public void setCustodio_id_custodio(String custodio_id_custodio) {
+        this.custodio_id_custodio = custodio_id_custodio;
+    }
+    public String getActivo_detalle() {
+        return activo_detalle;
+    }
+    public void setActivo_detalle(String activo_detalle) {
+        this.activo_detalle = activo_detalle;
+    }
     public String getActivo_estado() {
         return activo_estado;
     }
-
-
     public void setActivo_estado(String activo_estado) {
         this.activo_estado = activo_estado;
     }
-
-
+    public String getActivo_estado_uso() {
+        return activo_estado_uso;
+    }
+    public void setActivo_estado_uso(String activo_estado_uso) {
+        this.activo_estado_uso = activo_estado_uso;
+    }
     public Integer getGrupo_id_grupo() {
         return grupo_id_grupo;
     }
-
-
     public void setGrupo_id_grupo(Integer grupo_id_grupo) {
         this.grupo_id_grupo = grupo_id_grupo;
     }
 
-
-    public void setId_activo(Integer id_activo) {
-        this.id_activo = id_activo;
+    public Integer getActivo_id_activo() {
+        return activo_id_activo;
     }
 
-    public String getActivo_nombre() {
-        return activo_nombre;
+    public void setActivo_id_activo(Integer activo_id_activo) {
+        this.activo_id_activo = activo_id_activo;
     }
-
-    public void setActivo_nombre(String activo_nombre) {
-        this.activo_nombre = activo_nombre;
-    }
-
-    public Date getActivo_fecha() {
-        return activo_fecha;
-    }
-
-    public void setActivo_fecha(Date activo_fecha) {
-        this.activo_fecha = activo_fecha;
-    }
-
-    public Integer getActivo_categoria() {
-        return activo_categoria;
-    }
-
-    public void setActivo_categoria(Integer activo_categoria) {
-        this.activo_categoria = activo_categoria;
-    }
-
-    public Integer getMarca_id_marca() {
-        return marca_id_marca;
-    }
-
-    public void setMarca_id_marca(Integer marca_id_marca) {
-        this.marca_id_marca = marca_id_marca;
-    }
-
-    public String getActivo_comprobante() {
-        return activo_comprobante;
-    }
-
-    public void setActivo_comprobante(String activo_comprobante) {
-        this.activo_comprobante = activo_comprobante;
-    }
-
-    public Integer getPais_id_pais() {
-        return pais_id_pais;
-    }
-
-    public void setPais_id_pais(Integer pais_id_pais) {
-        this.pais_id_pais = pais_id_pais;
-    }
-
-    public Integer getDepartamento_id_departamento() {
-        return departamento_id_departamento;
-    }
-
-    public void setDepartamento_id_departamento(Integer departamento_id_departamento) {
-        this.departamento_id_departamento = departamento_id_departamento;
-    }
-
-    public Integer getProvincia_id_provincia() {
-        return provincia_id_provincia;
-    }
-
-    public void setProvincia_id_provincia(Integer provincia_id_provincia) {
-        this.provincia_id_provincia = provincia_id_provincia;
-    }
-
-    public Integer getDireccion_id_direccion() {
-        return direccion_id_direccion;
-    }
-
-    public void setDireccion_id_direccion(Integer direccion_id_direccion) {
-        this.direccion_id_direccion = direccion_id_direccion;
-    }
-
-    public Integer getBloque_id_bloque() {
-        return bloque_id_bloque;
-    }
-
-    public void setBloque_id_bloque(Integer bloque_id_bloque) {
-        this.bloque_id_bloque = bloque_id_bloque;
-    }
-
-    public Integer getAula_id_aula() {
-        return aula_id_aula;
-    }
-
-    public void setAula_id_aula(Integer aula_id_aula) {
-        this.aula_id_aula = aula_id_aula;
-    }
-
-    public BigDecimal getActivo_valor_inicial() {
-        return activo_valor_inicial;
-    }
-
-    public void setActivo_valor_inicial(BigDecimal activo_valor_inicial) {
-        this.activo_valor_inicial = activo_valor_inicial;
-    }
-
-    public BigDecimal getActivo_valor_actual() {
-        return activo_valor_actual;
-    }
-
-    public void setActivo_valor_actual(BigDecimal activo_valor_actual) {
-        this.activo_valor_actual = activo_valor_actual;
-    }
-
-    public String getCustodio_id_custodio() {
-        return custodio_id_custodio;
-    }
-
-    public void setCustodio_id_custodio(String custodio_id_custodio) {
-        this.custodio_id_custodio = custodio_id_custodio;
-    }
-
-    public String getActivo_detalle() {
-        return activo_detalle;
-    }
-
-    public void setActivo_detalle(String activo_detalle) {
-        this.activo_detalle = activo_detalle;
-    }
-
-    public String getActivo_estado_uso() {
-        return activo_estado_uso;
-    }
-
-    public void setActivo_estado_uso(String activo_estado_uso) {
-        this.activo_estado_uso = activo_estado_uso;
-    }
-    
     
 }
