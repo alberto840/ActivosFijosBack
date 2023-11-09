@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.grupod.activosfijos.aula.AulaEntity;
+
 @CrossOrigin
 @RestController
 @RequestMapping(path = "api/v1/usuario")
@@ -29,6 +31,16 @@ public class UsuarioController {
     @PostMapping
     public ResponseEntity<Object> registerNewUsuario(@RequestBody UsuarioEntity user){
         return this.usuarioService.addNewUsuario(user);
+    }
+    @PostMapping("/list")
+    public ResponseEntity<String> registrarNewUsers(@RequestBody List<UsuarioEntity> users) {
+        for (UsuarioEntity user : users) {
+
+            // Llamar al servicio para agregar el Custodio
+            this.usuarioService.addNewUsuario(user);
+        }
+
+        return ResponseEntity.ok("Se recibieron y procesaron users.");
     }
     
 }

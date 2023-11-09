@@ -30,4 +30,14 @@ public class MarcaController {
     public ResponseEntity<Object> registerNewMarca(@RequestBody MarcaEntity marca){
         return this.marcaService.addNewMarca(marca);
     }
+    @PostMapping("/list")
+    public ResponseEntity<String> registrarNewMarcas(@RequestBody List<MarcaEntity> marcas) {
+        for (MarcaEntity marca : marcas) {
+
+            // Llamar al servicio para agregar el Custodio
+            this.marcaService.addNewMarca(marca);
+        }
+
+        return ResponseEntity.ok("Se recibieron y procesaron marcas.");
+    }
 }

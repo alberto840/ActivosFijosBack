@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.grupod.activosfijos.departamento.departamentoEntity;
+
 @CrossOrigin
 @RestController
 @RequestMapping(path = "api/v1/grupoActivo")
@@ -28,5 +30,15 @@ public class GrupoActivoController {
     @PostMapping
     public ResponseEntity<Object> registerNewGrupoActivo(@RequestBody GrupoActivoEntity grupoActivo){
         return this.grupoActivoService.addNewGrupoActivo(grupoActivo);
+    }
+    @PostMapping("/list")
+    public ResponseEntity<String> registrarNewGrupos(@RequestBody List<GrupoActivoEntity> grupos) {
+        for (GrupoActivoEntity grupo : grupos) {
+
+            // Llamar al servicio para agregar el Custodio
+            this.grupoActivoService.addNewGrupoActivo(grupo);
+        }
+
+        return ResponseEntity.ok("Se recibieron y procesaron los grupos.");
     }
 }
