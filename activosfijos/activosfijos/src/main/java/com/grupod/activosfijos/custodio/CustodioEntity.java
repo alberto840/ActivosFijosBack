@@ -1,81 +1,149 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package com.grupod.activosfijos.custodio;
 
+import java.io.Serializable;
+import java.util.List;
+
+import com.grupod.activosfijos.activo.ActivoEntity;
+import com.grupod.activosfijos.historialActivos.HistorialActivosEntity;
 import jakarta.persistence.*;
 
 @Entity
-@Table
-public class CustodioEntity {
+@Table(name = "custodio")
+public class CustodioEntity implements Serializable {
 
-    //Atributos
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_custodio;
-    private String custodio_nombre;
-    private String custodio_apellido_paterno;
-    private String custodio_apellido_materno;
-    private String custodio_telefono;
-    private String custodio_correo;
-    private String custodio_estado;
+    @Basic(optional = false)
+    @Column(name = "id_custodio")
+    private Integer idCustodio;
+    @Basic(optional = false)
+    @Column(name = "nombre")
+    private String nombre;
+    @Basic(optional = false)
+    @Column(name = "apellido_paterno")
+    private String apellidoPaterno;
+    @Basic(optional = false)
+    @Column(name = "apellido_materno")
+    private String apellidoMaterno;
+    @Basic(optional = false)
+    @Column(name = "correo")
+    private String correo;
+    @Basic(optional = false)
+    @Column(name = "telefono")
+    private String telefono;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "custodioId")
+    private List<HistorialActivosEntity> historialActivosEntityList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "custodioId")
+    private List<ActivoEntity> activoEntityList;
 
-    //Constructor lleno
-    public CustodioEntity(Integer id_custodio, String custodio_nombre, String custodio_apellido_paterno,
-            String custodio_apellido_materno, String custodio_telefono, String custodio_correo,
-            String custodio_estado) {
-        this.id_custodio = id_custodio;
-        this.custodio_nombre = custodio_nombre;
-        this.custodio_apellido_paterno = custodio_apellido_paterno;
-        this.custodio_apellido_materno = custodio_apellido_materno;
-        this.custodio_telefono = custodio_telefono;
-        this.custodio_correo = custodio_correo;
-        this.custodio_estado = custodio_estado;
-    }
-
-    //Constructor vacio
     public CustodioEntity() {
     }
-    
-    //Getters y setters
-    public Integer getId_custodio() {
-        return id_custodio;
-    }
-    public void setId_custodio(Integer id_custodio) {
-        this.id_custodio = id_custodio;
-    }
-    public String getCustodio_nombre() {
-        return custodio_nombre;
-    }
-    public void setCustodio_nombre(String custodio_nombre) {
-        this.custodio_nombre = custodio_nombre;
-    }
-    public String getCustodio_apellido_paterno() {
-        return custodio_apellido_paterno;
-    }
-    public void setCustodio_apellido_paterno(String custodio_apellido_paterno) {
-        this.custodio_apellido_paterno = custodio_apellido_paterno;
-    }
-    public String getCustodio_apellido_materno() {
-        return custodio_apellido_materno;
-    }
-    public void setCustodio_apellido_materno(String custodio_apellido_materno) {
-        this.custodio_apellido_materno = custodio_apellido_materno;
-    }
-    public String getCustodio_telefono() {
-        return custodio_telefono;
-    }
-    public void setCustodio_telefono(String custodio_telefono) {
-        this.custodio_telefono = custodio_telefono;
-    }
-    public String getCustodio_correo() {
-        return custodio_correo;
-    }
-    public void setCustodio_correo(String custodio_correo) {
-        this.custodio_correo = custodio_correo;
-    }
-    public String getCustodio_estado() {
-        return custodio_estado;
-    }
-    public void setCustodio_estado(String custodio_estado) {
-        this.custodio_estado = custodio_estado;
+
+    public CustodioEntity(Integer idCustodio) {
+        this.idCustodio = idCustodio;
     }
 
+    public CustodioEntity(Integer idCustodio, String nombre, String apellidoPaterno, String apellidoMaterno, String correo, String telefono) {
+        this.idCustodio = idCustodio;
+        this.nombre = nombre;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
+        this.correo = correo;
+        this.telefono = telefono;
+    }
+
+    public Integer getIdCustodio() {
+        return idCustodio;
+    }
+
+    public void setIdCustodio(Integer idCustodio) {
+        this.idCustodio = idCustodio;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getApellidoPaterno() {
+        return apellidoPaterno;
+    }
+
+    public void setApellidoPaterno(String apellidoPaterno) {
+        this.apellidoPaterno = apellidoPaterno;
+    }
+
+    public String getApellidoMaterno() {
+        return apellidoMaterno;
+    }
+
+    public void setApellidoMaterno(String apellidoMaterno) {
+        this.apellidoMaterno = apellidoMaterno;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public List<HistorialActivosEntity> getHistorialactivosList() {
+        return historialActivosEntityList;
+    }
+
+    public void setHistorialactivosList(List<HistorialActivosEntity> historialActivosEntityList) {
+        this.historialActivosEntityList = historialActivosEntityList;
+    }
+
+    public List<ActivoEntity> getActivoList() {
+        return activoEntityList;
+    }
+
+    public void setActivoList(List<ActivoEntity> activoEntityList) {
+        this.activoEntityList = activoEntityList;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (idCustodio != null ? idCustodio.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof CustodioEntity)) {
+            return false;
+        }
+        CustodioEntity other = (CustodioEntity) object;
+        if ((this.idCustodio == null && other.idCustodio != null) || (this.idCustodio != null && !this.idCustodio.equals(other.idCustodio))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "com.grupod.activosfijos.custodio.Custodio[ idCustodio=" + idCustodio + " ]";
+    }
+    
 }

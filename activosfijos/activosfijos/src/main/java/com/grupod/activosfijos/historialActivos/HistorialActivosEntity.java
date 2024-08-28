@@ -1,216 +1,215 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package com.grupod.activosfijos.historialActivos;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import com.grupod.activosfijos.activo.ActivoEntity;
+import com.grupod.activosfijos.aula.AulaEntity;
+import com.grupod.activosfijos.custodio.CustodioEntity;
+import com.grupod.activosfijos.proyecto.ProyectoEntity;
+import com.grupod.activosfijos.usuario.UsuarioEntity;
 import jakarta.persistence.*;
 
+
 @Entity
-@Table
-public class HistorialActivosEntity {
-     //Atributos
+@Table(name = "historialactivos")
+public class HistorialActivosEntity implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_historial;    
-    private Integer activo_id_activo; 
-    private Date activo_fecha_historial;
-    private Integer usuario_historial;
-    private Integer valor_historial;
-
-    private String activo_nombre;
-    private Date activo_fecha;
-    private Integer activo_categoria;
-    private Integer marca_id_marca;
-    private String activo_comprobante;
-    private Integer pais_id_pais;
-    private Integer departamento_id_departamento;
-    private Integer provincia_id_provincia;
-    private Integer direccion_id_direccion;
-    private Integer bloque_id_bloque;
-    private Integer aula_id_aula;
-    private BigDecimal activo_valor_inicial;
-    private BigDecimal activo_valor_actual;
-    private String custodio_id_custodio;
-    private String activo_detalle;
-    private String activo_estado;
-    private String activo_estado_uso;
-    private Integer grupo_id_grupo;
-
+    @Basic(optional = false)
+    @Column(name = "id_historial")
+    private Integer idHistorial;
+    @Basic(optional = false)
+    @Column(name = "accion")
+    private String accion;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Basic(optional = false)
+    @Column(name = "valor_actual")
+    private BigDecimal valorActual;
+    @Basic(optional = false)
+    @Column(name = "fecha_modificacion")
+    @Temporal(TemporalType.DATE)
+    private Date fechaModificacion;
+    @Basic(optional = false)
+    @Column(name = "comprobante")
+    private String comprobante;
+    @Basic(optional = false)
+    @Column(name = "detalle")
+    private String detalle;
+    @Basic(optional = false)
+    @Column(name = "estado")
+    private boolean estado;
+    @Basic(optional = false)
+    @Column(name = "estado_uso")
+    private String estadoUso;
+    @JoinColumn(name = "activo_id", referencedColumnName = "id_activo")
+    @ManyToOne(optional = false)
+    private ActivoEntity activoEntityId;
+    @JoinColumn(name = "aula_id", referencedColumnName = "id_aula")
+    @ManyToOne(optional = false)
+    private AulaEntity aulaEntityId;
+    @JoinColumn(name = "custodio_id", referencedColumnName = "id_custodio")
+    @ManyToOne(optional = false)
+    private CustodioEntity custodioEntityId;
+    @JoinColumn(name = "proyecto_id", referencedColumnName = "id_proyecto")
+    @ManyToOne(optional = false)
+    private ProyectoEntity proyectoEntityId;
+    @JoinColumn(name = "usuario_id", referencedColumnName = "id_usuario")
+    @ManyToOne(optional = false)
+    private UsuarioEntity usuarioId;
 
     public HistorialActivosEntity() {
     }
 
-    public HistorialActivosEntity(Integer id_historial, Integer activo_id_activo, Date activo_fecha_historial,
-            Integer usuario_historial, Integer valor_historial, String activo_nombre, Date activo_fecha,
-            Integer activo_categoria, Integer marca_id_marca, String activo_comprobante, Integer pais_id_pais,
-            Integer departamento_id_departamento, Integer provincia_id_provincia, Integer direccion_id_direccion,
-            Integer bloque_id_bloque, Integer aula_id_aula, BigDecimal activo_valor_inicial,
-            BigDecimal activo_valor_actual, String custodio_id_custodio, String activo_detalle, String activo_estado,
-            String activo_estado_uso, Integer grupo_id_grupo) {
-        this.id_historial = id_historial;
-        this.activo_id_activo = activo_id_activo;
-        this.activo_fecha_historial = activo_fecha_historial;
-        this.usuario_historial = usuario_historial;
-        this.valor_historial = valor_historial;
-        this.activo_nombre = activo_nombre;
-        this.activo_fecha = activo_fecha;
-        this.activo_categoria = activo_categoria;
-        this.marca_id_marca = marca_id_marca;
-        this.activo_comprobante = activo_comprobante;
-        this.pais_id_pais = pais_id_pais;
-        this.departamento_id_departamento = departamento_id_departamento;
-        this.provincia_id_provincia = provincia_id_provincia;
-        this.direccion_id_direccion = direccion_id_direccion;
-        this.bloque_id_bloque = bloque_id_bloque;
-        this.aula_id_aula = aula_id_aula;
-        this.activo_valor_inicial = activo_valor_inicial;
-        this.activo_valor_actual = activo_valor_actual;
-        this.custodio_id_custodio = custodio_id_custodio;
-        this.activo_detalle = activo_detalle;
-        this.activo_estado = activo_estado;
-        this.activo_estado_uso = activo_estado_uso;
-        this.grupo_id_grupo = grupo_id_grupo;
+    public HistorialActivosEntity(Integer idHistorial) {
+        this.idHistorial = idHistorial;
     }
 
-    public Integer getId_historial() {
-        return id_historial;
-    }
-    public void setId_historial(Integer id_historial) {
-        this.id_historial = id_historial;
-    }
-    public Date getActivo_fecha_historial() {
-        return activo_fecha_historial;
-    }
-    public void setActivo_fecha_historial(Date activo_fecha_historial) {
-        this.activo_fecha_historial = activo_fecha_historial;
-    }
-    public Integer getUsuario_historial() {
-        return usuario_historial;
-    }
-    public void setUsuario_historial(Integer usuario_historial) {
-        this.usuario_historial = usuario_historial;
-    }
-    public Integer getValor_historial() {
-        return valor_historial;
-    }
-    public void setValor_historial(Integer valor_historial) {
-        this.valor_historial = valor_historial;
-    }
-    public String getActivo_nombre() {
-        return activo_nombre;
-    }
-    public void setActivo_nombre(String activo_nombre) {
-        this.activo_nombre = activo_nombre;
-    }
-    public Date getActivo_fecha() {
-        return activo_fecha;
-    }
-    public void setActivo_fecha(Date activo_fecha) {
-        this.activo_fecha = activo_fecha;
-    }
-    public Integer getActivo_categoria() {
-        return activo_categoria;
-    }
-    public void setActivo_categoria(Integer activo_categoria) {
-        this.activo_categoria = activo_categoria;
-    }
-    public Integer getMarca_id_marca() {
-        return marca_id_marca;
-    }
-    public void setMarca_id_marca(Integer marca_id_marca) {
-        this.marca_id_marca = marca_id_marca;
-    }
-    public String getActivo_comprobante() {
-        return activo_comprobante;
-    }
-    public void setActivo_comprobante(String activo_comprobante) {
-        this.activo_comprobante = activo_comprobante;
-    }
-    public Integer getPais_id_pais() {
-        return pais_id_pais;
-    }
-    public void setPais_id_pais(Integer pais_id_pais) {
-        this.pais_id_pais = pais_id_pais;
-    }
-    public Integer getDepartamento_id_departamento() {
-        return departamento_id_departamento;
-    }
-    public void setDepartamento_id_departamento(Integer departamento_id_departamento) {
-        this.departamento_id_departamento = departamento_id_departamento;
-    }
-    public Integer getProvincia_id_provincia() {
-        return provincia_id_provincia;
-    }
-    public void setProvincia_id_provincia(Integer provincia_id_provincia) {
-        this.provincia_id_provincia = provincia_id_provincia;
-    }
-    public Integer getDireccion_id_direccion() {
-        return direccion_id_direccion;
-    }
-    public void setDireccion_id_direccion(Integer direccion_id_direccion) {
-        this.direccion_id_direccion = direccion_id_direccion;
-    }
-    public Integer getBloque_id_bloque() {
-        return bloque_id_bloque;
-    }
-    public void setBloque_id_bloque(Integer bloque_id_bloque) {
-        this.bloque_id_bloque = bloque_id_bloque;
-    }
-    public Integer getAula_id_aula() {
-        return aula_id_aula;
-    }
-    public void setAula_id_aula(Integer aula_id_aula) {
-        this.aula_id_aula = aula_id_aula;
-    }
-    public BigDecimal getActivo_valor_inicial() {
-        return activo_valor_inicial;
-    }
-    public void setActivo_valor_inicial(BigDecimal activo_valor_inicial) {
-        this.activo_valor_inicial = activo_valor_inicial;
-    }
-    public BigDecimal getActivo_valor_actual() {
-        return activo_valor_actual;
-    }
-    public void setActivo_valor_actual(BigDecimal activo_valor_actual) {
-        this.activo_valor_actual = activo_valor_actual;
-    }
-    public String getCustodio_id_custodio() {
-        return custodio_id_custodio;
-    }
-    public void setCustodio_id_custodio(String custodio_id_custodio) {
-        this.custodio_id_custodio = custodio_id_custodio;
-    }
-    public String getActivo_detalle() {
-        return activo_detalle;
-    }
-    public void setActivo_detalle(String activo_detalle) {
-        this.activo_detalle = activo_detalle;
-    }
-    public String getActivo_estado() {
-        return activo_estado;
-    }
-    public void setActivo_estado(String activo_estado) {
-        this.activo_estado = activo_estado;
-    }
-    public String getActivo_estado_uso() {
-        return activo_estado_uso;
-    }
-    public void setActivo_estado_uso(String activo_estado_uso) {
-        this.activo_estado_uso = activo_estado_uso;
-    }
-    public Integer getGrupo_id_grupo() {
-        return grupo_id_grupo;
-    }
-    public void setGrupo_id_grupo(Integer grupo_id_grupo) {
-        this.grupo_id_grupo = grupo_id_grupo;
+    public HistorialActivosEntity(Integer idHistorial, String accion, BigDecimal valorActual, Date fechaModificacion, String comprobante, String detalle, boolean estado, String estadoUso) {
+        this.idHistorial = idHistorial;
+        this.accion = accion;
+        this.valorActual = valorActual;
+        this.fechaModificacion = fechaModificacion;
+        this.comprobante = comprobante;
+        this.detalle = detalle;
+        this.estado = estado;
+        this.estadoUso = estadoUso;
     }
 
-    public Integer getActivo_id_activo() {
-        return activo_id_activo;
+    public Integer getIdHistorial() {
+        return idHistorial;
     }
 
-    public void setActivo_id_activo(Integer activo_id_activo) {
-        this.activo_id_activo = activo_id_activo;
+    public void setIdHistorial(Integer idHistorial) {
+        this.idHistorial = idHistorial;
+    }
+
+    public String getAccion() {
+        return accion;
+    }
+
+    public void setAccion(String accion) {
+        this.accion = accion;
+    }
+
+    public BigDecimal getValorActual() {
+        return valorActual;
+    }
+
+    public void setValorActual(BigDecimal valorActual) {
+        this.valorActual = valorActual;
+    }
+
+    public Date getFechaModificacion() {
+        return fechaModificacion;
+    }
+
+    public void setFechaModificacion(Date fechaModificacion) {
+        this.fechaModificacion = fechaModificacion;
+    }
+
+    public String getComprobante() {
+        return comprobante;
+    }
+
+    public void setComprobante(String comprobante) {
+        this.comprobante = comprobante;
+    }
+
+    public String getDetalle() {
+        return detalle;
+    }
+
+    public void setDetalle(String detalle) {
+        this.detalle = detalle;
+    }
+
+    public boolean getEstado() {
+        return estado;
+    }
+
+    public void setEstado(boolean estado) {
+        this.estado = estado;
+    }
+
+    public String getEstadoUso() {
+        return estadoUso;
+    }
+
+    public void setEstadoUso(String estadoUso) {
+        this.estadoUso = estadoUso;
+    }
+
+    public ActivoEntity getActivoId() {
+        return activoEntityId;
+    }
+
+    public void setActivoId(ActivoEntity activoEntityId) {
+        this.activoEntityId = activoEntityId;
+    }
+
+    public AulaEntity getAulaId() {
+        return aulaEntityId;
+    }
+
+    public void setAulaId(AulaEntity aulaEntityId) {
+        this.aulaEntityId = aulaEntityId;
+    }
+
+    public CustodioEntity getCustodioId() {
+        return custodioEntityId;
+    }
+
+    public void setCustodioId(CustodioEntity custodioEntityId) {
+        this.custodioEntityId = custodioEntityId;
+    }
+
+    public ProyectoEntity getProyectoId() {
+        return proyectoEntityId;
+    }
+
+    public void setProyectoId(ProyectoEntity proyectoEntityId) {
+        this.proyectoEntityId = proyectoEntityId;
+    }
+
+    public UsuarioEntity getUsuarioId() {
+        return usuarioId;
+    }
+
+    public void setUsuarioId(UsuarioEntity usuarioId) {
+        this.usuarioId = usuarioId;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (idHistorial != null ? idHistorial.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof HistorialActivosEntity)) {
+            return false;
+        }
+        HistorialActivosEntity other = (HistorialActivosEntity) object;
+        if ((this.idHistorial == null && other.idHistorial != null) || (this.idHistorial != null && !this.idHistorial.equals(other.idHistorial))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "com.grupod.activosfijos.historialActivos.Historialactivos[ idHistorial=" + idHistorial + " ]";
     }
     
 }

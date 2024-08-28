@@ -20,9 +20,9 @@ public class UsuarioService {
     public List<UsuarioEntity>getUsuario(){
         return this.usuarioRepository.findAll();
     }
-    public ResponseEntity<Object> addNewUsuario(UsuarioEntity user) {  
-        HashMap<String, Object> datos = new HashMap<>();
 
+    public ResponseEntity<Object> addNewUsuario(UsuarioEntity user) {
+        HashMap<String, Object> datos = new HashMap<>();
         usuarioRepository.save(user);
         datos.put("datos", user);
         datos.put("message", "Se creo el usuario correctamente");

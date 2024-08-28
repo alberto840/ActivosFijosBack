@@ -1,80 +1,150 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package com.grupod.activosfijos.usuario;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import java.io.Serializable;
+import java.util.List;
+
+import com.grupod.activosfijos.historialActivos.HistorialActivosEntity;
+import com.grupod.activosfijos.rol.RolEntity;
 import jakarta.persistence.*;
 
 @Entity
-@Table
-public class UsuarioEntity {
+@Table(name = "usuario")
+public class UsuarioEntity implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_usuario;
-    private String usuario_nombre;
-    private String usuario_pass;
-    private String usuario_estado;
-    private String usuario_correo;
-    private String usuario_telefono;
-    private String usuario_rol;
+    @Basic(optional = false)
+    @Column(name = "id_usuario")
+    private Integer idUsuario;
+    @Basic(optional = false)
+    @Column(name = "nombre")
+    private String nombre;
+    @Basic(optional = false)
+    @Column(name = "password")
+    private String password;
+    @Basic(optional = false)
+    @Column(name = "correo")
+    private String correo;
+    @Basic(optional = false)
+    @Column(name = "estado")
+    private boolean estado;
+    @Basic(optional = false)
+    @Column(name = "telefono")
+    private String telefono;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioId")
+    private List<HistorialActivosEntity> historialActivosEntityList;
+    @JoinColumn(name = "rol_id", referencedColumnName = "id_rol")
+    @ManyToOne(optional = false)
+    private RolEntity rolId;
 
-    //Constructor vacio
     public UsuarioEntity() {
     }
-    //Constructor lleno
-    public UsuarioEntity(Integer id_usuario, String usuario_nombre, String usuario_pass, String usuario_estado,
-            String usuario_correo, String usuario_telefono, String usuario_rol) {
-        this.id_usuario = id_usuario;
-        this.usuario_nombre = usuario_nombre;
-        this.usuario_pass = usuario_pass;
-        this.usuario_estado = usuario_estado;
-        this.usuario_correo = usuario_correo;
-        this.usuario_telefono = usuario_telefono;
-        this.usuario_rol = usuario_rol;
+
+    public UsuarioEntity(Integer idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
-    //Getters y setters
-    public Integer getId_usuario() {
-        return id_usuario;
-    }
-    public void setId_usuario(Integer id_usuario) {
-        this.id_usuario = id_usuario;
-    }
-    public String getUsuario_nombre() {
-        return usuario_nombre;
-    }
-    public void setUsuario_nombre(String usuario_nombre) {
-        this.usuario_nombre = usuario_nombre;
-    }
-    public String getUsuario_pass() {
-        return usuario_pass;
-    }
-    public void setUsuario_pass(String usuario_pass) {
-        this.usuario_pass = usuario_pass;
-    }
-    public String getUsuario_estado() {
-        return usuario_estado;
-    }
-    public void setUsuario_estado(String usuario_estado) {
-        this.usuario_estado = usuario_estado;
-    }
-    public String getUsuario_correo() {
-        return usuario_correo;
-    }
-    public void setUsuario_correo(String usuario_correo) {
-        this.usuario_correo = usuario_correo;
-    }
-    public String getUsuario_telefono() {
-        return usuario_telefono;
-    }
-    public void setUsuario_telefono(String usuario_telefono) {
-        this.usuario_telefono = usuario_telefono;
-    }
-    public String getUsuario_rol() {
-        return usuario_rol;
-    }
-    public void setUsuario_rol(String usuario_rol) {
-        this.usuario_rol = usuario_rol;
+    public UsuarioEntity(Integer idUsuario, String nombre, String password, String correo, boolean estado, String telefono) {
+        this.idUsuario = idUsuario;
+        this.nombre = nombre;
+        this.password = password;
+        this.correo = correo;
+        this.estado = estado;
+        this.telefono = telefono;
     }
 
+    public Integer getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(Integer idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
+    public boolean getEstado() {
+        return estado;
+    }
+
+    public void setEstado(boolean estado) {
+        this.estado = estado;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public List<HistorialActivosEntity> getHistorialactivosList() {
+        return historialActivosEntityList;
+    }
+
+    public void setHistorialactivosList(List<HistorialActivosEntity> historialActivosEntityList) {
+        this.historialActivosEntityList = historialActivosEntityList;
+    }
+
+    public RolEntity getRolId() {
+        return rolId;
+    }
+
+    public void setRolId(RolEntity rolId) {
+        this.rolId = rolId;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (idUsuario != null ? idUsuario.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof UsuarioEntity)) {
+            return false;
+        }
+        UsuarioEntity other = (UsuarioEntity) object;
+        if ((this.idUsuario == null && other.idUsuario != null) || (this.idUsuario != null && !this.idUsuario.equals(other.idUsuario))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "com.grupod.activosfijos.usuario.Usuario[ idUsuario=" + idUsuario + " ]";
+    }
     
 }

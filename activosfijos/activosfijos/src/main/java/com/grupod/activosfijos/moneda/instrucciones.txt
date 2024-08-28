@@ -1,7 +1,0 @@
-aqui tiene que ir los archivos:
-- monedaEntity.java
-- monedaRepository.java
-- monedaService.java
-- monedaController.java
-//Archivos creados
-2

@@ -1,74 +1,111 @@
 package com.grupod.activosfijos.direccion;
+
+import java.io.Serializable;
+import java.util.List;
+
+import com.grupod.activosfijos.bloque.BloqueEntity;
 import jakarta.persistence.*;
 
+
 @Entity
-@Table
-public class DireccionEntity {
-     //Atributos
+@Table(name = "direccion")
+public class DireccionEntity implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_direccion;
-    private String direccion_zona;
-    private String direccion_calle;
-    private String direccion_detalle;
-    private Integer provincia_id_provincia;
+    @Basic(optional = false)
+    @Column(name = "id_direccion")
+    private Integer idDireccion;
+    @Basic(optional = false)
+    @Column(name = "calle")
+    private String calle;
+    @Basic(optional = false)
+    @Column(name = "detalle")
+    private String detalle;
+    @Basic(optional = false)
+    @Column(name = "zona")
+    private String zona;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "direccionId")
+    private List<BloqueEntity> bloqueEntityList;
 
-    //Constructor vacio
     public DireccionEntity() {
     }
 
-    //Constructor lleno
-    public DireccionEntity(Integer id_direccion, String direccion_zona, String direccion_calle,
-            String direccion_detalle, Integer provincia_id_provincia) {
-        this.id_direccion = id_direccion;
-        this.direccion_zona = direccion_zona;
-        this.direccion_calle = direccion_calle;
-        this.direccion_detalle = direccion_detalle;
-        this.provincia_id_provincia = provincia_id_provincia;
+    public DireccionEntity(Integer idDireccion) {
+        this.idDireccion = idDireccion;
     }
 
-    //Getters y setters
-
-    public Integer getId_direccion() {
-        return id_direccion;
+    public DireccionEntity(Integer idDireccion, String calle, String detalle, String zona) {
+        this.idDireccion = idDireccion;
+        this.calle = calle;
+        this.detalle = detalle;
+        this.zona = zona;
     }
 
-    public void setId_direccion(Integer id_direccion) {
-        this.id_direccion = id_direccion;
+    public Integer getIdDireccion() {
+        return idDireccion;
     }
 
-    public String getDireccion_zona() {
-        return direccion_zona;
+    public void setIdDireccion(Integer idDireccion) {
+        this.idDireccion = idDireccion;
     }
 
-    public void setDireccion_zona(String direccion_zona) {
-        this.direccion_zona = direccion_zona;
+    public String getCalle() {
+        return calle;
     }
 
-    public String getDireccion_calle() {
-        return direccion_calle;
+    public void setCalle(String calle) {
+        this.calle = calle;
     }
 
-    public void setDireccion_calle(String direccion_calle) {
-        this.direccion_calle = direccion_calle;
+    public String getDetalle() {
+        return detalle;
     }
 
-    public String getDireccion_detalle() {
-        return direccion_detalle;
+    public void setDetalle(String detalle) {
+        this.detalle = detalle;
     }
 
-    public void setDireccion_detalle(String direccion_detalle) {
-        this.direccion_detalle = direccion_detalle;
+    public String getZona() {
+        return zona;
     }
 
-    public Integer getProvincia_id_provincia() {
-        return provincia_id_provincia;
+    public void setZona(String zona) {
+        this.zona = zona;
     }
 
-    public void setProvincia_id_provincia(Integer provincia_id_provincia) {
-        this.provincia_id_provincia = provincia_id_provincia;
+    public List<BloqueEntity> getBloqueList() {
+        return bloqueEntityList;
     }
 
+    public void setBloqueList(List<BloqueEntity> bloqueEntityList) {
+        this.bloqueEntityList = bloqueEntityList;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (idDireccion != null ? idDireccion.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof DireccionEntity)) {
+            return false;
+        }
+        DireccionEntity other = (DireccionEntity) object;
+        if ((this.idDireccion == null && other.idDireccion != null) || (this.idDireccion != null && !this.idDireccion.equals(other.idDireccion))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "com.grupod.activosfijos.direccion.Direccion[ idDireccion=" + idDireccion + " ]";
+    }
     
-
 }

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="com.grupod_activosfijos_jar_0.0.1-SNAPSHOTPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>com.grupod.activosfijos.Direccion_1</class>
+    <class>com.grupod.activosfijos.Custodio_1</class>
+    <class>com.grupod.activosfijos.Categoria_1</class>
+    <class>com.grupod.activosfijos.Historialactivos_1</class>
+    <class>com.grupod.activosfijos.Usuario_1</class>
+    <class>com.grupod.activosfijos.Pais_1</class>
+    <class>com.grupod.activosfijos.Departamento_1</class>
+    <class>com.grupod.activosfijos.Bloque_1</class>
+    <class>com.grupod.activosfijos.Identificador_1</class>
+    <class>com.grupod.activosfijos.Aula_1</class>
+    <class>com.grupod.activosfijos.Rol_1</class>
+    <class>com.grupod.activosfijos.Proyecto_1</class>
+    <class>com.grupod.activosfijos.Activo_1</class>
+    <class>com.grupod.activosfijos.Mantenimiento_1</class>
+    <class>com.grupod.activosfijos.Depreciacion_1</class>
+    <class>com.grupod.activosfijos.Estadoactivo_1</class>
+    <class>com.grupod.activosfijos.Divisas_1</class>
+    <class>com.grupod.activosfijos.Empresa_1</class>
+    <class>com.grupod.activosfijos.Sucursales_1</class>
+    <class>com.grupod.activosfijos.Provincia_1</class>
+    <class>com.grupod.activosfijos.Area_1</class>
+    <class>com.grupod.activosfijos.Municipio_1</class>
+    <class>com.grupod.activosfijos.pais.PaisEntity</class>
+    <class>com.grupod.activosfijos.empresa.EmpresaEntity</class>
+    <class>com.grupod.activosfijos.bloque.BloqueEntity</class>
+    <class>com.grupod.activosfijos.departamento.DepartamentoEntity</class>
+    <class>com.grupod.activosfijos.usuario.UsuarioEntity</class>
+    <class>com.grupod.activosfijos.provincia.Provincia</class>
+    <class>com.grupod.activosfijos.activo.ActivoEntity</class>
+    <class>com.grupod.activosfijos.direccion.DireccionEntity</class>
+    <class>com.grupod.activosfijos.rol.RolEntity</class>
+    <class>com.grupod.activosfijos.historialActivos.HistorialActivosEntity</class>
+    <class>com.grupod.activosfijos.divisa.DivisasEntity</class>
+    <class>com.grupod.activosfijos.mantenimiento.MantenimientoEntity</class>
+    <class>com.grupod.activosfijos.sucursal.SucursalEntity</class>
+    <class>com.grupod.activosfijos.estadoActivo.EstadoactivoEntity</class>
+    <class>com.grupod.activosfijos.area.AreaEntity</class>
+    <class>com.grupod.activosfijos.categoria.CategoriaEntity</class>
+    <class>com.grupod.activosfijos.proyecto.ProyectoEntity</class>
+    <class>com.grupod.activosfijos.depreciacion.DepreciacionEntity</class>
+    <class>com.grupod.activosfijos.municipio.MunicipioEntity</class>
+    <class>com.grupod.activosfijos.custodio.CustodioEntity</class>
+    <class>com.grupod.activosfijos.aula.AulaEntity</class>
+    <class>com.grupod.activosfijos.identificador.IdentificadorEntity</class>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5433/Activos_DB"/>
+      <property name="javax.persistence.jdbc.user" value="postgres"/>
+      <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+      <property name="javax.persistence.jdbc.password" value="jose"/>
+    </properties>
+  </persistence-unit>
+</persistence>

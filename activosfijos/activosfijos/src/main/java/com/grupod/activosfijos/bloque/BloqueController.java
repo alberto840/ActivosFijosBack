@@ -10,10 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.grupod.activosfijos.aula.AulaEntity;
-import com.grupod.activosfijos.aula.AulaService;
-import com.grupod.activosfijos.direccion.DireccionEntity;
-
 @CrossOrigin
 @RestController
 @RequestMapping(path = "api/v1/bloque")

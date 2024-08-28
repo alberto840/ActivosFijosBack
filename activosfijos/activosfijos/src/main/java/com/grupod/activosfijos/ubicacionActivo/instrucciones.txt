@@ -1,6 +1,0 @@
-aqui tiene que ir los archivos:
-- ubicacionActivoEntity.java
-- ubicacionActivoRepository.java
-- ubicacionActivoService.java
-- ubicacionActivoController.java
-//Archivos creados

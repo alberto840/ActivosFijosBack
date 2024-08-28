@@ -9,11 +9,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.grupod.activosfijos.custodio.CustodioEntity;
-import com.grupod.activosfijos.departamento.departamentoEntity;
-import com.grupod.activosfijos.marca.MarcaEntity;
-import com.grupod.activosfijos.marca.MarcaService;
-
 @CrossOrigin
 @RestController
 @RequestMapping(path = "api/v1/direccion")
