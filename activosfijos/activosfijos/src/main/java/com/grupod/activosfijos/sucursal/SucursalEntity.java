@@ -20,22 +20,21 @@ public class SucursalEntity implements Serializable {
     @Basic(optional = false)
     @Column(name = "nombre")
     private String nombre;
+    @ManyToOne
     @JoinColumn(name = "municipio_id", referencedColumnName = "id_municipio")
-    @ManyToOne(optional = false)
-    private MunicipioEntity municipioEntityId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sucursalesId")
+    private MunicipioEntity municipioEntity;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sucursalEntity")
     private List<BloqueEntity> bloqueEntityList;
+
 
     public SucursalEntity() {
     }
 
-    public SucursalEntity(Integer idSucursal) {
-        this.idSucursal = idSucursal;
-    }
-
-    public SucursalEntity(Integer idSucursal, String nombre) {
+    public SucursalEntity(Integer idSucursal, String nombre, MunicipioEntity municipioEntity, List<BloqueEntity> bloqueEntityList) {
         this.idSucursal = idSucursal;
         this.nombre = nombre;
+        this.municipioEntity = municipioEntity;
+        this.bloqueEntityList = bloqueEntityList;
     }
 
     public Integer getIdSucursal() {
@@ -54,45 +53,19 @@ public class SucursalEntity implements Serializable {
         this.nombre = nombre;
     }
 
-    public MunicipioEntity getMunicipioId() {
-        return municipioEntityId;
+    public MunicipioEntity getMunicipioEntity() {
+        return municipioEntity;
     }
 
-    public void setMunicipioId(MunicipioEntity municipioEntityId) {
-        this.municipioEntityId = municipioEntityId;
+    public void setMunicipioEntity(MunicipioEntity municipioEntity) {
+        this.municipioEntity = municipioEntity;
     }
 
-    public List<BloqueEntity> getBloqueList() {
+    public List<BloqueEntity> getBloqueEntityList() {
         return bloqueEntityList;
     }
 
-    public void setBloqueList(List<BloqueEntity> bloqueEntityList) {
+    public void setBloqueEntityList(List<BloqueEntity> bloqueEntityList) {
         this.bloqueEntityList = bloqueEntityList;
     }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (idSucursal != null ? idSucursal.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof SucursalEntity)) {
-            return false;
-        }
-        SucursalEntity other = (SucursalEntity) object;
-        if ((this.idSucursal == null && other.idSucursal != null) || (this.idSucursal != null && !this.idSucursal.equals(other.idSucursal))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "com.grupod.activosfijos.sucursal.Sucursales[ idSucursal=" + idSucursal + " ]";
-    }
-    
 }

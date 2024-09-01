@@ -1,43 +1,92 @@
 package com.grupod.activosfijos.divisa;
 
+import com.grupod.activosfijos.config.JwtConfig;
+import com.grupod.activosfijos.utils.ResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/monedas")
 public class DivisasController {
+
     private final DivisasService divisasService;
+    private final JwtConfig jwtConfig;
+    private static final Logger logger = LoggerFactory.getLogger(DivisasController.class);
 
     @Autowired
-    public DivisasController(DivisasService divisasService) {
+    public DivisasController(DivisasService divisasService, JwtConfig jwtConfig) {
         this.divisasService = divisasService;
+        this.jwtConfig = jwtConfig;
     }
 
-    // Endpoint para obtener todas las monedas
+    @PostMapping("/crear")
+    public ResponseEntity<ResponseDto<DivisasDto>> crearDivisa(
+            @RequestBody DivisasDto divisasDto,
+            @RequestHeader("Authorization") String token) {
+
+        String extractedToken = token.replace("Bearer ", "");
+        String username = jwtConfig.extractUsername(extractedToken);
+
+        if (username == null || !jwtConfig.validateToken(extractedToken, username)) {
+            logger.warn("Token inválido o usuario no autorizado para crear divisa");
+            return ResponseEntity.status(401)
+                    .body(new ResponseDto<>(false, "Token inválido o usuario no autorizado", null));
+        }
+
+        logger.info("Usuario autorizado para crear divisa: {}", username);
+        return divisasService.crearDivisa(divisasDto);
+    }
+
     @GetMapping
-    public List<DivisasEntity> getAllMonedas() {
-        return divisasService.getAllMonedas();
+    public ResponseEntity<ResponseDto<List<DivisasDto>>> obtenerTodasLasDivisas() {
+        return divisasService.obtenerTodasLasDivisas();
     }
 
-    // Endpoint para obtener una moneda por su ID
     @GetMapping("/{id}")
-    public Optional<DivisasEntity> getMonedaById(@PathVariable Integer id) {
-        return divisasService.getMonedaById(id);
+    public ResponseEntity<ResponseDto<DivisasDto>> obtenerDivisaPorId(@PathVariable Integer id) {
+        return divisasService.obtenerDivisaPorId(id);
     }
 
-    // Endpoint para guardar moneda
-    @PostMapping
-    public DivisasEntity saveMoneda(@RequestBody DivisasEntity moneda) {
-        return divisasService.saveMoneda(moneda);
+    @PutMapping("/actualizar/{id}")
+    public ResponseEntity<ResponseDto<DivisasDto>> actualizarDivisa(
+            @PathVariable Integer id,
+            @RequestBody DivisasDto divisasDto,
+            @RequestHeader("Authorization") String token) {
+
+        String extractedToken = token.replace("Bearer ", "");
+        String username = jwtConfig.extractUsername(extractedToken);
+
+        if (username == null || !jwtConfig.validateToken(extractedToken, username)) {
+            logger.warn("Token inválido o usuario no autorizado para actualizar divisa");
+            return ResponseEntity.status(401)
+                    .body(new ResponseDto<>(false, "Token inválido o usuario no autorizado", null));
+        }
+
+        logger.info("Usuario autorizado para actualizar divisa: {}", username);
+        return divisasService.actualizarDivisa(id, divisasDto);
     }
 
-    // Endpoint para eliminar una moneda por su ID
-    @DeleteMapping("/{id}")
-    public void deleteMoneda(@PathVariable Integer id) {
-        divisasService.deleteMoneda(id);
+    @DeleteMapping("/eliminar/{id}")
+    public ResponseEntity<ResponseDto<Void>> eliminarDivisa(
+            @PathVariable Integer id,
+            @RequestHeader("Authorization") String token) {
+
+        String extractedToken = token.replace("Bearer ", "");
+        String username = jwtConfig.extractUsername(extractedToken);
+
+        if (username == null || !jwtConfig.validateToken(extractedToken, username)) {
+            logger.warn("Token inválido o usuario no autorizado para eliminar divisa");
+            return ResponseEntity.status(401)
+                    .body(new ResponseDto<>(false, "Token inválido o usuario no autorizado", null));
+        }
+
+        logger.info("Usuario autorizado para eliminar divisa: {}", username);
+        return divisasService.eliminarDivisa(id);
     }
 }

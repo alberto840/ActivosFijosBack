@@ -21,58 +21,66 @@ import jakarta.persistence.*;
 public class HistorialActivosEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
     @Column(name = "id_historial")
     private Integer idHistorial;
+
     @Basic(optional = false)
     @Column(name = "accion")
     private String accion;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+
     @Basic(optional = false)
     @Column(name = "valor_actual")
     private BigDecimal valorActual;
+
     @Basic(optional = false)
     @Column(name = "fecha_modificacion")
     @Temporal(TemporalType.DATE)
     private Date fechaModificacion;
+
     @Basic(optional = false)
     @Column(name = "comprobante")
     private String comprobante;
+
     @Basic(optional = false)
     @Column(name = "detalle")
     private String detalle;
+
     @Basic(optional = false)
     @Column(name = "estado")
     private boolean estado;
+
     @Basic(optional = false)
     @Column(name = "estado_uso")
     private String estadoUso;
+
     @JoinColumn(name = "activo_id", referencedColumnName = "id_activo")
-    @ManyToOne(optional = false)
-    private ActivoEntity activoEntityId;
+    @ManyToOne
+    private ActivoEntity activoEntity;  // Cambié el nombre de la propiedad a 'activoEntity'
+
+    @ManyToOne
     @JoinColumn(name = "aula_id", referencedColumnName = "id_aula")
-    @ManyToOne(optional = false)
-    private AulaEntity aulaEntityId;
+    private AulaEntity aulaEntity;
+
+    @ManyToOne
     @JoinColumn(name = "custodio_id", referencedColumnName = "id_custodio")
-    @ManyToOne(optional = false)
-    private CustodioEntity custodioEntityId;
+    private CustodioEntity custodioEntity;
+
+    @ManyToOne
     @JoinColumn(name = "proyecto_id", referencedColumnName = "id_proyecto")
-    @ManyToOne(optional = false)
-    private ProyectoEntity proyectoEntityId;
+    private ProyectoEntity proyectoEntity;
+
+
+    @ManyToOne
     @JoinColumn(name = "usuario_id", referencedColumnName = "id_usuario")
-    @ManyToOne(optional = false)
-    private UsuarioEntity usuarioId;
+    private UsuarioEntity usuarioEntity;
 
     public HistorialActivosEntity() {
     }
 
-    public HistorialActivosEntity(Integer idHistorial) {
-        this.idHistorial = idHistorial;
-    }
-
-    public HistorialActivosEntity(Integer idHistorial, String accion, BigDecimal valorActual, Date fechaModificacion, String comprobante, String detalle, boolean estado, String estadoUso) {
+    public HistorialActivosEntity(Integer idHistorial, String accion, BigDecimal valorActual, Date fechaModificacion, String comprobante, String detalle, boolean estado, String estadoUso, ActivoEntity activoEntity, AulaEntity aulaEntity, CustodioEntity custodioEntity, ProyectoEntity proyectoEntity, UsuarioEntity usuarioEntity) {
         this.idHistorial = idHistorial;
         this.accion = accion;
         this.valorActual = valorActual;
@@ -81,6 +89,11 @@ public class HistorialActivosEntity implements Serializable {
         this.detalle = detalle;
         this.estado = estado;
         this.estadoUso = estadoUso;
+        this.activoEntity = activoEntity;
+        this.aulaEntity = aulaEntity;
+        this.custodioEntity = custodioEntity;
+        this.proyectoEntity = proyectoEntity;
+        this.usuarioEntity = usuarioEntity;
     }
 
     public Integer getIdHistorial() {
@@ -131,7 +144,7 @@ public class HistorialActivosEntity implements Serializable {
         this.detalle = detalle;
     }
 
-    public boolean getEstado() {
+    public boolean isEstado() {
         return estado;
     }
 
@@ -147,69 +160,43 @@ public class HistorialActivosEntity implements Serializable {
         this.estadoUso = estadoUso;
     }
 
-    public ActivoEntity getActivoId() {
-        return activoEntityId;
+    public ActivoEntity getActivoEntity() {
+        return activoEntity;
     }
 
-    public void setActivoId(ActivoEntity activoEntityId) {
-        this.activoEntityId = activoEntityId;
+    public void setActivoEntity(ActivoEntity activoEntity) {
+        this.activoEntity = activoEntity;
     }
 
-    public AulaEntity getAulaId() {
-        return aulaEntityId;
+    public AulaEntity getAulaEntity() {
+        return aulaEntity;
     }
 
-    public void setAulaId(AulaEntity aulaEntityId) {
-        this.aulaEntityId = aulaEntityId;
+    public void setAulaEntity(AulaEntity aulaEntity) {
+        this.aulaEntity = aulaEntity;
     }
 
-    public CustodioEntity getCustodioId() {
-        return custodioEntityId;
+    public CustodioEntity getCustodioEntity() {
+        return custodioEntity;
     }
 
-    public void setCustodioId(CustodioEntity custodioEntityId) {
-        this.custodioEntityId = custodioEntityId;
+    public void setCustodioEntity(CustodioEntity custodioEntity) {
+        this.custodioEntity = custodioEntity;
     }
 
-    public ProyectoEntity getProyectoId() {
-        return proyectoEntityId;
+    public ProyectoEntity getProyectoEntity() {
+        return proyectoEntity;
     }
 
-    public void setProyectoId(ProyectoEntity proyectoEntityId) {
-        this.proyectoEntityId = proyectoEntityId;
+    public void setProyectoEntity(ProyectoEntity proyectoEntity) {
+        this.proyectoEntity = proyectoEntity;
     }
 
-    public UsuarioEntity getUsuarioId() {
-        return usuarioId;
+    public UsuarioEntity getUsuarioEntity() {
+        return usuarioEntity;
     }
 
-    public void setUsuarioId(UsuarioEntity usuarioId) {
-        this.usuarioId = usuarioId;
+    public void setUsuarioEntity(UsuarioEntity usuarioEntity) {
+        this.usuarioEntity = usuarioEntity;
     }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (idHistorial != null ? idHistorial.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof HistorialActivosEntity)) {
-            return false;
-        }
-        HistorialActivosEntity other = (HistorialActivosEntity) object;
-        if ((this.idHistorial == null && other.idHistorial != null) || (this.idHistorial != null && !this.idHistorial.equals(other.idHistorial))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "com.grupod.activosfijos.historialActivos.Historialactivos[ idHistorial=" + idHistorial + " ]";
-    }
-    
 }

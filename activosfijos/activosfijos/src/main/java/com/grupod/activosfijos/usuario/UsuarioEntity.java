@@ -36,7 +36,7 @@ public class UsuarioEntity implements Serializable {
     @Basic(optional = false)
     @Column(name = "telefono")
     private String telefono;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioEntity")
     private List<HistorialActivosEntity> historialActivosEntityList;
     @JoinColumn(name = "rol_id", referencedColumnName = "id_rol")
     @ManyToOne(optional = false)

@@ -26,7 +26,7 @@ public class IdentificadorEntity implements Serializable {
     @Basic(optional = false)
     @Column(name = "codigo_barra")
     private String codigoBarra;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "identificadorId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "identificadorEntity")  // Cambia 'identificadorId' a 'identificadorEntity'
     private List<ActivoEntity> activoEntityList;
 
     public IdentificadorEntity() {

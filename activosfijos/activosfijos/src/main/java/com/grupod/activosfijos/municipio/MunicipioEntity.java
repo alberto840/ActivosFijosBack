@@ -25,10 +25,10 @@ public class MunicipioEntity implements Serializable {
     @Basic(optional = false)
     @Column(name = "nombre")
     private String nombre;
+    @ManyToOne
     @JoinColumn(name = "provincia_id", referencedColumnName = "id_provincia")
-    @ManyToOne(optional = false)
     private ProvinciaEntity provinciaId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "municipioId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "municipioEntity")  // Cambia 'municipioId' a 'municipioEntity'
     private List<SucursalEntity> sucursalEntityList;
 
     public MunicipioEntity() {

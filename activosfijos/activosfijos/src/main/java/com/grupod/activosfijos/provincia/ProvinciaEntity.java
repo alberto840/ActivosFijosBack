@@ -18,30 +18,32 @@ import jakarta.persistence.*;
 public class ProvinciaEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id_provincia")
     private Integer idProvincia;
+
     @Basic(optional = false)
     @Column(name = "nombre")
     private String nombre;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "provinciaId")
     private List<MunicipioEntity> municipioEntityList;
+
     @JoinColumn(name = "departamento_id", referencedColumnName = "id_departamento")
     @ManyToOne(optional = false)
-    private DepartamentoEntity departamentoEntityId;
+    private DepartamentoEntity departamentoId;
 
     public ProvinciaEntity() {
     }
 
-    public ProvinciaEntity(Integer idProvincia) {
-        this.idProvincia = idProvincia;
-    }
-
-    public ProvinciaEntity(Integer idProvincia, String nombre) {
+    public ProvinciaEntity(Integer idProvincia, String nombre, List<MunicipioEntity> municipioEntityList, DepartamentoEntity departamentoId) {
         this.idProvincia = idProvincia;
         this.nombre = nombre;
+        this.municipioEntityList = municipioEntityList;
+        this.departamentoId = departamentoId;
     }
 
     public Integer getIdProvincia() {
@@ -60,45 +62,19 @@ public class ProvinciaEntity implements Serializable {
         this.nombre = nombre;
     }
 
-    public List<MunicipioEntity> getMunicipioList() {
+    public List<MunicipioEntity> getMunicipioEntityList() {
         return municipioEntityList;
     }
 
-    public void setMunicipioList(List<MunicipioEntity> municipioEntityList) {
+    public void setMunicipioEntityList(List<MunicipioEntity> municipioEntityList) {
         this.municipioEntityList = municipioEntityList;
     }
 
     public DepartamentoEntity getDepartamentoId() {
-        return departamentoEntityId;
+        return departamentoId;
     }
 
-    public void setDepartamentoId(DepartamentoEntity departamentoEntityId) {
-        this.departamentoEntityId = departamentoEntityId;
+    public void setDepartamentoId(DepartamentoEntity departamentoId) {
+        this.departamentoId = departamentoId;
     }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (idProvincia != null ? idProvincia.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ProvinciaEntity)) {
-            return false;
-        }
-        ProvinciaEntity other = (ProvinciaEntity) object;
-        if ((this.idProvincia == null && other.idProvincia != null) || (this.idProvincia != null && !this.idProvincia.equals(other.idProvincia))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "com.grupod.activosfijos.provincia.Provincia[ idProvincia=" + idProvincia + " ]";
-    }
-    
 }

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.grupod.activosfijos.aula;
 
 import com.grupod.activosfijos.activo.ActivoEntity;
@@ -12,26 +8,27 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
-
 @Entity
 @Table(name = "aula")
 public class AulaEntity implements Serializable {
 
-    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
     @Column(name = "id_aula")
     private Integer idAula;
+
     @Basic(optional = false)
     @Column(name = "nombre")
     private String nombre;
+
     @JoinColumn(name = "bloque_id", referencedColumnName = "id_bloque")
     @ManyToOne(optional = false)
-    private BloqueEntity bloqueEntityId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "aulaId")
+    private BloqueEntity bloqueEntity;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "aulaEntity") // mappedBy actualizado
     private List<HistorialActivosEntity> historialActivosEntityList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "aulaId")
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "aulaEntity") // mappedBy actualizado
     private List<ActivoEntity> activoEntityList;
 
     public AulaEntity() {
@@ -62,27 +59,27 @@ public class AulaEntity implements Serializable {
         this.nombre = nombre;
     }
 
-    public BloqueEntity getBloqueId() {
-        return bloqueEntityId;
+    public BloqueEntity getBloqueEntity() {
+        return bloqueEntity;
     }
 
-    public void setBloqueId(BloqueEntity bloqueEntityId) {
-        this.bloqueEntityId = bloqueEntityId;
+    public void setBloqueEntity(BloqueEntity bloqueEntity) {
+        this.bloqueEntity = bloqueEntity;
     }
 
-    public List<HistorialActivosEntity> getHistorialactivosList() {
+    public List<HistorialActivosEntity> getHistorialActivosEntityList() {
         return historialActivosEntityList;
     }
 
-    public void setHistorialactivosList(List<HistorialActivosEntity> historialActivosEntityList) {
+    public void setHistorialActivosEntityList(List<HistorialActivosEntity> historialActivosEntityList) {
         this.historialActivosEntityList = historialActivosEntityList;
     }
 
-    public List<ActivoEntity> getActivoList() {
+    public List<ActivoEntity> getActivoEntityList() {
         return activoEntityList;
     }
 
-    public void setActivoList(List<ActivoEntity> activoEntityList) {
+    public void setActivoEntityList(List<ActivoEntity> activoEntityList) {
         this.activoEntityList = activoEntityList;
     }
 
@@ -95,7 +92,6 @@ public class AulaEntity implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof AulaEntity)) {
             return false;
         }
@@ -108,7 +104,6 @@ public class AulaEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "com.grupod.activosfijos.aula.Aula[ idAula=" + idAula + " ]";
+        return "com.grupod.activosfijos.aula.AulaEntity[ idAula=" + idAula + " ]";
     }
-    
 }

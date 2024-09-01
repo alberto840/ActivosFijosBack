@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.grupod.activosfijos.depreciacion;
 
 import java.io.Serializable;
@@ -12,31 +8,36 @@ import com.grupod.activosfijos.activo.ActivoEntity;
 import com.grupod.activosfijos.divisa.DivisasEntity;
 import jakarta.persistence.*;
 
-
 @Entity
 @Table(name = "depreciacion")
 public class DepreciacionEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id_depreciacion")
     private Integer idDepreciacion;
+
     @Basic(optional = false)
     @Column(name = "fecha")
     @Temporal(TemporalType.DATE)
     private Date fecha;
+
     @Basic(optional = false)
     @Column(name = "metodo")
     private String metodo;
+
     @Basic(optional = false)
     @Column(name = "detalle")
     private String detalle;
+
     @JoinColumn(name = "divisas_id", referencedColumnName = "id_divisa")
     @ManyToOne(optional = false)
-    private DivisasEntity divisasEntityId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "depreciacionId")
+    private DivisasEntity divisasEntity;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "depreciacionEntity")
     private List<ActivoEntity> activoEntityList;
 
     public DepreciacionEntity() {
@@ -85,19 +86,19 @@ public class DepreciacionEntity implements Serializable {
         this.detalle = detalle;
     }
 
-    public DivisasEntity getDivisasId() {
-        return divisasEntityId;
+    public DivisasEntity getDivisasEntity() {
+        return divisasEntity;
     }
 
-    public void setDivisasId(DivisasEntity divisasEntityId) {
-        this.divisasEntityId = divisasEntityId;
+    public void setDivisasEntity(DivisasEntity divisasEntity) {
+        this.divisasEntity = divisasEntity;
     }
 
-    public List<ActivoEntity> getActivoList() {
+    public List<ActivoEntity> getActivoEntityList() {
         return activoEntityList;
     }
 
-    public void setActivoList(List<ActivoEntity> activoEntityList) {
+    public void setActivoEntityList(List<ActivoEntity> activoEntityList) {
         this.activoEntityList = activoEntityList;
     }
 
@@ -110,7 +111,6 @@ public class DepreciacionEntity implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof DepreciacionEntity)) {
             return false;
         }
@@ -123,7 +123,6 @@ public class DepreciacionEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "com.grupod.activosfijos.depreciacion.Depreciacion[ idDepreciacion=" + idDepreciacion + " ]";
+        return "com.grupod.activosfijos.depreciacion.DepreciacionEntity[ idDepreciacion=" + idDepreciacion + " ]";
     }
-    
 }

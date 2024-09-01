@@ -6,11 +6,22 @@ public class UsuarioDto implements Serializable {
     private Integer idUsuario;
     private String nombre;
     private String correo;
+    private String password;
     private boolean estado;
     private String telefono;
     private Integer rolId;
 
     public UsuarioDto() {
+    }
+
+    public UsuarioDto(Integer idUsuario, String nombre, String correo, String password, boolean estado, String telefono, Integer rolId) {
+        this.idUsuario = idUsuario;
+        this.nombre = nombre;
+        this.correo = correo;
+        this.password = password;
+        this.estado = estado;
+        this.telefono = telefono;
+        this.rolId = rolId;
     }
 
     public UsuarioDto(Integer idUsuario, String nombre, String correo, boolean estado, String telefono, Integer rolId) {
@@ -44,6 +55,14 @@ public class UsuarioDto implements Serializable {
 
     public void setCorreo(String correo) {
         this.correo = correo;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public boolean isEstado() {

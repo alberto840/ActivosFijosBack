@@ -18,7 +18,6 @@ public class EmpresaEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
     @Column(name = "id_empresa")
     private Integer idEmpresa;
     @Basic(optional = false)
@@ -33,7 +32,7 @@ public class EmpresaEntity implements Serializable {
     @Basic(optional = false)
     @Column(name = "telefono")
     private String telefono;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "empresaId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "empresa")  // Cambia 'empresaId' a 'empresa'
     private List<AreaEntity> areaEntityList;
 
     public EmpresaEntity() {

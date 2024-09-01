@@ -17,29 +17,31 @@ import jakarta.persistence.*;
 @Table(name = "proyecto")
 public class ProyectoEntity implements Serializable {
 
-    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
     @Column(name = "id_proyecto")
     private Integer idProyecto;
-    @Basic(optional = false)
+
     @Column(name = "nombre")
     private String nombre;
-    @Basic(optional = false)
+
     @Column(name = "fecha_inicio")
     @Temporal(TemporalType.DATE)
     private Date fechaInicio;
-    @Basic(optional = false)
+
     @Column(name = "fecha_fin")
     @Temporal(TemporalType.DATE)
     private Date fechaFin;
+
     @JoinColumn(name = "area_id", referencedColumnName = "id_area")
     @ManyToOne(optional = false)
     private AreaEntity areaEntityId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "proyectoId")
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "proyectoEntity")
     private List<HistorialActivosEntity> historialActivosEntityList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "proyectoId")
+
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "proyectoEntity")
     private List<ActivoEntity> activoEntityList;
 
     public ProyectoEntity() {

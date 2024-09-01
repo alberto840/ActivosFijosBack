@@ -20,17 +20,21 @@ public class DepartamentoEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id_departamento")
     private Integer idDepartamento;
+
     @Basic(optional = false)
     @Column(name = "nombre")
     private String nombre;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "departamentoId")
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "departamentoId")  // Cambié departamentoEntityId a departamentoId para que coincida con el nombre de la propiedad en ProvinciaEntity
     private List<ProvinciaEntity> provinciaList;
-    @JoinColumn(name = "pais_id_pais", referencedColumnName = "id_pais")
-    @ManyToOne(optional = false)
-    private PaisEntity paisIdPaisEntity;
+
+    @ManyToOne
+    @JoinColumn(name = "pais_id", referencedColumnName = "id_pais")
+    private PaisEntity paisEntity;
 
     public DepartamentoEntity() {
     }
@@ -39,9 +43,11 @@ public class DepartamentoEntity implements Serializable {
         this.idDepartamento = idDepartamento;
     }
 
-    public DepartamentoEntity(Integer idDepartamento, String nombre) {
+    public DepartamentoEntity(Integer idDepartamento, String nombre, List<ProvinciaEntity> provinciaList, PaisEntity paisEntity) {
         this.idDepartamento = idDepartamento;
         this.nombre = nombre;
+        this.provinciaList = provinciaList;
+        this.paisEntity = paisEntity;
     }
 
     public Integer getIdDepartamento() {
@@ -68,37 +74,11 @@ public class DepartamentoEntity implements Serializable {
         this.provinciaList = provinciaList;
     }
 
-    public PaisEntity getPaisIdPais() {
-        return paisIdPaisEntity;
+    public PaisEntity getPaisEntity() {
+        return paisEntity;
     }
 
-    public void setPaisIdPais(PaisEntity paisIdPaisEntity) {
-        this.paisIdPaisEntity = paisIdPaisEntity;
+    public void setPaisEntity(PaisEntity paisEntity) {
+        this.paisEntity = paisEntity;
     }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (idDepartamento != null ? idDepartamento.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof DepartamentoEntity)) {
-            return false;
-        }
-        DepartamentoEntity other = (DepartamentoEntity) object;
-        if ((this.idDepartamento == null && other.idDepartamento != null) || (this.idDepartamento != null && !this.idDepartamento.equals(other.idDepartamento))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "com.grupod.activosfijos.departamento.Departamento[ idDepartamento=" + idDepartamento + " ]";
-    }
-    
 }

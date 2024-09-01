@@ -16,19 +16,19 @@ import java.util.List;
 @Table(name = "area")
 public class AreaEntity implements Serializable {
 
-    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
     @Column(name = "id_area")
     private Integer idArea;
-    @Basic(optional = false)
+
     @Column(name = "nombre")
     private String nombre;
+
+    @ManyToOne
     @JoinColumn(name = "empresa_id", referencedColumnName = "id_empresa")
-    @ManyToOne(optional = false)
-    private EmpresaEntity empresaEntityId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "areaId")
+    private EmpresaEntity empresa;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "areaEntityId")
     private List<ProyectoEntity> proyectoEntityList;
 
     public AreaEntity() {
@@ -38,9 +38,11 @@ public class AreaEntity implements Serializable {
         this.idArea = idArea;
     }
 
-    public AreaEntity(Integer idArea, String nombre) {
+    public AreaEntity(Integer idArea, String nombre, EmpresaEntity empresa, List<ProyectoEntity> proyectoEntityList) {
         this.idArea = idArea;
         this.nombre = nombre;
+        this.empresa = empresa;
+        this.proyectoEntityList = proyectoEntityList;
     }
 
     public Integer getIdArea() {
@@ -59,45 +61,19 @@ public class AreaEntity implements Serializable {
         this.nombre = nombre;
     }
 
-    public EmpresaEntity getEmpresaId() {
-        return empresaEntityId;
+    public EmpresaEntity getEmpresa() {
+        return empresa;
     }
 
-    public void setEmpresaId(EmpresaEntity empresaEntityId) {
-        this.empresaEntityId = empresaEntityId;
+    public void setEmpresa(EmpresaEntity empresa) {
+        this.empresa = empresa;
     }
 
-    public List<ProyectoEntity> getProyectoList() {
+    public List<ProyectoEntity> getProyectoEntityList() {
         return proyectoEntityList;
     }
 
-    public void setProyectoList(List<ProyectoEntity> proyectoEntityList) {
+    public void setProyectoEntityList(List<ProyectoEntity> proyectoEntityList) {
         this.proyectoEntityList = proyectoEntityList;
     }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (idArea != null ? idArea.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof AreaEntity)) {
-            return false;
-        }
-        AreaEntity other = (AreaEntity) object;
-        if ((this.idArea == null && other.idArea != null) || (this.idArea != null && !this.idArea.equals(other.idArea))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "com.grupod.activosfijos.area.Area[ idArea=" + idArea + " ]";
-    }
-    
 }

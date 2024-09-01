@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.grupod.activosfijos.activo.ActivoEntity;
+import com.grupod.activosfijos.historialActivos.HistorialActivosEntity;
 import jakarta.persistence.*;
 
 
@@ -18,29 +19,28 @@ public class EstadoactivoEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
     @Column(name = "id_estado")
     private Integer idEstado;
+
     @Basic(optional = false)
     @Column(name = "nombre")
     private String nombre;
+
     @Basic(optional = false)
     @Column(name = "descripcion")
     private String descripcion;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "estadoactivoId")
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "estadoactivoEntity")  // Cambia 'estadoactivoEntityId' a 'estadoactivoEntity'
     private List<ActivoEntity> activoEntityList;
 
     public EstadoactivoEntity() {
     }
 
-    public EstadoactivoEntity(Integer idEstado) {
-        this.idEstado = idEstado;
-    }
-
-    public EstadoactivoEntity(Integer idEstado, String nombre, String descripcion) {
+    public EstadoactivoEntity(Integer idEstado, String nombre, String descripcion, List<ActivoEntity> activoEntityList) {
         this.idEstado = idEstado;
         this.nombre = nombre;
         this.descripcion = descripcion;
+        this.activoEntityList = activoEntityList;
     }
 
     public Integer getIdEstado() {
@@ -67,37 +67,11 @@ public class EstadoactivoEntity implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public List<ActivoEntity> getActivoList() {
+    public List<ActivoEntity> getActivoEntityList() {
         return activoEntityList;
     }
 
-    public void setActivoList(List<ActivoEntity> activoEntityList) {
+    public void setActivoEntityList(List<ActivoEntity> activoEntityList) {
         this.activoEntityList = activoEntityList;
     }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (idEstado != null ? idEstado.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof EstadoactivoEntity)) {
-            return false;
-        }
-        EstadoactivoEntity other = (EstadoactivoEntity) object;
-        if ((this.idEstado == null && other.idEstado != null) || (this.idEstado != null && !this.idEstado.equals(other.idEstado))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "com.grupod.activosfijos.estadoActivo.Estadoactivo[ idEstado=" + idEstado + " ]";
-    }
-    
 }

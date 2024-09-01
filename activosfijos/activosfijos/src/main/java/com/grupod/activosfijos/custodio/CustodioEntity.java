@@ -15,30 +15,35 @@ import jakarta.persistence.*;
 @Table(name = "custodio")
 public class CustodioEntity implements Serializable {
 
-    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
     @Column(name = "id_custodio")
     private Integer idCustodio;
+
     @Basic(optional = false)
     @Column(name = "nombre")
     private String nombre;
+
     @Basic(optional = false)
     @Column(name = "apellido_paterno")
     private String apellidoPaterno;
+
     @Basic(optional = false)
     @Column(name = "apellido_materno")
     private String apellidoMaterno;
+
     @Basic(optional = false)
     @Column(name = "correo")
     private String correo;
+
     @Basic(optional = false)
     @Column(name = "telefono")
     private String telefono;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "custodioId")
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "custodioEntity")  // Cambia 'custodioEntityId' a 'custodioEntity'
     private List<HistorialActivosEntity> historialActivosEntityList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "custodioId")
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "custodioEntity")  // Cambia 'custodioEntityId' a 'custodioEntity'
     private List<ActivoEntity> activoEntityList;
 
     public CustodioEntity() {

@@ -15,17 +15,19 @@ import jakarta.persistence.*;
 @Table(name = "categoria")
 public class CategoriaEntity implements Serializable {
 
-    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id_categoria")
     private Integer idCategoria;
+
     @Basic(optional = false)
     @Column(name = "nombre")
     private String nombre;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoriaId")
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoriaEntity")
     private List<ActivoEntity> activoEntityList;
+
 
     public CategoriaEntity() {
     }

@@ -18,7 +18,7 @@ public class PaisEntity implements Serializable {
     @Basic(optional = false)
     @Column(name = "nombre")
     private String nombre;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "paisIdPais")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "paisEntity")  // Cambia 'paisIdPais' a 'paisEntity'
     private List<DepartamentoEntity> departamentoEntityList;
 
     public PaisEntity() {

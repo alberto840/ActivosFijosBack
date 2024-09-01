@@ -6,27 +6,31 @@ import java.util.List;
 import com.grupod.activosfijos.bloque.BloqueEntity;
 import jakarta.persistence.*;
 
-
 @Entity
 @Table(name = "direccion")
 public class DireccionEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id_direccion")
     private Integer idDireccion;
+
     @Basic(optional = false)
     @Column(name = "calle")
     private String calle;
+
     @Basic(optional = false)
     @Column(name = "detalle")
     private String detalle;
+
     @Basic(optional = false)
     @Column(name = "zona")
     private String zona;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "direccionId")
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "direccionEntityId")
     private List<BloqueEntity> bloqueEntityList;
 
     public DireccionEntity() {
@@ -75,11 +79,11 @@ public class DireccionEntity implements Serializable {
         this.zona = zona;
     }
 
-    public List<BloqueEntity> getBloqueList() {
+    public List<BloqueEntity> getBloqueEntityList() {
         return bloqueEntityList;
     }
 
-    public void setBloqueList(List<BloqueEntity> bloqueEntityList) {
+    public void setBloqueEntityList(List<BloqueEntity> bloqueEntityList) {
         this.bloqueEntityList = bloqueEntityList;
     }
 
@@ -92,20 +96,15 @@ public class DireccionEntity implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof DireccionEntity)) {
             return false;
         }
         DireccionEntity other = (DireccionEntity) object;
-        if ((this.idDireccion == null && other.idDireccion != null) || (this.idDireccion != null && !this.idDireccion.equals(other.idDireccion))) {
-            return false;
-        }
-        return true;
+        return (this.idDireccion != null || other.idDireccion == null) && (this.idDireccion == null || this.idDireccion.equals(other.idDireccion));
     }
 
     @Override
     public String toString() {
-        return "com.grupod.activosfijos.direccion.Direccion[ idDireccion=" + idDireccion + " ]";
+        return "com.grupod.activosfijos.direccion.DireccionEntity[ idDireccion=" + idDireccion + " ]";
     }
-    
 }

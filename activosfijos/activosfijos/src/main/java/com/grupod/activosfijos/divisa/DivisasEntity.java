@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.grupod.activosfijos.divisa;
 
 import java.io.Serializable;
@@ -11,7 +7,6 @@ import java.util.List;
 
 import com.grupod.activosfijos.depreciacion.DepreciacionEntity;
 import jakarta.persistence.*;
-
 
 @Entity
 @Table(name = "divisas")
@@ -23,18 +18,21 @@ public class DivisasEntity implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_divisa")
     private Integer idDivisa;
+
     @Basic(optional = false)
     @Column(name = "nombre")
     private String nombre;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+
     @Basic(optional = false)
     @Column(name = "valor")
     private BigDecimal valor;
+
     @Basic(optional = false)
     @Column(name = "fecha")
     @Temporal(TemporalType.DATE)
     private Date fecha;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "divisasId")
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "divisasEntity")
     private List<DepreciacionEntity> depreciacionEntityList;
 
     public DivisasEntity() {
@@ -83,11 +81,11 @@ public class DivisasEntity implements Serializable {
         this.fecha = fecha;
     }
 
-    public List<DepreciacionEntity> getDepreciacionList() {
+    public List<DepreciacionEntity> getDepreciacionEntityList() {
         return depreciacionEntityList;
     }
 
-    public void setDepreciacionList(List<DepreciacionEntity> depreciacionEntityList) {
+    public void setDepreciacionEntityList(List<DepreciacionEntity> depreciacionEntityList) {
         this.depreciacionEntityList = depreciacionEntityList;
     }
 
@@ -100,7 +98,6 @@ public class DivisasEntity implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof DivisasEntity)) {
             return false;
         }
@@ -113,7 +110,6 @@ public class DivisasEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "com.grupod.activosfijos.moneda.Divisas[ idDivisa=" + idDivisa + " ]";
+        return "com.grupod.activosfijos.divisa.DivisasEntity[ idDivisa=" + idDivisa + " ]";
     }
-    
 }

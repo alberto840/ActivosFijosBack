@@ -1,9 +1,7 @@
-
 package com.grupod.activosfijos.rol;
 
 import java.io.Serializable;
 import java.util.List;
-
 import com.grupod.activosfijos.usuario.UsuarioEntity;
 import jakarta.persistence.*;
 
@@ -12,27 +10,20 @@ import jakarta.persistence.*;
 public class RolEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @Id
-    @Basic(optional = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_rol")
     private Integer idRol;
+
     @Basic(optional = false)
     @Column(name = "nombre")
     private String nombre;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "rolId")
     private List<UsuarioEntity> usuarioList;
 
-    public RolEntity() {
-    }
-
-    public RolEntity(Integer idRol) {
-        this.idRol = idRol;
-    }
-
-    public RolEntity(Integer idRol, String nombre) {
-        this.idRol = idRol;
-        this.nombre = nombre;
-    }
+    // Constructor, getters y setters
 
     public Integer getIdRol() {
         return idRol;
@@ -57,30 +48,4 @@ public class RolEntity implements Serializable {
     public void setUsuarioList(List<UsuarioEntity> usuarioList) {
         this.usuarioList = usuarioList;
     }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (idRol != null ? idRol.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof RolEntity)) {
-            return false;
-        }
-        RolEntity other = (RolEntity) object;
-        if ((this.idRol == null && other.idRol != null) || (this.idRol != null && !this.idRol.equals(other.idRol))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "com.grupod.activosfijos.rol.Rol[ idRol=" + idRol + " ]";
-    }
-    
 }
