@@ -1,10 +1,6 @@
 package com.grupod.activosfijos.provincia;
 
 import java.io.Serializable;
-import java.util.List;
-
-import com.grupod.activosfijos.departamento.DepartamentoDto;
-import com.grupod.activosfijos.municipio.MunicipioDto;
 
 public class ProvinciaDto implements Serializable {
 
@@ -12,17 +8,15 @@ public class ProvinciaDto implements Serializable {
 
     private Integer idProvincia;
     private String nombre;
-    private List<MunicipioDto> municipios;
-    private DepartamentoDto departamento;
+    private Integer idDepartamento;
 
     public ProvinciaDto() {
     }
 
-    public ProvinciaDto(Integer idProvincia, String nombre, List<MunicipioDto> municipios, DepartamentoDto departamento) {
+    public ProvinciaDto(Integer idProvincia, String nombre, Integer idDepartamento) {
         this.idProvincia = idProvincia;
         this.nombre = nombre;
-        this.municipios = municipios;
-        this.departamento = departamento;
+        this.idDepartamento = idDepartamento;
     }
 
     public Integer getIdProvincia() {
@@ -41,20 +35,12 @@ public class ProvinciaDto implements Serializable {
         this.nombre = nombre;
     }
 
-    public List<MunicipioDto> getMunicipios() {
-        return municipios;
+    public Integer getIdDepartamento() {
+        return idDepartamento;
     }
 
-    public void setMunicipios(List<MunicipioDto> municipios) {
-        this.municipios = municipios;
-    }
-
-    public DepartamentoDto getDepartamento() {
-        return departamento;
-    }
-
-    public void setDepartamento(DepartamentoDto departamento) {
-        this.departamento = departamento;
+    public void setIdDepartamento(Integer idDepartamento) {
+        this.idDepartamento = idDepartamento;
     }
 
     @Override
@@ -62,8 +48,7 @@ public class ProvinciaDto implements Serializable {
         return "ProvinciaDto{" +
                 "idProvincia=" + idProvincia +
                 ", nombre='" + nombre + '\'' +
-                ", municipios=" + municipios +
-                ", departamento=" + departamento +
+                ", idDepartamento=" + idDepartamento +
                 '}';
     }
 }

@@ -1,10 +1,6 @@
 package com.grupod.activosfijos.departamento;
 
 import java.io.Serializable;
-import java.util.List;
-
-import com.grupod.activosfijos.pais.PaisDto;
-import com.grupod.activosfijos.provincia.ProvinciaDto;
 
 public class DepartamentoDto implements Serializable {
 
@@ -12,17 +8,15 @@ public class DepartamentoDto implements Serializable {
 
     private Integer idDepartamento;
     private String nombre;
-    private List<ProvinciaDto> provincias;
-    private PaisDto pais;
+    private Integer idPais;
 
     public DepartamentoDto() {
     }
 
-    public DepartamentoDto(Integer idDepartamento, String nombre, List<ProvinciaDto> provincias, PaisDto pais) {
+    public DepartamentoDto(Integer idDepartamento, String nombre, Integer idPais) {
         this.idDepartamento = idDepartamento;
         this.nombre = nombre;
-        this.provincias = provincias;
-        this.pais = pais;
+        this.idPais = idPais;
     }
 
     public Integer getIdDepartamento() {
@@ -41,20 +35,12 @@ public class DepartamentoDto implements Serializable {
         this.nombre = nombre;
     }
 
-    public List<ProvinciaDto> getProvincias() {
-        return provincias;
+    public Integer getIdPais() {
+        return idPais;
     }
 
-    public void setProvincias(List<ProvinciaDto> provincias) {
-        this.provincias = provincias;
-    }
-
-    public PaisDto getPais() {
-        return pais;
-    }
-
-    public void setPais(PaisDto pais) {
-        this.pais = pais;
+    public void setIdPais(Integer idPais) {
+        this.idPais = idPais;
     }
 
     @Override
@@ -62,8 +48,7 @@ public class DepartamentoDto implements Serializable {
         return "DepartamentoDto{" +
                 "idDepartamento=" + idDepartamento +
                 ", nombre='" + nombre + '\'' +
-                ", provincias=" + provincias +
-                ", pais=" + pais +
+                ", idPais=" + idPais +
                 '}';
     }
 }

@@ -1,9 +1,6 @@
 package com.grupod.activosfijos.pais;
 
 import java.io.Serializable;
-import java.util.List;
-
-import com.grupod.activosfijos.departamento.DepartamentoDto;
 
 public class PaisDto implements Serializable {
 
@@ -11,15 +8,13 @@ public class PaisDto implements Serializable {
 
     private Integer idPais;
     private String nombre;
-    private List<DepartamentoDto> departamentos;
 
     public PaisDto() {
     }
 
-    public PaisDto(Integer idPais, String nombre, List<DepartamentoDto> departamentos) {
+    public PaisDto(Integer idPais, String nombre) {
         this.idPais = idPais;
         this.nombre = nombre;
-        this.departamentos = departamentos;
     }
 
     public Integer getIdPais() {
@@ -38,20 +33,11 @@ public class PaisDto implements Serializable {
         this.nombre = nombre;
     }
 
-    public List<DepartamentoDto> getDepartamentos() {
-        return departamentos;
-    }
-
-    public void setDepartamentos(List<DepartamentoDto> departamentos) {
-        this.departamentos = departamentos;
-    }
-
     @Override
     public String toString() {
         return "PaisDto{" +
                 "idPais=" + idPais +
                 ", nombre='" + nombre + '\'' +
-                ", departamentos=" + departamentos +
                 '}';
     }
 }

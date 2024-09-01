@@ -185,4 +185,25 @@ public class UsuarioService {
         );
     }
 
+    public ResponseEntity<ResponseDto<String>> eliminarUsuario(Integer id, String token) {
+        // Validar el token
+        String usernameFromToken = jwtConfig.extractUsername(token);
+        logger.debug("Correo extraído del token: {}", usernameFromToken);
+
+        Optional<UsuarioEntity> usuarioOpt = usuarioRepository.findById(id);
+        if (usuarioOpt.isEmpty()) {
+            logger.warn("Usuario con ID {} no encontrado", id);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new ResponseDto<>(false, "Usuario no encontrado", null)
+            );
+        }
+
+        usuarioRepository.deleteById(id);
+        logger.info("Usuario con ID {} eliminado exitosamente", id);
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseDto<>(true, "Usuario eliminado con éxito", null)
+        );
+    }
+
+
 }

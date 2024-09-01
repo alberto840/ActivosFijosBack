@@ -1,34 +1,33 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.grupod.activosfijos.municipio;
-
-import java.io.Serializable;
-import java.util.List;
 
 import com.grupod.activosfijos.provincia.ProvinciaEntity;
 import com.grupod.activosfijos.sucursal.SucursalEntity;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "municipio")
 public class MunicipioEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id_municipio")
     private Integer idMunicipio;
+
     @Basic(optional = false)
     @Column(name = "nombre")
     private String nombre;
+
     @ManyToOne
     @JoinColumn(name = "provincia_id", referencedColumnName = "id_provincia")
     private ProvinciaEntity provinciaId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "municipioEntity")  // Cambia 'municipioId' a 'municipioEntity'
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "municipioEntity")
     private List<SucursalEntity> sucursalEntityList;
 
     public MunicipioEntity() {
@@ -84,20 +83,15 @@ public class MunicipioEntity implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof MunicipioEntity)) {
             return false;
         }
         MunicipioEntity other = (MunicipioEntity) object;
-        if ((this.idMunicipio == null && other.idMunicipio != null) || (this.idMunicipio != null && !this.idMunicipio.equals(other.idMunicipio))) {
-            return false;
-        }
-        return true;
+        return (this.idMunicipio != null || other.idMunicipio == null) && (this.idMunicipio == null || this.idMunicipio.equals(other.idMunicipio));
     }
 
     @Override
     public String toString() {
         return "com.grupod.activosfijos.municipio.Municipio[ idMunicipio=" + idMunicipio + " ]";
     }
-    
 }

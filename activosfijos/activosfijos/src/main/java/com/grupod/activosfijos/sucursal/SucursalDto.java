@@ -1,10 +1,6 @@
 package com.grupod.activosfijos.sucursal;
 
 import java.io.Serializable;
-import java.util.List;
-
-import com.grupod.activosfijos.bloque.BloqueDto;
-import com.grupod.activosfijos.municipio.MunicipioDto;
 
 public class SucursalDto implements Serializable {
 
@@ -12,17 +8,15 @@ public class SucursalDto implements Serializable {
 
     private Integer idSucursal;
     private String nombre;
-    private MunicipioDto municipio;
-    private List<BloqueDto> bloques;
+    private Integer municipioId;
 
     public SucursalDto() {
     }
 
-    public SucursalDto(Integer idSucursal, String nombre, MunicipioDto municipio, List<BloqueDto> bloques) {
+    public SucursalDto(Integer idSucursal, String nombre, Integer municipioId) {
         this.idSucursal = idSucursal;
         this.nombre = nombre;
-        this.municipio = municipio;
-        this.bloques = bloques;
+        this.municipioId = municipioId;
     }
 
     public Integer getIdSucursal() {
@@ -41,20 +35,12 @@ public class SucursalDto implements Serializable {
         this.nombre = nombre;
     }
 
-    public MunicipioDto getMunicipio() {
-        return municipio;
+    public Integer getMunicipioId() {
+        return municipioId;
     }
 
-    public void setMunicipio(MunicipioDto municipio) {
-        this.municipio = municipio;
-    }
-
-    public List<BloqueDto> getBloques() {
-        return bloques;
-    }
-
-    public void setBloques(List<BloqueDto> bloques) {
-        this.bloques = bloques;
+    public void setMunicipioId(Integer municipioId) {
+        this.municipioId = municipioId;
     }
 
     @Override
@@ -62,8 +48,7 @@ public class SucursalDto implements Serializable {
         return "SucursalDto{" +
                 "idSucursal=" + idSucursal +
                 ", nombre='" + nombre + '\'' +
-                ", municipio=" + municipio +
-                ", bloques=" + bloques +
+                ", municipioId=" + municipioId +
                 '}';
     }
 }

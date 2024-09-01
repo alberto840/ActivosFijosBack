@@ -70,4 +70,23 @@ public class UsuarioController {
         return usuarioService.getAllUsuarios(extractedToken);
     }
 
+    @DeleteMapping("/eliminar/{id}")
+    public ResponseEntity<ResponseDto<String>> eliminarUsuario(
+            @PathVariable Integer id,
+            @RequestHeader("Authorization") String token) {
+        logger.info("Solicitud de eliminación de usuario recibida para el ID: {}", id);
+
+        String extractedToken = token.replace("Bearer ", "");
+        ResponseEntity<ResponseDto<String>> response = usuarioService.eliminarUsuario(id, extractedToken);
+
+        if (response.getStatusCode().is2xxSuccessful()) {
+            logger.info("Usuario eliminado exitosamente: ID {}", id);
+        } else {
+            logger.warn("Error al eliminar usuario: {}", response.getBody().getMessage());
+        }
+
+        return response;
+    }
+
+
 }

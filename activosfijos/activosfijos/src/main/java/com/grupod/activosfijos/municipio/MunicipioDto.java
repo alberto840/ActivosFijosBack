@@ -1,28 +1,19 @@
 package com.grupod.activosfijos.municipio;
 
 import java.io.Serializable;
-import java.util.List;
-
-import com.grupod.activosfijos.provincia.ProvinciaDto;
-import com.grupod.activosfijos.sucursal.SucursalDto;
 
 public class MunicipioDto implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
     private Integer idMunicipio;
     private String nombre;
-    private ProvinciaDto provincia;
-    private List<SucursalDto> sucursales;
+    private Integer provinciaId;
 
     public MunicipioDto() {
     }
 
-    public MunicipioDto(Integer idMunicipio, String nombre, ProvinciaDto provincia, List<SucursalDto> sucursales) {
+    public MunicipioDto(Integer idMunicipio, String nombre, Integer provinciaId) {
         this.idMunicipio = idMunicipio;
         this.nombre = nombre;
-        this.provincia = provincia;
-        this.sucursales = sucursales;
+        this.provinciaId = provinciaId;
     }
 
     public Integer getIdMunicipio() {
@@ -41,29 +32,11 @@ public class MunicipioDto implements Serializable {
         this.nombre = nombre;
     }
 
-    public ProvinciaDto getProvincia() {
-        return provincia;
+    public Integer getProvinciaId() {
+        return provinciaId;
     }
 
-    public void setProvincia(ProvinciaDto provincia) {
-        this.provincia = provincia;
-    }
-
-    public List<SucursalDto> getSucursales() {
-        return sucursales;
-    }
-
-    public void setSucursales(List<SucursalDto> sucursales) {
-        this.sucursales = sucursales;
-    }
-
-    @Override
-    public String toString() {
-        return "MunicipioDto{" +
-                "idMunicipio=" + idMunicipio +
-                ", nombre='" + nombre + '\'' +
-                ", provincia=" + provincia +
-                ", sucursales=" + sucursales +
-                '}';
+    public void setProvinciaId(Integer provinciaId) {
+        this.provinciaId = provinciaId;
     }
 }

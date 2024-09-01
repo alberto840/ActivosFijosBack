@@ -3,9 +3,6 @@ package com.grupod.activosfijos.divisa;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
-
-import com.grupod.activosfijos.depreciacion.DepreciacionDto;
 
 public class DivisasDto implements Serializable {
 
@@ -15,17 +12,15 @@ public class DivisasDto implements Serializable {
     private String nombre;
     private BigDecimal valor;
     private Date fecha;
-    private List<DepreciacionDto> depreciaciones;
 
     public DivisasDto() {
     }
 
-    public DivisasDto(Integer idDivisa, String nombre, BigDecimal valor, Date fecha, List<DepreciacionDto> depreciaciones) {
+    public DivisasDto(Integer idDivisa, String nombre, BigDecimal valor, Date fecha) {
         this.idDivisa = idDivisa;
         this.nombre = nombre;
         this.valor = valor;
         this.fecha = fecha;
-        this.depreciaciones = depreciaciones;
     }
 
     public Integer getIdDivisa() {
@@ -60,14 +55,6 @@ public class DivisasDto implements Serializable {
         this.fecha = fecha;
     }
 
-    public List<DepreciacionDto> getDepreciaciones() {
-        return depreciaciones;
-    }
-
-    public void setDepreciaciones(List<DepreciacionDto> depreciaciones) {
-        this.depreciaciones = depreciaciones;
-    }
-
     @Override
     public String toString() {
         return "DivisasDto{" +
@@ -75,7 +62,6 @@ public class DivisasDto implements Serializable {
                 ", nombre='" + nombre + '\'' +
                 ", valor=" + valor +
                 ", fecha=" + fecha +
-                ", depreciaciones=" + depreciaciones +
                 '}';
     }
 }
