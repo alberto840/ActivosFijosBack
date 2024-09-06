@@ -1,16 +1,15 @@
 package com.grupod.activosfijos.aula;
 
-import com.grupod.activosfijos.activo.ActivoEntity;
 import com.grupod.activosfijos.bloque.BloqueEntity;
-import com.grupod.activosfijos.historialActivos.HistorialActivosEntity;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
-import java.util.List;
 
 @Entity
 @Table(name = "aula")
 public class AulaEntity implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,24 +24,17 @@ public class AulaEntity implements Serializable {
     @ManyToOne(optional = false)
     private BloqueEntity bloqueEntity;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "aulaEntity") // mappedBy actualizado
-    private List<HistorialActivosEntity> historialActivosEntityList;
+    // Constructor vacío
+    public AulaEntity() {}
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "aulaEntity") // mappedBy actualizado
-    private List<ActivoEntity> activoEntityList;
-
-    public AulaEntity() {
-    }
-
-    public AulaEntity(Integer idAula) {
-        this.idAula = idAula;
-    }
-
-    public AulaEntity(Integer idAula, String nombre) {
+    // Constructor completo
+    public AulaEntity(Integer idAula, String nombre, BloqueEntity bloqueEntity) {
         this.idAula = idAula;
         this.nombre = nombre;
+        this.bloqueEntity = bloqueEntity;
     }
 
+    // Getters y Setters
     public Integer getIdAula() {
         return idAula;
     }
@@ -65,22 +57,6 @@ public class AulaEntity implements Serializable {
 
     public void setBloqueEntity(BloqueEntity bloqueEntity) {
         this.bloqueEntity = bloqueEntity;
-    }
-
-    public List<HistorialActivosEntity> getHistorialActivosEntityList() {
-        return historialActivosEntityList;
-    }
-
-    public void setHistorialActivosEntityList(List<HistorialActivosEntity> historialActivosEntityList) {
-        this.historialActivosEntityList = historialActivosEntityList;
-    }
-
-    public List<ActivoEntity> getActivoEntityList() {
-        return activoEntityList;
-    }
-
-    public void setActivoEntityList(List<ActivoEntity> activoEntityList) {
-        this.activoEntityList = activoEntityList;
     }
 
     @Override

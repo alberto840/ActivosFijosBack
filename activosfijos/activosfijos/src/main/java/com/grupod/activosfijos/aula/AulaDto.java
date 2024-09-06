@@ -1,11 +1,6 @@
 package com.grupod.activosfijos.aula;
 
 import java.io.Serializable;
-import java.util.List;
-
-import com.grupod.activosfijos.activo.ActivoDto;
-import com.grupod.activosfijos.bloque.BloqueDto;
-import com.grupod.activosfijos.historialActivos.HistorialActivosDto;
 
 public class AulaDto implements Serializable {
 
@@ -13,21 +8,19 @@ public class AulaDto implements Serializable {
 
     private Integer idAula;
     private String nombre;
-    private BloqueDto bloque;
-    private List<HistorialActivosDto> historialActivos;
-    private List<ActivoDto> activos;
+    private Integer idBloque;  // Solo el ID del bloque
 
-    public AulaDto() {
-    }
+    // Constructor vacío
+    public AulaDto() {}
 
-    public AulaDto(Integer idAula, String nombre, BloqueDto bloque, List<HistorialActivosDto> historialActivos, List<ActivoDto> activos) {
+    // Constructor completo
+    public AulaDto(Integer idAula, String nombre, Integer idBloque) {
         this.idAula = idAula;
         this.nombre = nombre;
-        this.bloque = bloque;
-        this.historialActivos = historialActivos;
-        this.activos = activos;
+        this.idBloque = idBloque;
     }
 
+    // Getters y Setters
     public Integer getIdAula() {
         return idAula;
     }
@@ -44,28 +37,12 @@ public class AulaDto implements Serializable {
         this.nombre = nombre;
     }
 
-    public BloqueDto getBloque() {
-        return bloque;
+    public Integer getIdBloque() {
+        return idBloque;
     }
 
-    public void setBloque(BloqueDto bloque) {
-        this.bloque = bloque;
-    }
-
-    public List<HistorialActivosDto> getHistorialActivos() {
-        return historialActivos;
-    }
-
-    public void setHistorialActivos(List<HistorialActivosDto> historialActivos) {
-        this.historialActivos = historialActivos;
-    }
-
-    public List<ActivoDto> getActivos() {
-        return activos;
-    }
-
-    public void setActivos(List<ActivoDto> activos) {
-        this.activos = activos;
+    public void setIdBloque(Integer idBloque) {
+        this.idBloque = idBloque;
     }
 
     @Override
@@ -73,9 +50,7 @@ public class AulaDto implements Serializable {
         return "AulaDto{" +
                 "idAula=" + idAula +
                 ", nombre='" + nombre + '\'' +
-                ", bloque=" + bloque +
-                ", historialActivos=" + historialActivos +
-                ", activos=" + activos +
+                ", idBloque=" + idBloque +
                 '}';
     }
 }

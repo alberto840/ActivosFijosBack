@@ -1,9 +1,6 @@
 package com.grupod.activosfijos.categoria;
 
 import java.io.Serializable;
-import java.util.List;
-
-import com.grupod.activosfijos.activo.ActivoDto;
 
 public class CategoriaDto implements Serializable {
 

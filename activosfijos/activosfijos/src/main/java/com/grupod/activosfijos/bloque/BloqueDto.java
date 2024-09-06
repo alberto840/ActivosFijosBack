@@ -8,8 +8,8 @@ public class BloqueDto implements Serializable {
 
     private Integer idBloque;
     private String nombre;
-    private Integer idDireccion;  // Solo el ID de la dirección
-    private Integer idSucursal;   // Solo el ID de la sucursal
+    private Integer idDireccion;
+    private Integer idSucursal;
 
     // Constructor vacío
     public BloqueDto() {}

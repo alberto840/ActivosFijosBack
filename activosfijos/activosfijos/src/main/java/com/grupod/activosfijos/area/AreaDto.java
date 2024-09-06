@@ -1,10 +1,6 @@
 package com.grupod.activosfijos.area;
 
 import java.io.Serializable;
-import java.util.List;
-
-import com.grupod.activosfijos.empresa.EmpresaDto;
-import com.grupod.activosfijos.proyecto.ProyectoDto;
 
 public class AreaDto implements Serializable {
 
@@ -12,19 +8,19 @@ public class AreaDto implements Serializable {
 
     private Integer idArea;
     private String nombre;
-    private EmpresaDto empresa;
-    private List<ProyectoDto> proyectos;
+    private Integer idEmpresa;  // Solo el ID de la empresa
 
-    public AreaDto() {
-    }
+    // Constructor vacío
+    public AreaDto() {}
 
-    public AreaDto(Integer idArea, String nombre, EmpresaDto empresa, List<ProyectoDto> proyectos) {
+    // Constructor completo
+    public AreaDto(Integer idArea, String nombre, Integer idEmpresa) {
         this.idArea = idArea;
         this.nombre = nombre;
-        this.empresa = empresa;
-        this.proyectos = proyectos;
+        this.idEmpresa = idEmpresa;
     }
 
+    // Getters y Setters
     public Integer getIdArea() {
         return idArea;
     }
@@ -41,20 +37,12 @@ public class AreaDto implements Serializable {
         this.nombre = nombre;
     }
 
-    public EmpresaDto getEmpresa() {
-        return empresa;
+    public Integer getIdEmpresa() {
+        return idEmpresa;
     }
 
-    public void setEmpresa(EmpresaDto empresa) {
-        this.empresa = empresa;
-    }
-
-    public List<ProyectoDto> getProyectos() {
-        return proyectos;
-    }
-
-    public void setProyectos(List<ProyectoDto> proyectos) {
-        this.proyectos = proyectos;
+    public void setIdEmpresa(Integer idEmpresa) {
+        this.idEmpresa = idEmpresa;
     }
 
     @Override
@@ -62,8 +50,7 @@ public class AreaDto implements Serializable {
         return "AreaDto{" +
                 "idArea=" + idArea +
                 ", nombre='" + nombre + '\'' +
-                ", empresa=" + empresa +
-                ", proyectos=" + proyectos +
+                ", idEmpresa=" + idEmpresa +
                 '}';
     }
 }

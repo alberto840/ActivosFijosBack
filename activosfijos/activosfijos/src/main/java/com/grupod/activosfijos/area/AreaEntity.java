@@ -1,20 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.grupod.activosfijos.area;
 
 import com.grupod.activosfijos.empresa.EmpresaEntity;
-import com.grupod.activosfijos.proyecto.ProyectoEntity;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
-import java.util.List;
-
 
 @Entity
 @Table(name = "area")
 public class AreaEntity implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,23 +23,17 @@ public class AreaEntity implements Serializable {
     @JoinColumn(name = "empresa_id", referencedColumnName = "id_empresa")
     private EmpresaEntity empresa;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "areaEntityId")
-    private List<ProyectoEntity> proyectoEntityList;
+    // Constructor vacío
+    public AreaEntity() {}
 
-    public AreaEntity() {
-    }
-
-    public AreaEntity(Integer idArea) {
-        this.idArea = idArea;
-    }
-
-    public AreaEntity(Integer idArea, String nombre, EmpresaEntity empresa, List<ProyectoEntity> proyectoEntityList) {
+    // Constructor completo
+    public AreaEntity(Integer idArea, String nombre, EmpresaEntity empresa) {
         this.idArea = idArea;
         this.nombre = nombre;
         this.empresa = empresa;
-        this.proyectoEntityList = proyectoEntityList;
     }
 
+    // Getters y Setters
     public Integer getIdArea() {
         return idArea;
     }
@@ -67,13 +56,5 @@ public class AreaEntity implements Serializable {
 
     public void setEmpresa(EmpresaEntity empresa) {
         this.empresa = empresa;
-    }
-
-    public List<ProyectoEntity> getProyectoEntityList() {
-        return proyectoEntityList;
-    }
-
-    public void setProyectoEntityList(List<ProyectoEntity> proyectoEntityList) {
-        this.proyectoEntityList = proyectoEntityList;
     }
 }
