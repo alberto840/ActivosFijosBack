@@ -1,33 +1,114 @@
 package com.grupod.activosfijos.custodio;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
-
+import com.grupod.activosfijos.config.JwtConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CustodioService {
-    
+
+    private static final Logger logger = LoggerFactory.getLogger(CustodioService.class);
     private final CustodioRepository custodioRepository;
+    private final JwtConfig jwtConfig;
 
     @Autowired
-    public CustodioService(CustodioRepository custodioRepository) {
+    public CustodioService(CustodioRepository custodioRepository, JwtConfig jwtConfig) {
         this.custodioRepository = custodioRepository;
+        this.jwtConfig = jwtConfig;
     }
 
-    public List<CustodioEntity>getCustodio(){
-        return this.custodioRepository.findAll();
-    }
-    public ResponseEntity<Object> addNewCustodio(CustodioEntity custodio) {  
-        HashMap<String, Object> datos = new HashMap<>();
+    public CustodioDto crearCustodio(CustodioDto custodioDto) {
+        logger.info("Creando nuevo custodio: {}", custodioDto.getNombre());
 
-        custodioRepository.save(custodio);
-        datos.put("datos", custodio);
-        datos.put("message", "Se creo el custodio correctamente");
-        return new ResponseEntity<>(datos, HttpStatus.CREATED);
-    } 
+        CustodioEntity custodioEntity = new CustodioEntity(
+                null,
+                custodioDto.getNombre(),
+                custodioDto.getApellidoPaterno(),
+                custodioDto.getApellidoMaterno(),
+                custodioDto.getCorreo(),
+                custodioDto.getTelefono()
+        );
+
+        CustodioEntity nuevoCustodio = custodioRepository.save(custodioEntity);
+        logger.info("Custodio creado con ID: {}", nuevoCustodio.getIdCustodio());
+
+        return new CustodioDto(
+                nuevoCustodio.getIdCustodio(),
+                nuevoCustodio.getNombre(),
+                nuevoCustodio.getApellidoPaterno(),
+                nuevoCustodio.getApellidoMaterno(),
+                nuevoCustodio.getCorreo(),
+                nuevoCustodio.getTelefono()
+        );
+    }
+
+    public List<CustodioDto> obtenerTodosLosCustodios() {
+        logger.info("Obteniendo todos los custodios");
+
+        List<CustodioEntity> custodios = custodioRepository.findAll();
+        return custodios.stream().map(custodio -> new CustodioDto(
+                custodio.getIdCustodio(),
+                custodio.getNombre(),
+                custodio.getApellidoPaterno(),
+                custodio.getApellidoMaterno(),
+                custodio.getCorreo(),
+                custodio.getTelefono()
+        )).collect(Collectors.toList());
+    }
+
+    public CustodioDto obtenerCustodioPorId(Integer id) {
+        logger.info("Obteniendo custodio con ID: {}", id);
+
+        CustodioEntity custodio = custodioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Custodio no encontrado con ID: " + id));
+
+        return new CustodioDto(
+                custodio.getIdCustodio(),
+                custodio.getNombre(),
+                custodio.getApellidoPaterno(),
+                custodio.getApellidoMaterno(),
+                custodio.getCorreo(),
+                custodio.getTelefono()
+        );
+    }
+
+    public CustodioDto actualizarCustodio(Integer id, CustodioDto custodioDto) {
+        logger.info("Actualizando custodio con ID: {}", id);
+
+        CustodioEntity custodioEntity = custodioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Custodio no encontrado con ID: " + id));
+
+        custodioEntity.setNombre(custodioDto.getNombre());
+        custodioEntity.setApellidoPaterno(custodioDto.getApellidoPaterno());
+        custodioEntity.setApellidoMaterno(custodioDto.getApellidoMaterno());
+        custodioEntity.setCorreo(custodioDto.getCorreo());
+        custodioEntity.setTelefono(custodioDto.getTelefono());
+
+        CustodioEntity custodioActualizado = custodioRepository.save(custodioEntity);
+
+        return new CustodioDto(
+                custodioActualizado.getIdCustodio(),
+                custodioActualizado.getNombre(),
+                custodioActualizado.getApellidoPaterno(),
+                custodioActualizado.getApellidoMaterno(),
+                custodioActualizado.getCorreo(),
+                custodioActualizado.getTelefono()
+        );
+    }
+
+    public void eliminarCustodio(Integer id) {
+        logger.info("Eliminando custodio con ID: {}", id);
+
+        if (!custodioRepository.existsById(id)) {
+            throw new RuntimeException("Custodio no encontrado con ID: " + id);
+        }
+
+        custodioRepository.deleteById(id);
+        logger.info("Custodio con ID {} eliminado", id);
+    }
 }

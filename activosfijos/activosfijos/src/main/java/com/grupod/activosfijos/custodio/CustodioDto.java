@@ -1,10 +1,6 @@
 package com.grupod.activosfijos.custodio;
 
 import java.io.Serializable;
-import java.util.List;
-
-import com.grupod.activosfijos.activo.ActivoDto;
-import com.grupod.activosfijos.historialActivos.HistorialActivosDto;
 
 public class CustodioDto implements Serializable {
 
@@ -16,21 +12,17 @@ public class CustodioDto implements Serializable {
     private String apellidoMaterno;
     private String correo;
     private String telefono;
-    private List<HistorialActivosDto> historialActivos;
-    private List<ActivoDto> activos;
 
     public CustodioDto() {
     }
 
-    public CustodioDto(Integer idCustodio, String nombre, String apellidoPaterno, String apellidoMaterno, String correo, String telefono, List<HistorialActivosDto> historialActivos, List<ActivoDto> activos) {
+    public CustodioDto(Integer idCustodio, String nombre, String apellidoPaterno, String apellidoMaterno, String correo, String telefono) {
         this.idCustodio = idCustodio;
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
         this.correo = correo;
         this.telefono = telefono;
-        this.historialActivos = historialActivos;
-        this.activos = activos;
     }
 
     public Integer getIdCustodio() {
@@ -81,22 +73,6 @@ public class CustodioDto implements Serializable {
         this.telefono = telefono;
     }
 
-    public List<HistorialActivosDto> getHistorialActivos() {
-        return historialActivos;
-    }
-
-    public void setHistorialActivos(List<HistorialActivosDto> historialActivos) {
-        this.historialActivos = historialActivos;
-    }
-
-    public List<ActivoDto> getActivos() {
-        return activos;
-    }
-
-    public void setActivos(List<ActivoDto> activos) {
-        this.activos = activos;
-    }
-
     @Override
     public String toString() {
         return "CustodioDto{" +
@@ -106,8 +82,6 @@ public class CustodioDto implements Serializable {
                 ", apellidoMaterno='" + apellidoMaterno + '\'' +
                 ", correo='" + correo + '\'' +
                 ", telefono='" + telefono + '\'' +
-                ", historialActivos=" + historialActivos +
-                ", activos=" + activos +
                 '}';
     }
 }

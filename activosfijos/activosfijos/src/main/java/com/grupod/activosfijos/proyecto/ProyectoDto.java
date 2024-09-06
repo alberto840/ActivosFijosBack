@@ -2,11 +2,6 @@ package com.grupod.activosfijos.proyecto;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
-
-import com.grupod.activosfijos.activo.ActivoDto;
-import com.grupod.activosfijos.area.AreaDto;
-import com.grupod.activosfijos.historialActivos.HistorialActivosDto;
 
 public class ProyectoDto implements Serializable {
 
@@ -16,23 +11,21 @@ public class ProyectoDto implements Serializable {
     private String nombre;
     private Date fechaInicio;
     private Date fechaFin;
-    private AreaDto area;
-    private List<HistorialActivosDto> historialActivos;
-    private List<ActivoDto> activos;
+    private Integer idArea; // Solo el ID del área
 
-    public ProyectoDto() {
-    }
+    // Constructor vacío
+    public ProyectoDto() {}
 
-    public ProyectoDto(Integer idProyecto, String nombre, Date fechaInicio, Date fechaFin, AreaDto area, List<HistorialActivosDto> historialActivos, List<ActivoDto> activos) {
+    // Constructor completo
+    public ProyectoDto(Integer idProyecto, String nombre, Date fechaInicio, Date fechaFin, Integer idArea) {
         this.idProyecto = idProyecto;
         this.nombre = nombre;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
-        this.area = area;
-        this.historialActivos = historialActivos;
-        this.activos = activos;
+        this.idArea = idArea;
     }
 
+    // Getters y Setters
     public Integer getIdProyecto() {
         return idProyecto;
     }
@@ -65,28 +58,12 @@ public class ProyectoDto implements Serializable {
         this.fechaFin = fechaFin;
     }
 
-    public AreaDto getArea() {
-        return area;
+    public Integer getIdArea() {
+        return idArea;
     }
 
-    public void setArea(AreaDto area) {
-        this.area = area;
-    }
-
-    public List<HistorialActivosDto> getHistorialActivos() {
-        return historialActivos;
-    }
-
-    public void setHistorialActivos(List<HistorialActivosDto> historialActivos) {
-        this.historialActivos = historialActivos;
-    }
-
-    public List<ActivoDto> getActivos() {
-        return activos;
-    }
-
-    public void setActivos(List<ActivoDto> activos) {
-        this.activos = activos;
+    public void setIdArea(Integer idArea) {
+        this.idArea = idArea;
     }
 
     @Override
@@ -96,9 +73,7 @@ public class ProyectoDto implements Serializable {
                 ", nombre='" + nombre + '\'' +
                 ", fechaInicio=" + fechaInicio +
                 ", fechaFin=" + fechaFin +
-                ", area=" + area +
-                ", historialActivos=" + historialActivos +
-                ", activos=" + activos +
+                ", idArea=" + idArea +
                 '}';
     }
 }

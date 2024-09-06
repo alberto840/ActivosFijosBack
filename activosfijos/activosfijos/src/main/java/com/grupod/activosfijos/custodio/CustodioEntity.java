@@ -1,15 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.grupod.activosfijos.custodio;
 
-import java.io.Serializable;
-import java.util.List;
-
-import com.grupod.activosfijos.activo.ActivoEntity;
-import com.grupod.activosfijos.historialActivos.HistorialActivosEntity;
 import jakarta.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "custodio")
@@ -40,17 +32,7 @@ public class CustodioEntity implements Serializable {
     @Column(name = "telefono")
     private String telefono;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "custodioEntity")  // Cambia 'custodioEntityId' a 'custodioEntity'
-    private List<HistorialActivosEntity> historialActivosEntityList;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "custodioEntity")  // Cambia 'custodioEntityId' a 'custodioEntity'
-    private List<ActivoEntity> activoEntityList;
-
     public CustodioEntity() {
-    }
-
-    public CustodioEntity(Integer idCustodio) {
-        this.idCustodio = idCustodio;
     }
 
     public CustodioEntity(Integer idCustodio, String nombre, String apellidoPaterno, String apellidoMaterno, String correo, String telefono) {
@@ -110,22 +92,6 @@ public class CustodioEntity implements Serializable {
         this.telefono = telefono;
     }
 
-    public List<HistorialActivosEntity> getHistorialactivosList() {
-        return historialActivosEntityList;
-    }
-
-    public void setHistorialactivosList(List<HistorialActivosEntity> historialActivosEntityList) {
-        this.historialActivosEntityList = historialActivosEntityList;
-    }
-
-    public List<ActivoEntity> getActivoList() {
-        return activoEntityList;
-    }
-
-    public void setActivoList(List<ActivoEntity> activoEntityList) {
-        this.activoEntityList = activoEntityList;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -135,7 +101,6 @@ public class CustodioEntity implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof CustodioEntity)) {
             return false;
         }
@@ -148,7 +113,6 @@ public class CustodioEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "com.grupod.activosfijos.custodio.Custodio[ idCustodio=" + idCustodio + " ]";
+        return "com.grupod.activosfijos.custodio.CustodioEntity[ idCustodio=" + idCustodio + " ]";
     }
-    
 }

@@ -1,16 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.grupod.activosfijos.proyecto;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
-
-import com.grupod.activosfijos.activo.ActivoEntity;
 import com.grupod.activosfijos.area.AreaEntity;
-import com.grupod.activosfijos.historialActivos.HistorialActivosEntity;
 import jakarta.persistence.*;
 
 @Entity
@@ -37,25 +29,15 @@ public class ProyectoEntity implements Serializable {
     @ManyToOne(optional = false)
     private AreaEntity areaEntityId;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "proyectoEntity")
-    private List<HistorialActivosEntity> historialActivosEntityList;
-
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "proyectoEntity")
-    private List<ActivoEntity> activoEntityList;
-
     public ProyectoEntity() {
     }
 
-    public ProyectoEntity(Integer idProyecto) {
-        this.idProyecto = idProyecto;
-    }
-
-    public ProyectoEntity(Integer idProyecto, String nombre, Date fechaInicio, Date fechaFin) {
+    public ProyectoEntity(Integer idProyecto, String nombre, Date fechaInicio, Date fechaFin, AreaEntity areaEntityId) {
         this.idProyecto = idProyecto;
         this.nombre = nombre;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
+        this.areaEntityId = areaEntityId;
     }
 
     public Integer getIdProyecto() {
@@ -90,28 +72,12 @@ public class ProyectoEntity implements Serializable {
         this.fechaFin = fechaFin;
     }
 
-    public AreaEntity getAreaId() {
+    public AreaEntity getAreaEntityId() {
         return areaEntityId;
     }
 
-    public void setAreaId(AreaEntity areaEntityId) {
+    public void setAreaEntityId(AreaEntity areaEntityId) {
         this.areaEntityId = areaEntityId;
-    }
-
-    public List<HistorialActivosEntity> getHistorialactivosList() {
-        return historialActivosEntityList;
-    }
-
-    public void setHistorialactivosList(List<HistorialActivosEntity> historialActivosEntityList) {
-        this.historialActivosEntityList = historialActivosEntityList;
-    }
-
-    public List<ActivoEntity> getActivoList() {
-        return activoEntityList;
-    }
-
-    public void setActivoList(List<ActivoEntity> activoEntityList) {
-        this.activoEntityList = activoEntityList;
     }
 
     @Override
@@ -123,7 +89,6 @@ public class ProyectoEntity implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof ProyectoEntity)) {
             return false;
         }
@@ -136,7 +101,6 @@ public class ProyectoEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "com.grupod.activosfijos.proyecto.Proyecto[ idProyecto=" + idProyecto + " ]";
+        return "com.grupod.activosfijos.proyecto.ProyectoEntity[ idProyecto=" + idProyecto + " ]";
     }
-    
 }

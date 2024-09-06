@@ -2,9 +2,7 @@ package com.grupod.activosfijos.depreciacion;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
-import com.grupod.activosfijos.activo.ActivoEntity;
 import com.grupod.activosfijos.divisa.DivisasEntity;
 import jakarta.persistence.*;
 
@@ -37,16 +35,11 @@ public class DepreciacionEntity implements Serializable {
     @ManyToOne(optional = false)
     private DivisasEntity divisasEntity;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "depreciacionEntity")
-    private List<ActivoEntity> activoEntityList;
-
+    // Constructor vacío
     public DepreciacionEntity() {
     }
 
-    public DepreciacionEntity(Integer idDepreciacion) {
-        this.idDepreciacion = idDepreciacion;
-    }
-
+    // Constructor completo
     public DepreciacionEntity(Integer idDepreciacion, Date fecha, String metodo, String detalle) {
         this.idDepreciacion = idDepreciacion;
         this.fecha = fecha;
@@ -54,6 +47,7 @@ public class DepreciacionEntity implements Serializable {
         this.detalle = detalle;
     }
 
+    // Getters y Setters
     public Integer getIdDepreciacion() {
         return idDepreciacion;
     }
@@ -92,14 +86,6 @@ public class DepreciacionEntity implements Serializable {
 
     public void setDivisasEntity(DivisasEntity divisasEntity) {
         this.divisasEntity = divisasEntity;
-    }
-
-    public List<ActivoEntity> getActivoEntityList() {
-        return activoEntityList;
-    }
-
-    public void setActivoEntityList(List<ActivoEntity> activoEntityList) {
-        this.activoEntityList = activoEntityList;
     }
 
     @Override

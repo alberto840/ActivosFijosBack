@@ -2,10 +2,6 @@ package com.grupod.activosfijos.depreciacion;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
-
-import com.grupod.activosfijos.activo.ActivoDto;
-import com.grupod.activosfijos.divisa.DivisasDto;
 
 public class DepreciacionDto implements Serializable {
 
@@ -15,21 +11,22 @@ public class DepreciacionDto implements Serializable {
     private Date fecha;
     private String metodo;
     private String detalle;
-    private DivisasDto divisas;
-    private List<ActivoDto> activos;
+    private Integer idDivisa;  // Solo el ID de la divisa
 
+    // Constructor vacío
     public DepreciacionDto() {
     }
 
-    public DepreciacionDto(Integer idDepreciacion, Date fecha, String metodo, String detalle, DivisasDto divisas, List<ActivoDto> activos) {
+    // Constructor completo
+    public DepreciacionDto(Integer idDepreciacion, Date fecha, String metodo, String detalle, Integer idDivisa) {
         this.idDepreciacion = idDepreciacion;
         this.fecha = fecha;
         this.metodo = metodo;
         this.detalle = detalle;
-        this.divisas = divisas;
-        this.activos = activos;
+        this.idDivisa = idDivisa;  // Solo el ID de la divisa
     }
 
+    // Getters y Setters
     public Integer getIdDepreciacion() {
         return idDepreciacion;
     }
@@ -62,20 +59,12 @@ public class DepreciacionDto implements Serializable {
         this.detalle = detalle;
     }
 
-    public DivisasDto getDivisas() {
-        return divisas;
+    public Integer getIdDivisa() {
+        return idDivisa;
     }
 
-    public void setDivisas(DivisasDto divisas) {
-        this.divisas = divisas;
-    }
-
-    public List<ActivoDto> getActivos() {
-        return activos;
-    }
-
-    public void setActivos(List<ActivoDto> activos) {
-        this.activos = activos;
+    public void setIdDivisa(Integer idDivisa) {
+        this.idDivisa = idDivisa;
     }
 
     @Override
@@ -85,8 +74,7 @@ public class DepreciacionDto implements Serializable {
                 ", fecha=" + fecha +
                 ", metodo='" + metodo + '\'' +
                 ", detalle='" + detalle + '\'' +
-                ", divisas=" + divisas +
-                ", activos=" + activos +
+                ", idDivisa=" + idDivisa +
                 '}';
     }
 }
