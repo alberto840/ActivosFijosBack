@@ -1,12 +1,6 @@
 package com.grupod.activosfijos.bloque;
 
 import java.io.Serializable;
-import java.util.List;
-
-import com.grupod.activosfijos.activo.ActivoDto;
-import com.grupod.activosfijos.aula.AulaDto;
-import com.grupod.activosfijos.direccion.DireccionDto;
-import com.grupod.activosfijos.sucursal.SucursalDto;
 
 public class BloqueDto implements Serializable {
 
@@ -14,23 +8,21 @@ public class BloqueDto implements Serializable {
 
     private Integer idBloque;
     private String nombre;
-    private List<AulaDto> aulas;
-    private DireccionDto direccion;
-    private SucursalDto sucursal;
-    private List<ActivoDto> activos;
+    private Integer idDireccion;  // Solo el ID de la dirección
+    private Integer idSucursal;   // Solo el ID de la sucursal
 
-    public BloqueDto() {
-    }
+    // Constructor vacío
+    public BloqueDto() {}
 
-    public BloqueDto(Integer idBloque, String nombre, List<AulaDto> aulas, DireccionDto direccion, SucursalDto sucursal, List<ActivoDto> activos) {
+    // Constructor completo
+    public BloqueDto(Integer idBloque, String nombre, Integer idDireccion, Integer idSucursal) {
         this.idBloque = idBloque;
         this.nombre = nombre;
-        this.aulas = aulas;
-        this.direccion = direccion;
-        this.sucursal = sucursal;
-        this.activos = activos;
+        this.idDireccion = idDireccion;
+        this.idSucursal = idSucursal;
     }
 
+    // Getters y Setters
     public Integer getIdBloque() {
         return idBloque;
     }
@@ -47,36 +39,20 @@ public class BloqueDto implements Serializable {
         this.nombre = nombre;
     }
 
-    public List<AulaDto> getAulas() {
-        return aulas;
+    public Integer getIdDireccion() {
+        return idDireccion;
     }
 
-    public void setAulas(List<AulaDto> aulas) {
-        this.aulas = aulas;
+    public void setIdDireccion(Integer idDireccion) {
+        this.idDireccion = idDireccion;
     }
 
-    public DireccionDto getDireccion() {
-        return direccion;
+    public Integer getIdSucursal() {
+        return idSucursal;
     }
 
-    public void setDireccion(DireccionDto direccion) {
-        this.direccion = direccion;
-    }
-
-    public SucursalDto getSucursal() {
-        return sucursal;
-    }
-
-    public void setSucursal(SucursalDto sucursal) {
-        this.sucursal = sucursal;
-    }
-
-    public List<ActivoDto> getActivos() {
-        return activos;
-    }
-
-    public void setActivos(List<ActivoDto> activos) {
-        this.activos = activos;
+    public void setIdSucursal(Integer idSucursal) {
+        this.idSucursal = idSucursal;
     }
 
     @Override
@@ -84,10 +60,8 @@ public class BloqueDto implements Serializable {
         return "BloqueDto{" +
                 "idBloque=" + idBloque +
                 ", nombre='" + nombre + '\'' +
-                ", aulas=" + aulas +
-                ", direccion=" + direccion +
-                ", sucursal=" + sucursal +
-                ", activos=" + activos +
+                ", idDireccion=" + idDireccion +
+                ", idSucursal=" + idSucursal +
                 '}';
     }
 }

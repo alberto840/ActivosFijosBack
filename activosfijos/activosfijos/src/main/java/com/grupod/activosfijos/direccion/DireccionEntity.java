@@ -1,10 +1,7 @@
 package com.grupod.activosfijos.direccion;
 
-import java.io.Serializable;
-import java.util.List;
-
-import com.grupod.activosfijos.bloque.BloqueEntity;
 import jakarta.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "direccion")
@@ -30,16 +27,10 @@ public class DireccionEntity implements Serializable {
     @Column(name = "zona")
     private String zona;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "direccionEntityId")
-    private List<BloqueEntity> bloqueEntityList;
+    // Constructor vacío
+    public DireccionEntity() {}
 
-    public DireccionEntity() {
-    }
-
-    public DireccionEntity(Integer idDireccion) {
-        this.idDireccion = idDireccion;
-    }
-
+    // Constructor completo
     public DireccionEntity(Integer idDireccion, String calle, String detalle, String zona) {
         this.idDireccion = idDireccion;
         this.calle = calle;
@@ -47,6 +38,7 @@ public class DireccionEntity implements Serializable {
         this.zona = zona;
     }
 
+    // Getters y Setters
     public Integer getIdDireccion() {
         return idDireccion;
     }
@@ -79,14 +71,6 @@ public class DireccionEntity implements Serializable {
         this.zona = zona;
     }
 
-    public List<BloqueEntity> getBloqueEntityList() {
-        return bloqueEntityList;
-    }
-
-    public void setBloqueEntityList(List<BloqueEntity> bloqueEntityList) {
-        this.bloqueEntityList = bloqueEntityList;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -105,6 +89,6 @@ public class DireccionEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "com.grupod.activosfijos.direccion.DireccionEntity[ idDireccion=" + idDireccion + " ]";
+        return "DireccionEntity[ idDireccion=" + idDireccion + " ]";
     }
 }

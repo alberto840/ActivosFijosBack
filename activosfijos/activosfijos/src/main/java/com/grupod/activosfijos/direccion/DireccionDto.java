@@ -1,9 +1,6 @@
 package com.grupod.activosfijos.direccion;
 
 import java.io.Serializable;
-import java.util.List;
-
-import com.grupod.activosfijos.bloque.BloqueDto;
 
 public class DireccionDto implements Serializable {
 
@@ -13,17 +10,15 @@ public class DireccionDto implements Serializable {
     private String calle;
     private String detalle;
     private String zona;
-    private List<BloqueDto> bloques;
 
     public DireccionDto() {
     }
 
-    public DireccionDto(Integer idDireccion, String calle, String detalle, String zona, List<BloqueDto> bloques) {
+    public DireccionDto(Integer idDireccion, String calle, String detalle, String zona) {
         this.idDireccion = idDireccion;
         this.calle = calle;
         this.detalle = detalle;
         this.zona = zona;
-        this.bloques = bloques;
     }
 
     public Integer getIdDireccion() {
@@ -58,14 +53,6 @@ public class DireccionDto implements Serializable {
         this.zona = zona;
     }
 
-    public List<BloqueDto> getBloques() {
-        return bloques;
-    }
-
-    public void setBloques(List<BloqueDto> bloques) {
-        this.bloques = bloques;
-    }
-
     @Override
     public String toString() {
         return "DireccionDto{" +
@@ -73,7 +60,6 @@ public class DireccionDto implements Serializable {
                 ", calle='" + calle + '\'' +
                 ", detalle='" + detalle + '\'' +
                 ", zona='" + zona + '\'' +
-                ", bloques=" + bloques +
                 '}';
     }
 }

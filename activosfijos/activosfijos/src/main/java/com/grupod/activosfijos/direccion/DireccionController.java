@@ -1,42 +1,122 @@
 package com.grupod.activosfijos.direccion;
-import java.util.List;
+
+import com.grupod.activosfijos.config.JwtConfig;
+import com.grupod.activosfijos.utils.ResponseDto;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping(path = "api/v1/direccion")
+@RequestMapping("/api/v1/direccion")
 public class DireccionController {
+
+    private static final Logger logger = LoggerFactory.getLogger(DireccionController.class);
     private final DireccionService direccionService;
+    private final JwtConfig jwtConfig;
 
     @Autowired
-    public DireccionController(DireccionService direccionService) {
+    public DireccionController(DireccionService direccionService, JwtConfig jwtConfig) {
         this.direccionService = direccionService;
-    }
-    
-    @GetMapping
-    public List<DireccionEntity> getDireccion(){
-        return direccionService.getDireccion();
+        this.jwtConfig = jwtConfig;
     }
 
-    @PostMapping
-    public ResponseEntity<Object> registerNewDireccion(@RequestBody DireccionEntity direccion){
-        return this.direccionService.addNewDireccion(direccion);
-    }
-    @PostMapping("/list")
-    public ResponseEntity<String> registrarNewDirecciones(@RequestBody List<DireccionEntity> sucursales) {
-        for (DireccionEntity sucursal : sucursales) {
+    @PostMapping("/crear")
+    public ResponseEntity<ResponseDto<DireccionDto>> crearDireccion(
+            @RequestBody DireccionDto direccionDto,
+            @RequestHeader("Authorization") String token) {
 
-            // Llamar al servicio para agregar el Custodio
-            this.direccionService.addNewDireccion(sucursal);
+        String extractedToken = token.replace("Bearer ", "");
+        String username = jwtConfig.extractUsername(extractedToken);
+
+        if (username == null || !jwtConfig.validateToken(extractedToken, username)) {
+            logger.warn("Token inválido o usuario no autorizado para crear dirección");
+            return ResponseEntity.status(401)
+                    .body(new ResponseDto<>(false, "Token inválido o usuario no autorizado", null));
         }
 
-        return ResponseEntity.ok("Se recibieron y procesaron sucursales.");
+        logger.info("Usuario autorizado para crear dirección: {}", username);
+        DireccionDto nuevaDireccion = direccionService.crearDireccion(direccionDto);
+        return ResponseEntity.ok(new ResponseDto<>(true, "Dirección creada exitosamente", nuevaDireccion));
+    }
+
+    @GetMapping
+    public ResponseEntity<ResponseDto<List<DireccionDto>>> obtenerTodasLasDirecciones(
+            @RequestHeader("Authorization") String token) {
+
+        String extractedToken = token.replace("Bearer ", "");
+        String username = jwtConfig.extractUsername(extractedToken);
+
+        if (username == null || !jwtConfig.validateToken(extractedToken, username)) {
+            logger.warn("Token inválido o usuario no autorizado para obtener direcciones");
+            return ResponseEntity.status(401)
+                    .body(new ResponseDto<>(false, "Token inválido o usuario no autorizado", null));
+        }
+
+        logger.info("Usuario autorizado para obtener direcciones: {}", username);
+        List<DireccionDto> direcciones = direccionService.obtenerTodasLasDirecciones();
+        return ResponseEntity.ok(new ResponseDto<>(true, "Direcciones obtenidas exitosamente", direcciones));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ResponseDto<DireccionDto>> obtenerDireccionPorId(
+            @PathVariable Integer id,
+            @RequestHeader("Authorization") String token) {
+
+        String extractedToken = token.replace("Bearer ", "");
+        String username = jwtConfig.extractUsername(extractedToken);
+
+        if (username == null || !jwtConfig.validateToken(extractedToken, username)) {
+            logger.warn("Token inválido o usuario no autorizado para obtener dirección");
+            return ResponseEntity.status(401)
+                    .body(new ResponseDto<>(false, "Token inválido o usuario no autorizado", null));
+        }
+
+        logger.info("Usuario autorizado para obtener dirección con ID: {}", id);
+        DireccionDto direccion = direccionService.obtenerDireccionPorId(id);
+        return ResponseEntity.ok(new ResponseDto<>(true, "Dirección obtenida exitosamente", direccion));
+    }
+
+    @PutMapping("/actualizar/{id}")
+    public ResponseEntity<ResponseDto<DireccionDto>> actualizarDireccion(
+            @PathVariable Integer id,
+            @RequestBody DireccionDto direccionDto,
+            @RequestHeader("Authorization") String token) {
+
+        String extractedToken = token.replace("Bearer ", "");
+        String username = jwtConfig.extractUsername(extractedToken);
+
+        if (username == null || !jwtConfig.validateToken(extractedToken, username)) {
+            logger.warn("Token inválido o usuario no autorizado para actualizar dirección");
+            return ResponseEntity.status(401)
+                    .body(new ResponseDto<>(false, "Token inválido o usuario no autorizado", null));
+        }
+
+        logger.info("Usuario autorizado para actualizar dirección con ID: {}", id);
+        DireccionDto direccionActualizada = direccionService.actualizarDireccion(id, direccionDto);
+        return ResponseEntity.ok(new ResponseDto<>(true, "Dirección actualizada exitosamente", direccionActualizada));
+    }
+
+    @DeleteMapping("/eliminar/{id}")
+    public ResponseEntity<ResponseDto<Void>> eliminarDireccion(
+            @PathVariable Integer id,
+            @RequestHeader("Authorization") String token) {
+
+        String extractedToken = token.replace("Bearer ", "");
+        String username = jwtConfig.extractUsername(extractedToken);
+
+        if (username == null || !jwtConfig.validateToken(extractedToken, username)) {
+            logger.warn("Token inválido o usuario no autorizado para eliminar dirección");
+            return ResponseEntity.status(401)
+                    .body(new ResponseDto<>(false, "Token inválido o usuario no autorizado", null));
+        }
+
+        logger.info("Usuario autorizado para eliminar dirección con ID: {}", id);
+        direccionService.eliminarDireccion(id);
+        return ResponseEntity.ok(new ResponseDto<>(true, "Dirección eliminada exitosamente", null));
     }
 }

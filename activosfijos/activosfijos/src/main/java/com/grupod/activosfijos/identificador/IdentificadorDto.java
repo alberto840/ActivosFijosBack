@@ -1,9 +1,6 @@
 package com.grupod.activosfijos.identificador;
 
 import java.io.Serializable;
-import java.util.List;
-
-import com.grupod.activosfijos.activo.ActivoDto;
 
 public class IdentificadorDto implements Serializable {
 
@@ -12,16 +9,14 @@ public class IdentificadorDto implements Serializable {
     private Integer idIdentificador;
     private String codigoQr;
     private String codigoBarra;
-    private List<ActivoDto> activos;
 
     public IdentificadorDto() {
     }
 
-    public IdentificadorDto(Integer idIdentificador, String codigoQr, String codigoBarra, List<ActivoDto> activos) {
+    public IdentificadorDto(Integer idIdentificador, String codigoQr, String codigoBarra) {
         this.idIdentificador = idIdentificador;
         this.codigoQr = codigoQr;
         this.codigoBarra = codigoBarra;
-        this.activos = activos;
     }
 
     public Integer getIdIdentificador() {
@@ -48,21 +43,12 @@ public class IdentificadorDto implements Serializable {
         this.codigoBarra = codigoBarra;
     }
 
-    public List<ActivoDto> getActivos() {
-        return activos;
-    }
-
-    public void setActivos(List<ActivoDto> activos) {
-        this.activos = activos;
-    }
-
     @Override
     public String toString() {
         return "IdentificadorDto{" +
                 "idIdentificador=" + idIdentificador +
                 ", codigoQr='" + codigoQr + '\'' +
                 ", codigoBarra='" + codigoBarra + '\'' +
-                ", activos=" + activos +
                 '}';
     }
 }

@@ -1,9 +1,6 @@
 package com.grupod.activosfijos.empresa;
 
 import java.io.Serializable;
-import java.util.List;
-
-import com.grupod.activosfijos.area.AreaDto;
 
 public class EmpresaDto implements Serializable {
 
@@ -14,20 +11,20 @@ public class EmpresaDto implements Serializable {
     private String direccion;
     private String nit;
     private String telefono;
-    private List<AreaDto> areas;
 
-    public EmpresaDto() {
-    }
+    // Constructor vacío
+    public EmpresaDto() {}
 
-    public EmpresaDto(Integer idEmpresa, String nombre, String direccion, String nit, String telefono, List<AreaDto> areas) {
+    // Constructor completo
+    public EmpresaDto(Integer idEmpresa, String nombre, String direccion, String nit, String telefono) {
         this.idEmpresa = idEmpresa;
         this.nombre = nombre;
         this.direccion = direccion;
         this.nit = nit;
         this.telefono = telefono;
-        this.areas = areas;
     }
 
+    // Getters y Setters
     public Integer getIdEmpresa() {
         return idEmpresa;
     }
@@ -68,14 +65,6 @@ public class EmpresaDto implements Serializable {
         this.telefono = telefono;
     }
 
-    public List<AreaDto> getAreas() {
-        return areas;
-    }
-
-    public void setAreas(List<AreaDto> areas) {
-        this.areas = areas;
-    }
-
     @Override
     public String toString() {
         return "EmpresaDto{" +
@@ -84,7 +73,6 @@ public class EmpresaDto implements Serializable {
                 ", direccion='" + direccion + '\'' +
                 ", nit='" + nit + '\'' +
                 ", telefono='" + telefono + '\'' +
-                ", areas=" + areas +
                 '}';
     }
 }

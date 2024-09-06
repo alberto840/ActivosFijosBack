@@ -1,13 +1,9 @@
 package com.grupod.activosfijos.bloque;
 
-import com.grupod.activosfijos.activo.ActivoEntity;
-import com.grupod.activosfijos.aula.AulaEntity;
 import com.grupod.activosfijos.direccion.DireccionEntity;
 import com.grupod.activosfijos.sucursal.SucursalEntity;
 import jakarta.persistence.*;
-
 import java.io.Serializable;
-import java.util.List;
 
 @Entity
 @Table(name = "bloque")
@@ -25,33 +21,28 @@ public class BloqueEntity implements Serializable {
     @Column(name = "nombre")
     private String nombre;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "bloqueEntity")
-    private List<ActivoEntity> activoEntityList;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "bloqueEntity")
-    private List<AulaEntity> aulaEntityList;
-
-    @JoinColumn(name = "direccion_id", referencedColumnName = "id_direccion")
+    // Relación ManyToOne con DireccionEntity
     @ManyToOne(optional = false)
-    private DireccionEntity direccionEntityId;
+    @JoinColumn(name = "direccion_id", referencedColumnName = "id_direccion")
+    private DireccionEntity direccionEntity;
 
+    // Relación ManyToOne con SucursalEntity
     @ManyToOne
     @JoinColumn(name = "sucursal_id", referencedColumnName = "id_sucursal")
     private SucursalEntity sucursalEntity;
 
+    // Constructor vacío
+    public BloqueEntity() {}
 
-    public BloqueEntity() {
-    }
-
-    public BloqueEntity(Integer idBloque, String nombre, List<ActivoEntity> activoEntityList, List<AulaEntity> aulaEntityList, DireccionEntity direccionEntityId, SucursalEntity sucursalEntity) {
+    // Constructor completo
+    public BloqueEntity(Integer idBloque, String nombre, DireccionEntity direccionEntity, SucursalEntity sucursalEntity) {
         this.idBloque = idBloque;
         this.nombre = nombre;
-        this.activoEntityList = activoEntityList;
-        this.aulaEntityList = aulaEntityList;
-        this.direccionEntityId = direccionEntityId;
+        this.direccionEntity = direccionEntity;
         this.sucursalEntity = sucursalEntity;
     }
 
+    // Getters y Setters
     public Integer getIdBloque() {
         return idBloque;
     }
@@ -68,28 +59,12 @@ public class BloqueEntity implements Serializable {
         this.nombre = nombre;
     }
 
-    public List<ActivoEntity> getActivoEntityList() {
-        return activoEntityList;
+    public DireccionEntity getDireccionEntity() {
+        return direccionEntity;
     }
 
-    public void setActivoEntityList(List<ActivoEntity> activoEntityList) {
-        this.activoEntityList = activoEntityList;
-    }
-
-    public List<AulaEntity> getAulaEntityList() {
-        return aulaEntityList;
-    }
-
-    public void setAulaEntityList(List<AulaEntity> aulaEntityList) {
-        this.aulaEntityList = aulaEntityList;
-    }
-
-    public DireccionEntity getDireccionEntityId() {
-        return direccionEntityId;
-    }
-
-    public void setDireccionEntityId(DireccionEntity direccionEntityId) {
-        this.direccionEntityId = direccionEntityId;
+    public void setDireccionEntity(DireccionEntity direccionEntity) {
+        this.direccionEntity = direccionEntity;
     }
 
     public SucursalEntity getSucursalEntity() {

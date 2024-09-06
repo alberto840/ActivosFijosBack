@@ -11,15 +11,14 @@ public class CategoriaDto implements Serializable {
 
     private Integer idCategoria;
     private String nombre;
-    private List<ActivoDto> activos;
+
 
     public CategoriaDto() {
     }
 
-    public CategoriaDto(Integer idCategoria, String nombre, List<ActivoDto> activos) {
+    public CategoriaDto(Integer idCategoria, String nombre) {
         this.idCategoria = idCategoria;
         this.nombre = nombre;
-        this.activos = activos;
     }
 
     public Integer getIdCategoria() {
@@ -38,20 +37,11 @@ public class CategoriaDto implements Serializable {
         this.nombre = nombre;
     }
 
-    public List<ActivoDto> getActivos() {
-        return activos;
-    }
-
-    public void setActivos(List<ActivoDto> activos) {
-        this.activos = activos;
-    }
-
     @Override
     public String toString() {
         return "CategoriaDto{" +
                 "idCategoria=" + idCategoria +
                 ", nombre='" + nombre + '\'' +
-                ", activos=" + activos +
                 '}';
     }
 }

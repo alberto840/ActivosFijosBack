@@ -1,14 +1,17 @@
 package com.grupod.activosfijos.direccion;
-import java.util.HashMap;
-import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class DireccionService {
+
+    private static final Logger logger = LoggerFactory.getLogger(DireccionService.class);
     private final DireccionRepository direccionRepository;
 
     @Autowired
@@ -16,15 +19,81 @@ public class DireccionService {
         this.direccionRepository = direccionRepository;
     }
 
-    public List<DireccionEntity>getDireccion(){
-        return this.direccionRepository.findAll();
-    }
-    public ResponseEntity<Object> addNewDireccion(DireccionEntity direccion) {  
-        HashMap<String, Object> datos = new HashMap<>();
+    public DireccionDto crearDireccion(DireccionDto direccionDto) {
+        logger.info("Creando dirección: Calle {}, Zona {}", direccionDto.getCalle(), direccionDto.getZona());
 
-        direccionRepository.save(direccion);
-        datos.put("datos", direccion);
-        datos.put("message", "Se creo la marca correctamente");
-        return new ResponseEntity<>(datos, HttpStatus.CREATED);
+        DireccionEntity direccionEntity = new DireccionEntity();
+        direccionEntity.setCalle(direccionDto.getCalle());
+        direccionEntity.setDetalle(direccionDto.getDetalle());
+        direccionEntity.setZona(direccionDto.getZona());
+
+        DireccionEntity nuevaDireccion = direccionRepository.save(direccionEntity);
+
+        logger.info("Dirección creada con ID: {}", nuevaDireccion.getIdDireccion());
+
+        return new DireccionDto(
+                nuevaDireccion.getIdDireccion(),
+                nuevaDireccion.getCalle(),
+                nuevaDireccion.getDetalle(),
+                nuevaDireccion.getZona()
+        );
+    }
+
+    public List<DireccionDto> obtenerTodasLasDirecciones() {
+        logger.info("Obteniendo todas las direcciones");
+
+        List<DireccionEntity> direcciones = direccionRepository.findAll();
+
+        return direcciones.stream()
+                .map(direccion -> new DireccionDto(
+                        direccion.getIdDireccion(),
+                        direccion.getCalle(),
+                        direccion.getDetalle(),
+                        direccion.getZona()
+                ))
+                .collect(Collectors.toList());
+    }
+
+    public DireccionDto obtenerDireccionPorId(Integer id) {
+        logger.info("Obteniendo dirección con ID: {}", id);
+        DireccionEntity direccion = direccionRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Dirección no encontrada"));
+
+        return new DireccionDto(
+                direccion.getIdDireccion(),
+                direccion.getCalle(),
+                direccion.getDetalle(),
+                direccion.getZona()
+        );
+    }
+
+    public DireccionDto actualizarDireccion(Integer id, DireccionDto direccionDto) {
+        logger.info("Actualizando dirección con ID: {}", id);
+
+        DireccionEntity direccionEntity = direccionRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Dirección no encontrada"));
+
+        direccionEntity.setCalle(direccionDto.getCalle());
+        direccionEntity.setDetalle(direccionDto.getDetalle());
+        direccionEntity.setZona(direccionDto.getZona());
+
+        DireccionEntity direccionActualizada = direccionRepository.save(direccionEntity);
+
+        return new DireccionDto(
+                direccionActualizada.getIdDireccion(),
+                direccionActualizada.getCalle(),
+                direccionActualizada.getDetalle(),
+                direccionActualizada.getZona()
+        );
+    }
+
+    public void eliminarDireccion(Integer id) {
+        logger.info("Eliminando dirección con ID: {}", id);
+
+        if (!direccionRepository.existsById(id)) {
+            throw new RuntimeException("Dirección no encontrada");
+        }
+
+        direccionRepository.deleteById(id);
     }
 }
