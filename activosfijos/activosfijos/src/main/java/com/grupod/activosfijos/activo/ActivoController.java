@@ -1,45 +1,122 @@
 package com.grupod.activosfijos.activo;
-import java.util.List;
 
+import com.grupod.activosfijos.config.JwtConfig;
+import com.grupod.activosfijos.utils.ResponseDto;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @CrossOrigin
 @RestController
 @RequestMapping(path = "api/v1/activo")
 public class ActivoController {
-    
+
+    private static final Logger logger = LoggerFactory.getLogger(ActivoController.class);
     private final ActivoService activoService;
+    private final JwtConfig jwtConfig;
 
     @Autowired
-    public ActivoController(ActivoService activoService) {
+    public ActivoController(ActivoService activoService, JwtConfig jwtConfig) {
         this.activoService = activoService;
+        this.jwtConfig = jwtConfig;
+    }
+
+    @PostMapping("/crear")
+    public ResponseEntity<ResponseDto<ActivoDto>> crearActivo(
+            @RequestBody ActivoDto activoDto,
+            @RequestHeader("Authorization") String token) {
+
+        String extractedToken = token.replace("Bearer ", "");
+        String username = jwtConfig.extractUsername(extractedToken);
+
+        if (username == null || !jwtConfig.validateToken(extractedToken, username)) {
+            logger.warn("Token inválido o usuario no autorizado para crear activo");
+            return ResponseEntity.status(401)
+                    .body(new ResponseDto<>(false, "Token inválido o usuario no autorizado", null));
+        }
+
+        logger.info("Usuario autorizado para crear activo: {}", username);
+        ActivoDto nuevoActivo = activoService.crearActivo(activoDto);
+        return ResponseEntity.ok(new ResponseDto<>(true, "Activo creado exitosamente", nuevoActivo));
     }
 
     @GetMapping
-    public List<ActivoEntity> getActivo(){
-        return activoService.getActivo();
-    }
+    public ResponseEntity<ResponseDto<List<ActivoDto>>> obtenerTodosLosActivos(
+            @RequestHeader("Authorization") String token) {
 
-    @PostMapping
-    public ResponseEntity<Object> registerNewActivo(@RequestBody ActivoEntity activo){
-        return this.activoService.addNewActivo(activo);
-    }
+        String extractedToken = token.replace("Bearer ", "");
+        String username = jwtConfig.extractUsername(extractedToken);
 
-    @PostMapping("/list")
-    public ResponseEntity<String> registrarNewActivos(@RequestBody List<ActivoEntity> activos) {
-        for (ActivoEntity activo : activos) {
-
-            // Llamar al servicio para agregar el Custodio
-            this.activoService.addNewActivo(activo);
+        if (username == null || !jwtConfig.validateToken(extractedToken, username)) {
+            logger.warn("Token inválido o usuario no autorizado para obtener activos");
+            return ResponseEntity.status(401)
+                    .body(new ResponseDto<>(false, "Token inválido o usuario no autorizado", null));
         }
 
-        return ResponseEntity.ok("Se recibieron y procesaron activos.");
+        logger.info("Usuario autorizado para obtener activos: {}", username);
+        List<ActivoDto> activos = activoService.obtenerTodosLosActivos();
+        return ResponseEntity.ok(new ResponseDto<>(true, "Activos obtenidos exitosamente", activos));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ResponseDto<ActivoDto>> obtenerActivoPorId(
+            @PathVariable Integer id,
+            @RequestHeader("Authorization") String token) {
+
+        String extractedToken = token.replace("Bearer ", "");
+        String username = jwtConfig.extractUsername(extractedToken);
+
+        if (username == null || !jwtConfig.validateToken(extractedToken, username)) {
+            logger.warn("Token inválido o usuario no autorizado para obtener activo");
+            return ResponseEntity.status(401)
+                    .body(new ResponseDto<>(false, "Token inválido o usuario no autorizado", null));
+        }
+
+        logger.info("Usuario autorizado para obtener activo con ID: {}", id);
+        ActivoDto activo = activoService.obtenerActivoPorId(id);
+        return ResponseEntity.ok(new ResponseDto<>(true, "Activo obtenido exitosamente", activo));
+    }
+
+    @PutMapping("/actualizar/{id}")
+    public ResponseEntity<ResponseDto<ActivoDto>> actualizarActivo(
+            @PathVariable Integer id,
+            @RequestBody ActivoDto activoDto,
+            @RequestHeader("Authorization") String token) {
+
+        String extractedToken = token.replace("Bearer ", "");
+        String username = jwtConfig.extractUsername(extractedToken);
+
+        if (username == null || !jwtConfig.validateToken(extractedToken, username)) {
+            logger.warn("Token inválido o usuario no autorizado para actualizar activo");
+            return ResponseEntity.status(401)
+                    .body(new ResponseDto<>(false, "Token inválido o usuario no autorizado", null));
+        }
+
+        logger.info("Usuario autorizado para actualizar activo con ID: {}", id);
+        ActivoDto activoActualizado = activoService.actualizarActivo(id, activoDto);
+        return ResponseEntity.ok(new ResponseDto<>(true, "Activo actualizado exitosamente", activoActualizado));
+    }
+
+    @DeleteMapping("/eliminar/{id}")
+    public ResponseEntity<ResponseDto<Void>> eliminarActivo(
+            @PathVariable Integer id,
+            @RequestHeader("Authorization") String token) {
+
+        String extractedToken = token.replace("Bearer ", "");
+        String username = jwtConfig.extractUsername(extractedToken);
+
+        if (username == null || !jwtConfig.validateToken(extractedToken, username)) {
+            logger.warn("Token inválido o usuario no autorizado para eliminar activo");
+            return ResponseEntity.status(401)
+                    .body(new ResponseDto<>(false, "Token inválido o usuario no autorizado", null));
+        }
+
+        logger.info("Usuario autorizado para eliminar activo con ID: {}", id);
+        activoService.eliminarActivo(id);
+        return ResponseEntity.ok(new ResponseDto<>(true, "Activo eliminado exitosamente", null));
     }
 }

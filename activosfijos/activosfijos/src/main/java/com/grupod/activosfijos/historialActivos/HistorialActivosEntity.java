@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.grupod.activosfijos.historialActivos;
 
 import java.io.Serializable;
@@ -14,7 +10,6 @@ import com.grupod.activosfijos.custodio.CustodioEntity;
 import com.grupod.activosfijos.proyecto.ProyectoEntity;
 import com.grupod.activosfijos.usuario.UsuarioEntity;
 import jakarta.persistence.*;
-
 
 @Entity
 @Table(name = "historialactivos")
@@ -56,9 +51,9 @@ public class HistorialActivosEntity implements Serializable {
     @Column(name = "estado_uso")
     private String estadoUso;
 
-    @JoinColumn(name = "activo_id", referencedColumnName = "id_activo")
     @ManyToOne
-    private ActivoEntity activoEntity;  // Cambié el nombre de la propiedad a 'activoEntity'
+    @JoinColumn(name = "activo_id", referencedColumnName = "id_activo")
+    private ActivoEntity activoEntity;
 
     @ManyToOne
     @JoinColumn(name = "aula_id", referencedColumnName = "id_aula")
@@ -72,29 +67,11 @@ public class HistorialActivosEntity implements Serializable {
     @JoinColumn(name = "proyecto_id", referencedColumnName = "id_proyecto")
     private ProyectoEntity proyectoEntity;
 
-
     @ManyToOne
     @JoinColumn(name = "usuario_id", referencedColumnName = "id_usuario")
     private UsuarioEntity usuarioEntity;
 
-    public HistorialActivosEntity() {
-    }
-
-    public HistorialActivosEntity(Integer idHistorial, String accion, BigDecimal valorActual, Date fechaModificacion, String comprobante, String detalle, boolean estado, String estadoUso, ActivoEntity activoEntity, AulaEntity aulaEntity, CustodioEntity custodioEntity, ProyectoEntity proyectoEntity, UsuarioEntity usuarioEntity) {
-        this.idHistorial = idHistorial;
-        this.accion = accion;
-        this.valorActual = valorActual;
-        this.fechaModificacion = fechaModificacion;
-        this.comprobante = comprobante;
-        this.detalle = detalle;
-        this.estado = estado;
-        this.estadoUso = estadoUso;
-        this.activoEntity = activoEntity;
-        this.aulaEntity = aulaEntity;
-        this.custodioEntity = custodioEntity;
-        this.proyectoEntity = proyectoEntity;
-        this.usuarioEntity = usuarioEntity;
-    }
+    // Getters y Setters
 
     public Integer getIdHistorial() {
         return idHistorial;

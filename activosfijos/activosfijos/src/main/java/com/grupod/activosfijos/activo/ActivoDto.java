@@ -3,17 +3,6 @@ package com.grupod.activosfijos.activo;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
-
-import com.grupod.activosfijos.aula.AulaDto;
-import com.grupod.activosfijos.bloque.BloqueDto;
-import com.grupod.activosfijos.categoria.CategoriaDto;
-import com.grupod.activosfijos.custodio.CustodioDto;
-import com.grupod.activosfijos.depreciacion.DepreciacionDto;
-import com.grupod.activosfijos.estadoActivo.EstadoactivoDto;
-import com.grupod.activosfijos.historialActivos.HistorialActivosDto;
-import com.grupod.activosfijos.identificador.IdentificadorDto;
-import com.grupod.activosfijos.proyecto.ProyectoDto;
 
 public class ActivoDto implements Serializable {
 
@@ -28,20 +17,21 @@ public class ActivoDto implements Serializable {
     private boolean estado;
     private BigDecimal precio;
     private String comprobanteCompra;
-    private List<HistorialActivosDto> historialActivos;
-    private AulaDto aula;
-    private BloqueDto bloque;
-    private CategoriaDto categoria;
-    private CustodioDto custodio;
-    private DepreciacionDto depreciacion;
-    private EstadoactivoDto estadoactivo;
-    private IdentificadorDto identificador;
-    private ProyectoDto proyecto;
+
+    // IDs de las entidades relacionadas
+    private Integer idAula;
+    private Integer idBloque;
+    private Integer idCategoria;
+    private Integer idCustodio;
+    private Integer idDepreciacion;
+    private Integer idEstadoactivo;
+    private Integer idIdentificador;
+    private Integer idProyecto;
 
     public ActivoDto() {
     }
 
-    public ActivoDto(Integer idActivo, String nombre, BigDecimal valorActual, BigDecimal valorInicial, Date fechaRegistro, String detalle, boolean estado, BigDecimal precio, String comprobanteCompra, AulaDto aula, BloqueDto bloque, CategoriaDto categoria, CustodioDto custodio, DepreciacionDto depreciacion, EstadoactivoDto estadoactivo, IdentificadorDto identificador, ProyectoDto proyecto, List<HistorialActivosDto> historialActivos) {
+    public ActivoDto(Integer idActivo, String nombre, BigDecimal valorActual, BigDecimal valorInicial, Date fechaRegistro, String detalle, boolean estado, BigDecimal precio, String comprobanteCompra, Integer idAula, Integer idBloque, Integer idCategoria, Integer idCustodio, Integer idDepreciacion, Integer idEstadoactivo, Integer idIdentificador, Integer idProyecto) {
         this.idActivo = idActivo;
         this.nombre = nombre;
         this.valorActual = valorActual;
@@ -51,16 +41,17 @@ public class ActivoDto implements Serializable {
         this.estado = estado;
         this.precio = precio;
         this.comprobanteCompra = comprobanteCompra;
-        this.aula = aula;
-        this.bloque = bloque;
-        this.categoria = categoria;
-        this.custodio = custodio;
-        this.depreciacion = depreciacion;
-        this.estadoactivo = estadoactivo;
-        this.identificador = identificador;
-        this.proyecto = proyecto;
-        this.historialActivos = historialActivos;
+        this.idAula = idAula;
+        this.idBloque = idBloque;
+        this.idCategoria = idCategoria;
+        this.idCustodio = idCustodio;
+        this.idDepreciacion = idDepreciacion;
+        this.idEstadoactivo = idEstadoactivo;
+        this.idIdentificador = idIdentificador;
+        this.idProyecto = idProyecto;
     }
+
+    // Getters y setters
 
     public Integer getIdActivo() {
         return idActivo;
@@ -134,76 +125,68 @@ public class ActivoDto implements Serializable {
         this.comprobanteCompra = comprobanteCompra;
     }
 
-    public List<HistorialActivosDto> getHistorialActivos() {
-        return historialActivos;
+    public Integer getIdAula() {
+        return idAula;
     }
 
-    public void setHistorialActivos(List<HistorialActivosDto> historialActivos) {
-        this.historialActivos = historialActivos;
+    public void setIdAula(Integer idAula) {
+        this.idAula = idAula;
     }
 
-    public AulaDto getAula() {
-        return aula;
+    public Integer getIdBloque() {
+        return idBloque;
     }
 
-    public void setAula(AulaDto aula) {
-        this.aula = aula;
+    public void setIdBloque(Integer idBloque) {
+        this.idBloque = idBloque;
     }
 
-    public BloqueDto getBloque() {
-        return bloque;
+    public Integer getIdCategoria() {
+        return idCategoria;
     }
 
-    public void setBloque(BloqueDto bloque) {
-        this.bloque = bloque;
+    public void setIdCategoria(Integer idCategoria) {
+        this.idCategoria = idCategoria;
     }
 
-    public CategoriaDto getCategoria() {
-        return categoria;
+    public Integer getIdCustodio() {
+        return idCustodio;
     }
 
-    public void setCategoria(CategoriaDto categoria) {
-        this.categoria = categoria;
+    public void setIdCustodio(Integer idCustodio) {
+        this.idCustodio = idCustodio;
     }
 
-    public CustodioDto getCustodio() {
-        return custodio;
+    public Integer getIdDepreciacion() {
+        return idDepreciacion;
     }
 
-    public void setCustodio(CustodioDto custodio) {
-        this.custodio = custodio;
+    public void setIdDepreciacion(Integer idDepreciacion) {
+        this.idDepreciacion = idDepreciacion;
     }
 
-    public DepreciacionDto getDepreciacion() {
-        return depreciacion;
+    public Integer getIdEstadoactivo() {
+        return idEstadoactivo;
     }
 
-    public void setDepreciacion(DepreciacionDto depreciacion) {
-        this.depreciacion = depreciacion;
+    public void setIdEstadoactivo(Integer idEstadoactivo) {
+        this.idEstadoactivo = idEstadoactivo;
     }
 
-    public EstadoactivoDto getEstadoactivo() {
-        return estadoactivo;
+    public Integer getIdIdentificador() {
+        return idIdentificador;
     }
 
-    public void setEstadoactivo(EstadoactivoDto estadoactivo) {
-        this.estadoactivo = estadoactivo;
+    public void setIdIdentificador(Integer idIdentificador) {
+        this.idIdentificador = idIdentificador;
     }
 
-    public IdentificadorDto getIdentificador() {
-        return identificador;
+    public Integer getIdProyecto() {
+        return idProyecto;
     }
 
-    public void setIdentificador(IdentificadorDto identificador) {
-        this.identificador = identificador;
-    }
-
-    public ProyectoDto getProyecto() {
-        return proyecto;
-    }
-
-    public void setProyecto(ProyectoDto proyecto) {
-        this.proyecto = proyecto;
+    public void setIdProyecto(Integer idProyecto) {
+        this.idProyecto = idProyecto;
     }
 
     @Override
@@ -218,15 +201,14 @@ public class ActivoDto implements Serializable {
                 ", estado=" + estado +
                 ", precio=" + precio +
                 ", comprobanteCompra='" + comprobanteCompra + '\'' +
-                ", historialActivos=" + historialActivos +
-                ", aula=" + aula +
-                ", bloque=" + bloque +
-                ", categoria=" + categoria +
-                ", custodio=" + custodio +
-                ", depreciacion=" + depreciacion +
-                ", estadoactivo=" + estadoactivo +
-                ", identificador=" + identificador +
-                ", proyecto=" + proyecto +
+                ", idAula=" + idAula +
+                ", idBloque=" + idBloque +
+                ", idCategoria=" + idCategoria +
+                ", idCustodio=" + idCustodio +
+                ", idDepreciacion=" + idDepreciacion +
+                ", idEstadoactivo=" + idEstadoactivo +
+                ", idIdentificador=" + idIdentificador +
+                ", idProyecto=" + idProyecto +
                 '}';
     }
 }

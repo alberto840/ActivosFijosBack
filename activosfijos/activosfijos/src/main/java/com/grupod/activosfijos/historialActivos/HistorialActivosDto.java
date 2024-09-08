@@ -4,12 +4,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import com.grupod.activosfijos.activo.ActivoDto;
-import com.grupod.activosfijos.aula.AulaDto;
-import com.grupod.activosfijos.custodio.CustodioDto;
-import com.grupod.activosfijos.proyecto.ProyectoDto;
-import com.grupod.activosfijos.usuario.UsuarioDto;
-
 public class HistorialActivosDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -22,16 +16,16 @@ public class HistorialActivosDto implements Serializable {
     private String detalle;
     private boolean estado;
     private String estadoUso;
-    private ActivoDto activo;
-    private AulaDto aula;
-    private CustodioDto custodio;
-    private ProyectoDto proyecto;
-    private UsuarioDto usuario;
+    private Integer idActivo;
+    private Integer idAula;
+    private Integer idCustodio;
+    private Integer idProyecto;
+    private Integer idUsuario;
 
     public HistorialActivosDto() {
     }
 
-    public HistorialActivosDto(Integer idHistorial, String accion, BigDecimal valorActual, Date fechaModificacion, String comprobante, String detalle, boolean estado, String estadoUso, ActivoDto activo, AulaDto aula, CustodioDto custodio, ProyectoDto proyecto, UsuarioDto usuario) {
+    public HistorialActivosDto(Integer idHistorial, String accion, BigDecimal valorActual, Date fechaModificacion, String comprobante, String detalle, boolean estado, String estadoUso, Integer idActivo, Integer idAula, Integer idCustodio, Integer idProyecto, Integer idUsuario) {
         this.idHistorial = idHistorial;
         this.accion = accion;
         this.valorActual = valorActual;
@@ -40,11 +34,11 @@ public class HistorialActivosDto implements Serializable {
         this.detalle = detalle;
         this.estado = estado;
         this.estadoUso = estadoUso;
-        this.activo = activo;
-        this.aula = aula;
-        this.custodio = custodio;
-        this.proyecto = proyecto;
-        this.usuario = usuario;
+        this.idActivo = idActivo;
+        this.idAula = idAula;
+        this.idCustodio = idCustodio;
+        this.idProyecto = idProyecto;
+        this.idUsuario = idUsuario;
     }
 
     public Integer getIdHistorial() {
@@ -111,44 +105,44 @@ public class HistorialActivosDto implements Serializable {
         this.estadoUso = estadoUso;
     }
 
-    public ActivoDto getActivo() {
-        return activo;
+    public Integer getIdActivo() {
+        return idActivo;
     }
 
-    public void setActivo(ActivoDto activo) {
-        this.activo = activo;
+    public void setIdActivo(Integer idActivo) {
+        this.idActivo = idActivo;
     }
 
-    public AulaDto getAula() {
-        return aula;
+    public Integer getIdAula() {
+        return idAula;
     }
 
-    public void setAula(AulaDto aula) {
-        this.aula = aula;
+    public void setIdAula(Integer idAula) {
+        this.idAula = idAula;
     }
 
-    public CustodioDto getCustodio() {
-        return custodio;
+    public Integer getIdCustodio() {
+        return idCustodio;
     }
 
-    public void setCustodio(CustodioDto custodio) {
-        this.custodio = custodio;
+    public void setIdCustodio(Integer idCustodio) {
+        this.idCustodio = idCustodio;
     }
 
-    public ProyectoDto getProyecto() {
-        return proyecto;
+    public Integer getIdProyecto() {
+        return idProyecto;
     }
 
-    public void setProyecto(ProyectoDto proyecto) {
-        this.proyecto = proyecto;
+    public void setIdProyecto(Integer idProyecto) {
+        this.idProyecto = idProyecto;
     }
 
-    public UsuarioDto getUsuario() {
-        return usuario;
+    public Integer getIdUsuario() {
+        return idUsuario;
     }
 
-    public void setUsuario(UsuarioDto usuario) {
-        this.usuario = usuario;
+    public void setIdUsuario(Integer idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     @Override
@@ -162,11 +156,11 @@ public class HistorialActivosDto implements Serializable {
                 ", detalle='" + detalle + '\'' +
                 ", estado=" + estado +
                 ", estadoUso='" + estadoUso + '\'' +
-                ", activo=" + activo +
-                ", aula=" + aula +
-                ", custodio=" + custodio +
-                ", proyecto=" + proyecto +
-                ", usuario=" + usuario +
+                ", idActivo=" + idActivo +
+                ", idAula=" + idAula +
+                ", idCustodio=" + idCustodio +
+                ", idProyecto=" + idProyecto +
+                ", idUsuario=" + idUsuario +
                 '}';
     }
 }

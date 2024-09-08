@@ -6,14 +6,12 @@ import com.grupod.activosfijos.categoria.CategoriaEntity;
 import com.grupod.activosfijos.custodio.CustodioEntity;
 import com.grupod.activosfijos.depreciacion.DepreciacionEntity;
 import com.grupod.activosfijos.estadoActivo.EstadoactivoEntity;
-import com.grupod.activosfijos.historialActivos.HistorialActivosEntity;
 import com.grupod.activosfijos.identificador.IdentificadorEntity;
 import com.grupod.activosfijos.proyecto.ProyectoEntity;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "activo")
@@ -59,28 +57,25 @@ public class ActivoEntity implements Serializable {
     @Column(name = "comprobante_compra")
     private String comprobanteCompra;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "activoEntity")
-    private List<HistorialActivosEntity> historialActivosEntityList;
-
+    // Relación ManyToOne con otras entidades
     @ManyToOne
     @JoinColumn(name = "aula_id", referencedColumnName = "id_aula")
     private AulaEntity aulaEntity;
 
+    @ManyToOne
     @JoinColumn(name = "bloque_id", referencedColumnName = "id_bloque")
-    @ManyToOne(optional = false)
-    private BloqueEntity bloqueEntity;  // Asegúrate de que este es el nombre correcto que usa el mappedBy
+    private BloqueEntity bloqueEntity;
 
     @ManyToOne
     @JoinColumn(name = "categoria_id", referencedColumnName = "id_categoria")
     private CategoriaEntity categoriaEntity;
 
-
     @ManyToOne
     @JoinColumn(name = "custodio_id", referencedColumnName = "id_custodio")
     private CustodioEntity custodioEntity;
 
+    @ManyToOne
     @JoinColumn(name = "depreciacion_id", referencedColumnName = "id_depreciacion")
-    @ManyToOne(optional = false)
     private DepreciacionEntity depreciacionEntity;
 
     @ManyToOne
@@ -95,20 +90,7 @@ public class ActivoEntity implements Serializable {
     @JoinColumn(name = "proyecto_id", referencedColumnName = "id_proyecto")
     private ProyectoEntity proyectoEntity;
 
-    public ActivoEntity() {
-    }
-
-    public ActivoEntity(Integer idActivo, String nombre, BigDecimal valorActual, BigDecimal valorInicial, Date fechaRegistro, String detalle, boolean estado, BigDecimal precio, String comprobanteCompra) {
-        this.idActivo = idActivo;
-        this.nombre = nombre;
-        this.valorActual = valorActual;
-        this.valorInicial = valorInicial;
-        this.fechaRegistro = fechaRegistro;
-        this.detalle = detalle;
-        this.estado = estado;
-        this.precio = precio;
-        this.comprobanteCompra = comprobanteCompra;
-    }
+    // Getters y Setters (sin listas)
 
     public Integer getIdActivo() {
         return idActivo;
@@ -182,14 +164,6 @@ public class ActivoEntity implements Serializable {
         this.comprobanteCompra = comprobanteCompra;
     }
 
-    public List<HistorialActivosEntity> getHistorialActivosEntityList() {
-        return historialActivosEntityList;
-    }
-
-    public void setHistorialActivosEntityList(List<HistorialActivosEntity> historialActivosEntityList) {
-        this.historialActivosEntityList = historialActivosEntityList;
-    }
-
     public AulaEntity getAulaEntity() {
         return aulaEntity;
     }
@@ -252,29 +226,5 @@ public class ActivoEntity implements Serializable {
 
     public void setProyectoEntity(ProyectoEntity proyectoEntity) {
         this.proyectoEntity = proyectoEntity;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (idActivo != null ? idActivo.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        if (!(object instanceof ActivoEntity)) {
-            return false;
-        }
-        ActivoEntity other = (ActivoEntity) object;
-        if ((this.idActivo == null && other.idActivo != null) || (this.idActivo != null && !this.idActivo.equals(other.idActivo))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "com.grupod.activosfijos.activo.ActivoEntity[ idActivo=" + idActivo + " ]";
     }
 }
