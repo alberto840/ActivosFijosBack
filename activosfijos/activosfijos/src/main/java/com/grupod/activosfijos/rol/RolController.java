@@ -27,23 +27,15 @@ public class RolController {
 
     @PostMapping("/crear")
     public ResponseEntity<ResponseDto<RolDto>> crearRol(
-            @RequestBody RolDto rolDto,
-            @RequestHeader("Authorization") String token) {
+            @RequestBody RolDto rolDto) {
 
-        String extractedToken = token.replace("Bearer ", "");
-        String username = jwtConfig.extractUsername(extractedToken);
+        logger.info("Creando un nuevo rol");
 
-        if (username == null || !jwtConfig.validateToken(extractedToken, username)) {
-            logger.warn("Token inválido o usuario no autorizado para crear rol");
-            return ResponseEntity.status(401)
-                    .body(new ResponseDto<>(false, "Token inválido o usuario no autorizado", null));
-        }
-
-        logger.info("Usuario autorizado para crear rol: {}", username);
         RolDto createdRol = rolService.crearRol(rolDto).getBody();
         return ResponseEntity.status(201)
                 .body(new ResponseDto<>(true, "Rol creado exitosamente", createdRol));
     }
+
 
     @GetMapping
     public ResponseEntity<ResponseDto<List<RolDto>>> obtenerTodosLosRoles() {
