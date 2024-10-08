@@ -7,6 +7,7 @@ import com.grupod.activosfijos.custodio.CustodioEntity;
 import com.grupod.activosfijos.depreciacion.DepreciacionEntity;
 import com.grupod.activosfijos.estadoActivo.EstadoactivoEntity;
 import com.grupod.activosfijos.identificador.IdentificadorEntity;
+import com.grupod.activosfijos.modelo.ModeloEntity; // Importación de ModeloEntity
 import com.grupod.activosfijos.proyecto.ProyectoEntity;
 import jakarta.persistence.*;
 import java.io.Serializable;
@@ -90,8 +91,11 @@ public class ActivoEntity implements Serializable {
     @JoinColumn(name = "proyecto_id", referencedColumnName = "id_proyecto")
     private ProyectoEntity proyectoEntity;
 
-    // Getters y Setters (sin listas)
+    @ManyToOne
+    @JoinColumn(name = "modelo_id", referencedColumnName = "id_modelo") // Relación con ModeloEntity
+    private ModeloEntity modeloEntity;
 
+    // Getters y Setters
     public Integer getIdActivo() {
         return idActivo;
     }
@@ -226,5 +230,13 @@ public class ActivoEntity implements Serializable {
 
     public void setProyectoEntity(ProyectoEntity proyectoEntity) {
         this.proyectoEntity = proyectoEntity;
+    }
+
+    public ModeloEntity getModeloEntity() {
+        return modeloEntity;
+    }
+
+    public void setModeloEntity(ModeloEntity modeloEntity) {
+        this.modeloEntity = modeloEntity;
     }
 }

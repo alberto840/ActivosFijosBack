@@ -7,6 +7,7 @@ import com.grupod.activosfijos.custodio.CustodioEntity;
 import com.grupod.activosfijos.depreciacion.DepreciacionEntity;
 import com.grupod.activosfijos.estadoActivo.EstadoactivoEntity;
 import com.grupod.activosfijos.identificador.IdentificadorEntity;
+import com.grupod.activosfijos.modelo.ModeloEntity; // Importación de ModeloEntity
 import com.grupod.activosfijos.proyecto.ProyectoEntity;
 import com.grupod.activosfijos.utils.ResponseDto;
 import org.slf4j.Logger;
@@ -61,6 +62,13 @@ public class ActivoService {
         activoEntity.setEstado(activoDto.getEstado());
         activoEntity.setPrecio(activoDto.getPrecio());
         activoEntity.setComprobanteCompra(activoDto.getComprobanteCompra());
+
+        // Actualizar el modelo si el ID del modelo se proporciona
+        if (activoDto.getIdModelo() != null) {
+            ModeloEntity modeloEntity = new ModeloEntity();
+            modeloEntity.setIdModelo(activoDto.getIdModelo());
+            activoEntity.setModeloEntity(modeloEntity);
+        }
 
         ActivoEntity activoActualizado = activoRepository.save(activoEntity);
         return convertirEntidadADto(activoActualizado);
@@ -136,6 +144,12 @@ public class ActivoService {
             activoEntity.setProyectoEntity(proyecto);
         }
 
+        if (activoDto.getIdModelo() != null) {
+            ModeloEntity modelo = new ModeloEntity();
+            modelo.setIdModelo(activoDto.getIdModelo());
+            activoEntity.setModeloEntity(modelo);
+        }
+
         return activoEntity;
     }
 
@@ -158,7 +172,8 @@ public class ActivoService {
                 activoEntity.getDepreciacionEntity() != null ? activoEntity.getDepreciacionEntity().getIdDepreciacion() : null,
                 activoEntity.getEstadoactivoEntity() != null ? activoEntity.getEstadoactivoEntity().getIdEstado() : null,
                 activoEntity.getIdentificadorEntity() != null ? activoEntity.getIdentificadorEntity().getIdIdentificador() : null,
-                activoEntity.getProyectoEntity() != null ? activoEntity.getProyectoEntity().getIdProyecto() : null
+                activoEntity.getProyectoEntity() != null ? activoEntity.getProyectoEntity().getIdProyecto() : null,
+                activoEntity.getModeloEntity() != null ? activoEntity.getModeloEntity().getIdModelo() : null
         );
     }
 

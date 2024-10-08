@@ -12,12 +12,11 @@ public class UsuarioDto implements Serializable {
     private boolean estado;
     private String telefono;
     private Integer rolId;
-    private Integer areaId;
 
     public UsuarioDto() {
     }
 
-    public UsuarioDto(Integer idUsuario, String nombre, String apellidoPaterno, String apellidoMaterno, String correo, String password, boolean estado, String telefono, Integer rolId, Integer areaId) {
+    public UsuarioDto(Integer idUsuario, String nombre, String apellidoPaterno, String apellidoMaterno, String correo, String password, boolean estado, String telefono, Integer rolId) {
         this.idUsuario = idUsuario;
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
@@ -27,10 +26,9 @@ public class UsuarioDto implements Serializable {
         this.estado = estado;
         this.telefono = telefono;
         this.rolId = rolId;
-        this.areaId = areaId;
     }
 
-    public UsuarioDto(Integer idUsuario, String nombre, String apellidoPaterno, String apellidoMaterno, String correo, boolean estado, String telefono, Integer rolId, Integer areaId) {
+    public UsuarioDto(Integer idUsuario, String nombre, String apellidoPaterno, String apellidoMaterno, String correo, boolean estado, String telefono, Integer rolId) {
         this.idUsuario = idUsuario;
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
@@ -39,7 +37,6 @@ public class UsuarioDto implements Serializable {
         this.estado = estado;
         this.telefono = telefono;
         this.rolId = rolId;
-        this.areaId = areaId;
     }
 
     public Integer getIdUsuario() {
@@ -112,13 +109,5 @@ public class UsuarioDto implements Serializable {
 
     public void setRolId(Integer rolId) {
         this.rolId = rolId;
-    }
-
-    public Integer getAreaId() {
-        return areaId;
-    }
-
-    public void setAreaId(Integer areaId) {
-        this.areaId = areaId;
     }
 }

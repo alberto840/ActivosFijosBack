@@ -1,7 +1,5 @@
 package com.grupod.activosfijos.usuario;
 
-import com.grupod.activosfijos.area.AreaEntity;
-import com.grupod.activosfijos.area.AreaRepository;
 import com.grupod.activosfijos.config.JwtConfig;
 import com.grupod.activosfijos.rol.RolEntity;
 import com.grupod.activosfijos.rol.RolRepository;
@@ -23,31 +21,32 @@ public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
     private final RolRepository rolRepository;
-    private final AreaRepository areaRepository;
     private final JwtConfig jwtConfig;
     private final Logger logger = LoggerFactory.getLogger(UsuarioService.class);
 
     @Autowired
-    public UsuarioService(UsuarioRepository usuarioRepository, RolRepository rolRepository, AreaRepository areaRepository, JwtConfig jwtConfig) {
+    public UsuarioService(UsuarioRepository usuarioRepository, RolRepository rolRepository, JwtConfig jwtConfig) {
         this.usuarioRepository = usuarioRepository;
         this.rolRepository = rolRepository;
-        this.areaRepository = areaRepository;
         this.jwtConfig = jwtConfig;
     }
 
     public ResponseEntity<ResponseDto<UsuarioDto>> crearUsuario(UsuarioDto usuarioDto) {
+        // Verificar si el correo ya está registrado en la base de datos
         if (usuarioRepository.existsByCorreo(usuarioDto.getCorreo())) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
                     new ResponseDto<>(false, "El correo ya está registrado", null)
             );
         }
 
+        // Encriptar la contraseña
         String encodedPassword = BCrypt.hashpw(usuarioDto.getPassword(), BCrypt.gensalt());
+
+        // Buscar el rol asociado al usuario
         RolEntity rolEntity = rolRepository.findById(usuarioDto.getRolId())
                 .orElseThrow(() -> new RuntimeException("Rol no encontrado"));
-        AreaEntity areaEntity = areaRepository.findById(usuarioDto.getAreaId())
-                .orElseThrow(() -> new RuntimeException("Área no encontrada"));
 
+        // Crear la entidad Usuario
         UsuarioEntity usuario = new UsuarioEntity();
         usuario.setNombre(usuarioDto.getNombre());
         usuario.setApellidoPaterno(usuarioDto.getApellidoPaterno());
@@ -57,10 +56,11 @@ public class UsuarioService {
         usuario.setEstado(usuarioDto.isEstado());
         usuario.setTelefono(usuarioDto.getTelefono());
         usuario.setRolId(rolEntity);
-        usuario.setArea(areaEntity);
 
+        // Guardar el usuario en la base de datos
         usuario = usuarioRepository.save(usuario);
 
+        // Crear un DTO de respuesta con los datos del usuario guardado
         UsuarioDto responseDto = new UsuarioDto(
                 usuario.getIdUsuario(),
                 usuario.getNombre(),
@@ -69,8 +69,7 @@ public class UsuarioService {
                 usuario.getCorreo(),
                 usuario.getEstado(),
                 usuario.getTelefono(),
-                usuario.getRolId().getIdRol(),
-                usuario.getArea().getIdArea()
+                usuario.getRolId().getIdRol()
         );
 
         return ResponseEntity.status(HttpStatus.CREATED).body(
@@ -79,6 +78,7 @@ public class UsuarioService {
     }
 
     public ResponseEntity<ResponseDto<String>> loginUsuario(String correo, String password) {
+        // Buscar el usuario por su correo
         Optional<UsuarioEntity> usuarioOpt = usuarioRepository.findByCorreo(correo);
         if (usuarioOpt.isEmpty()) {
             logger.warn("Intento de login fallido: correo no encontrado");
@@ -87,6 +87,7 @@ public class UsuarioService {
             );
         }
         UsuarioEntity usuario = usuarioOpt.get();
+        // Verificar la contraseña
         if (!BCrypt.checkpw(password, usuario.getPassword())) {
             logger.warn("Intento de login fallido: contraseña incorrecta para el correo {}", correo);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
@@ -94,6 +95,7 @@ public class UsuarioService {
             );
         }
 
+        // Generar el token JWT para el usuario autenticado
         String token = jwtConfig.generateToken(usuario.getCorreo(), usuario.getIdUsuario(), usuario.getRolId().getIdRol());
         logger.info("Usuario {} ha iniciado sesión exitosamente", correo);
         return ResponseEntity.status(HttpStatus.OK).body(
@@ -102,6 +104,7 @@ public class UsuarioService {
     }
 
     public ResponseEntity<ResponseDto<UsuarioDto>> actualizarUsuario(Integer id, UsuarioDto usuarioDto, String token) {
+        // Validar el token y el usuario asociado
         String usernameFromToken = jwtConfig.extractUsername(token);
         logger.debug("Correo extraído del token: {}", usernameFromToken);
         logger.debug("Correo en el DTO: {}", usuarioDto.getCorreo());
@@ -120,6 +123,7 @@ public class UsuarioService {
             );
         }
 
+        // Actualizar la entidad Usuario con los nuevos datos
         UsuarioEntity usuario = usuarioOpt.get();
         usuario.setNombre(usuarioDto.getNombre());
         usuario.setApellidoPaterno(usuarioDto.getApellidoPaterno());
@@ -128,19 +132,17 @@ public class UsuarioService {
         usuario.setTelefono(usuarioDto.getTelefono());
         usuario.setEstado(usuarioDto.isEstado());
 
+        // Si el rol es diferente, actualizarlo
         if (usuarioDto.getRolId() != null) {
             RolEntity rolEntity = rolRepository.findById(usuarioDto.getRolId())
                     .orElseThrow(() -> new RuntimeException("Rol no encontrado"));
             usuario.setRolId(rolEntity);
         }
 
-        if (usuarioDto.getAreaId() != null) {
-            AreaEntity areaEntity = areaRepository.findById(usuarioDto.getAreaId())
-                    .orElseThrow(() -> new RuntimeException("Área no encontrada"));
-            usuario.setArea(areaEntity);
-        }
-
+        // Guardar el usuario actualizado
         usuario = usuarioRepository.save(usuario);
+
+        // Crear un DTO de respuesta con los datos del usuario actualizado
         UsuarioDto responseDto = new UsuarioDto(
                 usuario.getIdUsuario(),
                 usuario.getNombre(),
@@ -149,8 +151,7 @@ public class UsuarioService {
                 usuario.getCorreo(),
                 usuario.getEstado(),
                 usuario.getTelefono(),
-                usuario.getRolId().getIdRol(),
-                usuario.getArea().getIdArea()
+                usuario.getRolId().getIdRol()
         );
         logger.info("Usuario con ID {} actualizado exitosamente", id);
 
@@ -160,8 +161,10 @@ public class UsuarioService {
     }
 
     public ResponseEntity<ResponseDto<UsuarioDto>> getUsuarioById(Integer id, String token) {
+        // Validar el token
         String usernameFromToken = jwtConfig.extractUsername(token);
         logger.debug("Correo extraído del token: {}", usernameFromToken);
+
         Optional<UsuarioEntity> usuarioOpt = usuarioRepository.findById(id);
         if (usuarioOpt.isEmpty()) {
             logger.warn("Usuario con ID {} no encontrado", id);
@@ -169,6 +172,8 @@ public class UsuarioService {
                     new ResponseDto<>(false, "Usuario no encontrado", null)
             );
         }
+
+        // Crear un DTO con los datos del usuario encontrado
         UsuarioEntity usuario = usuarioOpt.get();
         UsuarioDto responseDto = new UsuarioDto(
                 usuario.getIdUsuario(),
@@ -178,8 +183,7 @@ public class UsuarioService {
                 usuario.getCorreo(),
                 usuario.getEstado(),
                 usuario.getTelefono(),
-                usuario.getRolId().getIdRol(),
-                usuario.getArea().getIdArea()
+                usuario.getRolId().getIdRol()
         );
 
         logger.info("Usuario con ID {} encontrado", id);
@@ -189,9 +193,11 @@ public class UsuarioService {
     }
 
     public ResponseEntity<ResponseDto<List<UsuarioDto>>> getAllUsuarios(String token) {
+        // Validar el token
         String usernameFromToken = jwtConfig.extractUsername(token);
         logger.debug("Correo extraído del token: {}", usernameFromToken);
 
+        // Obtener la lista de usuarios
         List<UsuarioEntity> usuarios = usuarioRepository.findAll();
         List<UsuarioDto> usuariosDto = usuarios.stream().map(usuario ->
                 new UsuarioDto(
@@ -202,8 +208,7 @@ public class UsuarioService {
                         usuario.getCorreo(),
                         usuario.getEstado(),
                         usuario.getTelefono(),
-                        usuario.getRolId().getIdRol(),
-                        usuario.getArea().getIdArea()
+                        usuario.getRolId().getIdRol()
                 )
         ).collect(Collectors.toList());
 
@@ -214,9 +219,11 @@ public class UsuarioService {
     }
 
     public ResponseEntity<ResponseDto<String>> eliminarUsuario(Integer id, String token) {
+        // Validar el token
         String usernameFromToken = jwtConfig.extractUsername(token);
         logger.debug("Correo extraído del token: {}", usernameFromToken);
 
+        // Buscar el usuario por ID
         Optional<UsuarioEntity> usuarioOpt = usuarioRepository.findById(id);
         if (usuarioOpt.isEmpty()) {
             logger.warn("Usuario con ID {} no encontrado", id);
@@ -225,6 +232,7 @@ public class UsuarioService {
             );
         }
 
+        // Eliminar el usuario
         usuarioRepository.deleteById(id);
         logger.info("Usuario con ID {} eliminado exitosamente", id);
         return ResponseEntity.status(HttpStatus.OK).body(

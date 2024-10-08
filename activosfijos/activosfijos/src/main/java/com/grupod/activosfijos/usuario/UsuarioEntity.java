@@ -2,7 +2,6 @@ package com.grupod.activosfijos.usuario;
 
 import com.grupod.activosfijos.historialActivos.HistorialActivosEntity;
 import com.grupod.activosfijos.rol.RolEntity;
-import com.grupod.activosfijos.area.AreaEntity;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -32,7 +31,6 @@ public class UsuarioEntity implements Serializable {
     @Column(name = "apellido_materno", nullable = true)
     private String apellidoMaterno;
 
-
     @Basic(optional = false)
     @Column(name = "password")
     private String password;
@@ -56,10 +54,6 @@ public class UsuarioEntity implements Serializable {
     @JoinColumn(name = "rol_id", referencedColumnName = "id_rol", nullable = false)
     private RolEntity rolId;
 
-    @ManyToOne
-    @JoinColumn(name = "area_id", referencedColumnName = "id_area", nullable = false)
-    private AreaEntity area;
-
     public UsuarioEntity() {
     }
 
@@ -67,7 +61,7 @@ public class UsuarioEntity implements Serializable {
         this.idUsuario = idUsuario;
     }
 
-    public UsuarioEntity(Integer idUsuario, String nombre, String apellidoPaterno, String apellidoMaterno, String password, String correo, boolean estado, String telefono, RolEntity rolId, AreaEntity area) {
+    public UsuarioEntity(Integer idUsuario, String nombre, String apellidoPaterno, String apellidoMaterno, String password, String correo, boolean estado, String telefono, RolEntity rolId) {
         this.idUsuario = idUsuario;
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
@@ -77,7 +71,6 @@ public class UsuarioEntity implements Serializable {
         this.estado = estado;
         this.telefono = telefono;
         this.rolId = rolId;
-        this.area = area;
     }
 
     public Integer getIdUsuario() {
@@ -158,14 +151,6 @@ public class UsuarioEntity implements Serializable {
 
     public void setRolId(RolEntity rolId) {
         this.rolId = rolId;
-    }
-
-    public AreaEntity getArea() {
-        return area;
-    }
-
-    public void setArea(AreaEntity area) {
-        this.area = area;
     }
 
     @Override

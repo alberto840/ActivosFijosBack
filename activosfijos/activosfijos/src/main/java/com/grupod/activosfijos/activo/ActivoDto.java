@@ -27,11 +27,11 @@ public class ActivoDto implements Serializable {
     private Integer idEstadoactivo;
     private Integer idIdentificador;
     private Integer idProyecto;
-
+    private Integer idModelo;
     public ActivoDto() {
     }
 
-    public ActivoDto(Integer idActivo, String nombre, BigDecimal valorActual, BigDecimal valorInicial, Date fechaRegistro, String detalle, boolean estado, BigDecimal precio, String comprobanteCompra, Integer idAula, Integer idBloque, Integer idCategoria, Integer idCustodio, Integer idDepreciacion, Integer idEstadoactivo, Integer idIdentificador, Integer idProyecto) {
+    public ActivoDto(Integer idActivo, String nombre, BigDecimal valorActual, BigDecimal valorInicial, Date fechaRegistro, String detalle, boolean estado, BigDecimal precio, String comprobanteCompra, Integer idAula, Integer idBloque, Integer idCategoria, Integer idCustodio, Integer idDepreciacion, Integer idEstadoactivo, Integer idIdentificador, Integer idProyecto, Integer idModelo) {
         this.idActivo = idActivo;
         this.nombre = nombre;
         this.valorActual = valorActual;
@@ -49,10 +49,10 @@ public class ActivoDto implements Serializable {
         this.idEstadoactivo = idEstadoactivo;
         this.idIdentificador = idIdentificador;
         this.idProyecto = idProyecto;
+        this.idModelo = idModelo;
     }
 
     // Getters y setters
-
     public Integer getIdActivo() {
         return idActivo;
     }
@@ -189,6 +189,14 @@ public class ActivoDto implements Serializable {
         this.idProyecto = idProyecto;
     }
 
+    public Integer getIdModelo() {
+        return idModelo;
+    }
+
+    public void setIdModelo(Integer idModelo) {
+        this.idModelo = idModelo;
+    }
+
     @Override
     public String toString() {
         return "ActivoDto{" +
@@ -209,6 +217,7 @@ public class ActivoDto implements Serializable {
                 ", idEstadoactivo=" + idEstadoactivo +
                 ", idIdentificador=" + idIdentificador +
                 ", idProyecto=" + idProyecto +
+                ", idModelo=" + idModelo +
                 '}';
     }
 }
