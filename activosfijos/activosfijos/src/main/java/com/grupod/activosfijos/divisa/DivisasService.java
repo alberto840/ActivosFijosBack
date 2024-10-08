@@ -27,6 +27,7 @@ public class DivisasService {
         divisaEntity.setNombre(divisasDto.getNombre());
         divisaEntity.setValor(divisasDto.getValor());
         divisaEntity.setFecha(new Date()); // Asignar la fecha actual
+        divisaEntity.setAbreviacion(divisasDto.getAbreviacion()); // Asignar la abreviación de la divisa
 
         // Guardar la nueva entidad en el repositorio
         DivisasEntity nuevaDivisa = divisasRepository.save(divisaEntity);
@@ -36,7 +37,8 @@ public class DivisasService {
                 nuevaDivisa.getIdDivisa(),
                 nuevaDivisa.getNombre(),
                 nuevaDivisa.getValor(),
-                nuevaDivisa.getFecha()
+                nuevaDivisa.getFecha(),
+                nuevaDivisa.getAbreviacion() // Incluir la abreviación en el DTO
         );
 
         // Retornar una respuesta exitosa con el DTO creado
@@ -55,7 +57,8 @@ public class DivisasService {
                         divisa.getIdDivisa(),
                         divisa.getNombre(),
                         divisa.getValor(),
-                        divisa.getFecha()
+                        divisa.getFecha(),
+                        divisa.getAbreviacion() // Incluir la abreviación en el DTO
                 ))
                 .collect(Collectors.toList());
 
@@ -80,7 +83,8 @@ public class DivisasService {
                 divisaEntity.getIdDivisa(),
                 divisaEntity.getNombre(),
                 divisaEntity.getValor(),
-                divisaEntity.getFecha()
+                divisaEntity.getFecha(),
+                divisaEntity.getAbreviacion() // Incluir la abreviación en el DTO
         );
 
         // Retornar una respuesta exitosa con el DTO creado
@@ -101,6 +105,7 @@ public class DivisasService {
         DivisasEntity divisaEntity = divisaOpt.get();
         divisaEntity.setNombre(divisasDto.getNombre());
         divisaEntity.setValor(divisasDto.getValor());
+        divisaEntity.setAbreviacion(divisasDto.getAbreviacion()); // Actualizar la abreviación
 
         // Mantener la fecha existente si no se proporciona en el DTO
         if (divisasDto.getFecha() != null) {
@@ -115,13 +120,13 @@ public class DivisasService {
                 divisaEntity.getIdDivisa(),
                 divisaEntity.getNombre(),
                 divisaEntity.getValor(),
-                divisaEntity.getFecha()
+                divisaEntity.getFecha(),
+                divisaEntity.getAbreviacion() // Incluir la abreviación en el DTO
         );
 
         // Retornar una respuesta exitosa con el DTO actualizado
         return ResponseEntity.ok(new ResponseDto<>(true, "Divisa actualizada exitosamente", actualizadaDivisaDto));
     }
-
 
     // Método para eliminar una divisa por su ID
     public ResponseEntity<ResponseDto<Void>> eliminarDivisa(Integer id) {

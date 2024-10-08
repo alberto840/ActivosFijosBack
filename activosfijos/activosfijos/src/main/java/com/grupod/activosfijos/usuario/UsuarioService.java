@@ -1,5 +1,7 @@
 package com.grupod.activosfijos.usuario;
 
+import com.grupod.activosfijos.area.AreaEntity;
+import com.grupod.activosfijos.area.AreaRepository;
 import com.grupod.activosfijos.config.JwtConfig;
 import com.grupod.activosfijos.rol.RolEntity;
 import com.grupod.activosfijos.rol.RolRepository;
@@ -21,13 +23,15 @@ public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
     private final RolRepository rolRepository;
+    private final AreaRepository areaRepository;
     private final JwtConfig jwtConfig;
     private final Logger logger = LoggerFactory.getLogger(UsuarioService.class);
 
     @Autowired
-    public UsuarioService(UsuarioRepository usuarioRepository, RolRepository rolRepository, JwtConfig jwtConfig) {
+    public UsuarioService(UsuarioRepository usuarioRepository, RolRepository rolRepository, AreaRepository areaRepository, JwtConfig jwtConfig) {
         this.usuarioRepository = usuarioRepository;
         this.rolRepository = rolRepository;
+        this.areaRepository = areaRepository;
         this.jwtConfig = jwtConfig;
     }
 
@@ -41,24 +45,32 @@ public class UsuarioService {
         String encodedPassword = BCrypt.hashpw(usuarioDto.getPassword(), BCrypt.gensalt());
         RolEntity rolEntity = rolRepository.findById(usuarioDto.getRolId())
                 .orElseThrow(() -> new RuntimeException("Rol no encontrado"));
+        AreaEntity areaEntity = areaRepository.findById(usuarioDto.getAreaId())
+                .orElseThrow(() -> new RuntimeException("Área no encontrada"));
 
         UsuarioEntity usuario = new UsuarioEntity();
         usuario.setNombre(usuarioDto.getNombre());
+        usuario.setApellidoPaterno(usuarioDto.getApellidoPaterno());
+        usuario.setApellidoMaterno(usuarioDto.getApellidoMaterno());
         usuario.setCorreo(usuarioDto.getCorreo());
         usuario.setPassword(encodedPassword);
         usuario.setEstado(usuarioDto.isEstado());
         usuario.setTelefono(usuarioDto.getTelefono());
         usuario.setRolId(rolEntity);
+        usuario.setArea(areaEntity);
 
         usuario = usuarioRepository.save(usuario);
 
         UsuarioDto responseDto = new UsuarioDto(
                 usuario.getIdUsuario(),
                 usuario.getNombre(),
+                usuario.getApellidoPaterno(),
+                usuario.getApellidoMaterno(),
                 usuario.getCorreo(),
                 usuario.getEstado(),
                 usuario.getTelefono(),
-                usuario.getRolId().getIdRol()
+                usuario.getRolId().getIdRol(),
+                usuario.getArea().getIdArea()
         );
 
         return ResponseEntity.status(HttpStatus.CREATED).body(
@@ -110,6 +122,8 @@ public class UsuarioService {
 
         UsuarioEntity usuario = usuarioOpt.get();
         usuario.setNombre(usuarioDto.getNombre());
+        usuario.setApellidoPaterno(usuarioDto.getApellidoPaterno());
+        usuario.setApellidoMaterno(usuarioDto.getApellidoMaterno());
         usuario.setCorreo(usuarioDto.getCorreo());
         usuario.setTelefono(usuarioDto.getTelefono());
         usuario.setEstado(usuarioDto.isEstado());
@@ -119,14 +133,24 @@ public class UsuarioService {
                     .orElseThrow(() -> new RuntimeException("Rol no encontrado"));
             usuario.setRolId(rolEntity);
         }
+
+        if (usuarioDto.getAreaId() != null) {
+            AreaEntity areaEntity = areaRepository.findById(usuarioDto.getAreaId())
+                    .orElseThrow(() -> new RuntimeException("Área no encontrada"));
+            usuario.setArea(areaEntity);
+        }
+
         usuario = usuarioRepository.save(usuario);
         UsuarioDto responseDto = new UsuarioDto(
                 usuario.getIdUsuario(),
                 usuario.getNombre(),
+                usuario.getApellidoPaterno(),
+                usuario.getApellidoMaterno(),
                 usuario.getCorreo(),
                 usuario.getEstado(),
                 usuario.getTelefono(),
-                usuario.getRolId().getIdRol()
+                usuario.getRolId().getIdRol(),
+                usuario.getArea().getIdArea()
         );
         logger.info("Usuario con ID {} actualizado exitosamente", id);
 
@@ -136,7 +160,6 @@ public class UsuarioService {
     }
 
     public ResponseEntity<ResponseDto<UsuarioDto>> getUsuarioById(Integer id, String token) {
-        // Validar el token
         String usernameFromToken = jwtConfig.extractUsername(token);
         logger.debug("Correo extraído del token: {}", usernameFromToken);
         Optional<UsuarioEntity> usuarioOpt = usuarioRepository.findById(id);
@@ -150,10 +173,13 @@ public class UsuarioService {
         UsuarioDto responseDto = new UsuarioDto(
                 usuario.getIdUsuario(),
                 usuario.getNombre(),
+                usuario.getApellidoPaterno(),
+                usuario.getApellidoMaterno(),
                 usuario.getCorreo(),
                 usuario.getEstado(),
                 usuario.getTelefono(),
-                usuario.getRolId().getIdRol()
+                usuario.getRolId().getIdRol(),
+                usuario.getArea().getIdArea()
         );
 
         logger.info("Usuario con ID {} encontrado", id);
@@ -163,7 +189,6 @@ public class UsuarioService {
     }
 
     public ResponseEntity<ResponseDto<List<UsuarioDto>>> getAllUsuarios(String token) {
-        // Validar el token
         String usernameFromToken = jwtConfig.extractUsername(token);
         logger.debug("Correo extraído del token: {}", usernameFromToken);
 
@@ -172,10 +197,13 @@ public class UsuarioService {
                 new UsuarioDto(
                         usuario.getIdUsuario(),
                         usuario.getNombre(),
+                        usuario.getApellidoPaterno(),
+                        usuario.getApellidoMaterno(),
                         usuario.getCorreo(),
                         usuario.getEstado(),
                         usuario.getTelefono(),
-                        usuario.getRolId().getIdRol()
+                        usuario.getRolId().getIdRol(),
+                        usuario.getArea().getIdArea()
                 )
         ).collect(Collectors.toList());
 
@@ -186,7 +214,6 @@ public class UsuarioService {
     }
 
     public ResponseEntity<ResponseDto<String>> eliminarUsuario(Integer id, String token) {
-        // Validar el token
         String usernameFromToken = jwtConfig.extractUsername(token);
         logger.debug("Correo extraído del token: {}", usernameFromToken);
 
@@ -204,6 +231,4 @@ public class UsuarioService {
                 new ResponseDto<>(true, "Usuario eliminado con éxito", null)
         );
     }
-
-
 }

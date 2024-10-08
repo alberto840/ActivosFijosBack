@@ -31,7 +31,8 @@ public class CustodioService {
                 custodioDto.getApellidoPaterno(),
                 custodioDto.getApellidoMaterno(),
                 custodioDto.getCorreo(),
-                custodioDto.getTelefono()
+                custodioDto.getTelefono(),
+                custodioDto.getCi() // Asignar el valor de CI (carnet de identidad)
         );
 
         CustodioEntity nuevoCustodio = custodioRepository.save(custodioEntity);
@@ -43,7 +44,8 @@ public class CustodioService {
                 nuevoCustodio.getApellidoPaterno(),
                 nuevoCustodio.getApellidoMaterno(),
                 nuevoCustodio.getCorreo(),
-                nuevoCustodio.getTelefono()
+                nuevoCustodio.getTelefono(),
+                nuevoCustodio.getCi() // Asignar el valor de CI en el DTO
         );
     }
 
@@ -57,7 +59,8 @@ public class CustodioService {
                 custodio.getApellidoPaterno(),
                 custodio.getApellidoMaterno(),
                 custodio.getCorreo(),
-                custodio.getTelefono()
+                custodio.getTelefono(),
+                custodio.getCi() // Incluir CI en la lista de DTOs
         )).collect(Collectors.toList());
     }
 
@@ -73,7 +76,8 @@ public class CustodioService {
                 custodio.getApellidoPaterno(),
                 custodio.getApellidoMaterno(),
                 custodio.getCorreo(),
-                custodio.getTelefono()
+                custodio.getTelefono(),
+                custodio.getCi() // Incluir CI en el DTO
         );
     }
 
@@ -88,6 +92,7 @@ public class CustodioService {
         custodioEntity.setApellidoMaterno(custodioDto.getApellidoMaterno());
         custodioEntity.setCorreo(custodioDto.getCorreo());
         custodioEntity.setTelefono(custodioDto.getTelefono());
+        custodioEntity.setCi(custodioDto.getCi()); // Actualizar el valor de CI en la entidad
 
         CustodioEntity custodioActualizado = custodioRepository.save(custodioEntity);
 
@@ -97,7 +102,8 @@ public class CustodioService {
                 custodioActualizado.getApellidoPaterno(),
                 custodioActualizado.getApellidoMaterno(),
                 custodioActualizado.getCorreo(),
-                custodioActualizado.getTelefono()
+                custodioActualizado.getTelefono(),
+                custodioActualizado.getCi() // Asignar el valor de CI en el DTO actualizado
         );
     }
 

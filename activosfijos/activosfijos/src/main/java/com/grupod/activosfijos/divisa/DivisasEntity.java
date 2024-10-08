@@ -13,6 +13,7 @@ import jakarta.persistence.*;
 public class DivisasEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -32,6 +33,10 @@ public class DivisasEntity implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date fecha;
 
+    @Basic(optional = false)
+    @Column(name = "abreviacion")  // Nueva columna para la abreviación de la divisa
+    private String abreviacion;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "divisasEntity")
     private List<DepreciacionEntity> depreciacionEntityList;
 
@@ -42,11 +47,12 @@ public class DivisasEntity implements Serializable {
         this.idDivisa = idDivisa;
     }
 
-    public DivisasEntity(Integer idDivisa, String nombre, BigDecimal valor, Date fecha) {
+    public DivisasEntity(Integer idDivisa, String nombre, BigDecimal valor, Date fecha, String abreviacion) {
         this.idDivisa = idDivisa;
         this.nombre = nombre;
         this.valor = valor;
         this.fecha = fecha;
+        this.abreviacion = abreviacion;  // Asignar valor del nuevo atributo
     }
 
     public Integer getIdDivisa() {
@@ -79,6 +85,14 @@ public class DivisasEntity implements Serializable {
 
     public void setFecha(Date fecha) {
         this.fecha = fecha;
+    }
+
+    public String getAbreviacion() {  // Getter del nuevo atributo
+        return abreviacion;
+    }
+
+    public void setAbreviacion(String abreviacion) {  // Setter del nuevo atributo
+        this.abreviacion = abreviacion;
     }
 
     public List<DepreciacionEntity> getDepreciacionEntityList() {

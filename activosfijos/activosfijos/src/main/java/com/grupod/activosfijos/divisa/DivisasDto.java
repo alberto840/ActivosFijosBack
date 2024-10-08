@@ -12,15 +12,17 @@ public class DivisasDto implements Serializable {
     private String nombre;
     private BigDecimal valor;
     private Date fecha;
+    private String abreviacion;  // Nuevo atributo
 
     public DivisasDto() {
     }
 
-    public DivisasDto(Integer idDivisa, String nombre, BigDecimal valor, Date fecha) {
+    public DivisasDto(Integer idDivisa, String nombre, BigDecimal valor, Date fecha, String abreviacion) {
         this.idDivisa = idDivisa;
         this.nombre = nombre;
         this.valor = valor;
         this.fecha = fecha;
+        this.abreviacion = abreviacion;  // Asignar valor del nuevo atributo
     }
 
     public Integer getIdDivisa() {
@@ -55,6 +57,14 @@ public class DivisasDto implements Serializable {
         this.fecha = fecha;
     }
 
+    public String getAbreviacion() {  // Getter del nuevo atributo
+        return abreviacion;
+    }
+
+    public void setAbreviacion(String abreviacion) {  // Setter del nuevo atributo
+        this.abreviacion = abreviacion;
+    }
+
     @Override
     public String toString() {
         return "DivisasDto{" +
@@ -62,6 +72,7 @@ public class DivisasDto implements Serializable {
                 ", nombre='" + nombre + '\'' +
                 ", valor=" + valor +
                 ", fecha=" + fecha +
+                ", abreviacion='" + abreviacion + '\'' +  // Incluir el nuevo atributo en el `toString`
                 '}';
     }
 }

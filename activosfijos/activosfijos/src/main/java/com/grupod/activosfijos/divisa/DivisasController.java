@@ -44,12 +44,37 @@ public class DivisasController {
     }
 
     @GetMapping
-    public ResponseEntity<ResponseDto<List<DivisasDto>>> obtenerTodasLasDivisas() {
+    public ResponseEntity<ResponseDto<List<DivisasDto>>> obtenerTodasLasDivisas(
+            @RequestHeader("Authorization") String token) {
+
+        String extractedToken = token.replace("Bearer ", "");
+        String username = jwtConfig.extractUsername(extractedToken);
+
+        if (username == null || !jwtConfig.validateToken(extractedToken, username)) {
+            logger.warn("Token inválido o usuario no autorizado para obtener todas las divisas");
+            return ResponseEntity.status(401)
+                    .body(new ResponseDto<>(false, "Token inválido o usuario no autorizado", null));
+        }
+
+        logger.info("Usuario autorizado para obtener todas las divisas: {}", username);
         return divisasService.obtenerTodasLasDivisas();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseDto<DivisasDto>> obtenerDivisaPorId(@PathVariable Integer id) {
+    public ResponseEntity<ResponseDto<DivisasDto>> obtenerDivisaPorId(
+            @PathVariable Integer id,
+            @RequestHeader("Authorization") String token) {
+
+        String extractedToken = token.replace("Bearer ", "");
+        String username = jwtConfig.extractUsername(extractedToken);
+
+        if (username == null || !jwtConfig.validateToken(extractedToken, username)) {
+            logger.warn("Token inválido o usuario no autorizado para obtener divisa por ID");
+            return ResponseEntity.status(401)
+                    .body(new ResponseDto<>(false, "Token inválido o usuario no autorizado", null));
+        }
+
+        logger.info("Usuario autorizado para obtener divisa por ID: {}", username);
         return divisasService.obtenerDivisaPorId(id);
     }
 

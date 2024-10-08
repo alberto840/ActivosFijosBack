@@ -1,46 +1,64 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.grupod.activosfijos.usuario;
-
-import java.io.Serializable;
-import java.util.List;
 
 import com.grupod.activosfijos.historialActivos.HistorialActivosEntity;
 import com.grupod.activosfijos.rol.RolEntity;
+import com.grupod.activosfijos.area.AreaEntity;
 import jakarta.persistence.*;
+
+import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "usuario")
 public class UsuarioEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id_usuario")
     private Integer idUsuario;
+
     @Basic(optional = false)
     @Column(name = "nombre")
     private String nombre;
+
+    @Basic(optional = false)
+    @Column(name = "apellido_paterno", nullable = true)
+    private String apellidoPaterno;
+
+    @Basic(optional = false)
+    @Column(name = "apellido_materno", nullable = true)
+    private String apellidoMaterno;
+
+
     @Basic(optional = false)
     @Column(name = "password")
     private String password;
+
     @Basic(optional = false)
     @Column(name = "correo")
     private String correo;
+
     @Basic(optional = false)
     @Column(name = "estado")
     private boolean estado;
+
     @Basic(optional = false)
     @Column(name = "telefono")
     private String telefono;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioEntity")
     private List<HistorialActivosEntity> historialActivosEntityList;
-    @JoinColumn(name = "rol_id", referencedColumnName = "id_rol")
-    @ManyToOne(optional = false)
+
+    @ManyToOne
+    @JoinColumn(name = "rol_id", referencedColumnName = "id_rol", nullable = false)
     private RolEntity rolId;
+
+    @ManyToOne
+    @JoinColumn(name = "area_id", referencedColumnName = "id_area", nullable = false)
+    private AreaEntity area;
 
     public UsuarioEntity() {
     }
@@ -49,13 +67,17 @@ public class UsuarioEntity implements Serializable {
         this.idUsuario = idUsuario;
     }
 
-    public UsuarioEntity(Integer idUsuario, String nombre, String password, String correo, boolean estado, String telefono) {
+    public UsuarioEntity(Integer idUsuario, String nombre, String apellidoPaterno, String apellidoMaterno, String password, String correo, boolean estado, String telefono, RolEntity rolId, AreaEntity area) {
         this.idUsuario = idUsuario;
         this.nombre = nombre;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
         this.password = password;
         this.correo = correo;
         this.estado = estado;
         this.telefono = telefono;
+        this.rolId = rolId;
+        this.area = area;
     }
 
     public Integer getIdUsuario() {
@@ -72,6 +94,22 @@ public class UsuarioEntity implements Serializable {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getApellidoPaterno() {
+        return apellidoPaterno;
+    }
+
+    public void setApellidoPaterno(String apellidoPaterno) {
+        this.apellidoPaterno = apellidoPaterno;
+    }
+
+    public String getApellidoMaterno() {
+        return apellidoMaterno;
+    }
+
+    public void setApellidoMaterno(String apellidoMaterno) {
+        this.apellidoMaterno = apellidoMaterno;
     }
 
     public String getPassword() {
@@ -106,11 +144,11 @@ public class UsuarioEntity implements Serializable {
         this.telefono = telefono;
     }
 
-    public List<HistorialActivosEntity> getHistorialactivosList() {
+    public List<HistorialActivosEntity> getHistorialActivosEntityList() {
         return historialActivosEntityList;
     }
 
-    public void setHistorialactivosList(List<HistorialActivosEntity> historialActivosEntityList) {
+    public void setHistorialActivosEntityList(List<HistorialActivosEntity> historialActivosEntityList) {
         this.historialActivosEntityList = historialActivosEntityList;
     }
 
@@ -122,6 +160,14 @@ public class UsuarioEntity implements Serializable {
         this.rolId = rolId;
     }
 
+    public AreaEntity getArea() {
+        return area;
+    }
+
+    public void setArea(AreaEntity area) {
+        this.area = area;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -131,7 +177,6 @@ public class UsuarioEntity implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof UsuarioEntity)) {
             return false;
         }
@@ -144,7 +189,6 @@ public class UsuarioEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "com.grupod.activosfijos.usuario.Usuario[ idUsuario=" + idUsuario + " ]";
+        return "com.grupod.activosfijos.usuario.UsuarioEntity[ idUsuario=" + idUsuario + " ]";
     }
-    
 }
