@@ -25,13 +25,13 @@ public class ActivoDto implements Serializable {
     private Integer idCustodio;
     private Integer idDepreciacion;
     private Integer idEstadoactivo;
-    private Integer idIdentificador;
     private Integer idProyecto;
     private Integer idModelo;
+
     public ActivoDto() {
     }
 
-    public ActivoDto(Integer idActivo, String nombre, BigDecimal valorActual, BigDecimal valorInicial, Date fechaRegistro, String detalle, boolean estado, BigDecimal precio, String comprobanteCompra, Integer idAula, Integer idBloque, Integer idCategoria, Integer idCustodio, Integer idDepreciacion, Integer idEstadoactivo, Integer idIdentificador, Integer idProyecto, Integer idModelo) {
+    public ActivoDto(Integer idActivo, String nombre, BigDecimal valorActual, BigDecimal valorInicial, Date fechaRegistro, String detalle, boolean estado, BigDecimal precio, String comprobanteCompra, Integer idAula, Integer idBloque, Integer idCategoria, Integer idCustodio, Integer idDepreciacion, Integer idEstadoactivo, Integer idProyecto, Integer idModelo) {
         this.idActivo = idActivo;
         this.nombre = nombre;
         this.valorActual = valorActual;
@@ -47,7 +47,6 @@ public class ActivoDto implements Serializable {
         this.idCustodio = idCustodio;
         this.idDepreciacion = idDepreciacion;
         this.idEstadoactivo = idEstadoactivo;
-        this.idIdentificador = idIdentificador;
         this.idProyecto = idProyecto;
         this.idModelo = idModelo;
     }
@@ -173,14 +172,6 @@ public class ActivoDto implements Serializable {
         this.idEstadoactivo = idEstadoactivo;
     }
 
-    public Integer getIdIdentificador() {
-        return idIdentificador;
-    }
-
-    public void setIdIdentificador(Integer idIdentificador) {
-        this.idIdentificador = idIdentificador;
-    }
-
     public Integer getIdProyecto() {
         return idProyecto;
     }
@@ -215,7 +206,6 @@ public class ActivoDto implements Serializable {
                 ", idCustodio=" + idCustodio +
                 ", idDepreciacion=" + idDepreciacion +
                 ", idEstadoactivo=" + idEstadoactivo +
-                ", idIdentificador=" + idIdentificador +
                 ", idProyecto=" + idProyecto +
                 ", idModelo=" + idModelo +
                 '}';

@@ -6,7 +6,6 @@ import com.grupod.activosfijos.categoria.CategoriaEntity;
 import com.grupod.activosfijos.custodio.CustodioEntity;
 import com.grupod.activosfijos.depreciacion.DepreciacionEntity;
 import com.grupod.activosfijos.estadoActivo.EstadoactivoEntity;
-import com.grupod.activosfijos.identificador.IdentificadorEntity;
 import com.grupod.activosfijos.modelo.ModeloEntity; // Importación de ModeloEntity
 import com.grupod.activosfijos.proyecto.ProyectoEntity;
 import jakarta.persistence.*;
@@ -82,10 +81,6 @@ public class ActivoEntity implements Serializable {
     @ManyToOne
     @JoinColumn(name = "estadoactivo_id", referencedColumnName = "id_estado")
     private EstadoactivoEntity estadoactivoEntity;
-
-    @ManyToOne
-    @JoinColumn(name = "identificador_id", referencedColumnName = "id_identificador")
-    private IdentificadorEntity identificadorEntity;
 
     @ManyToOne
     @JoinColumn(name = "proyecto_id", referencedColumnName = "id_proyecto")
@@ -214,14 +209,6 @@ public class ActivoEntity implements Serializable {
 
     public void setEstadoactivoEntity(EstadoactivoEntity estadoactivoEntity) {
         this.estadoactivoEntity = estadoactivoEntity;
-    }
-
-    public IdentificadorEntity getIdentificadorEntity() {
-        return identificadorEntity;
-    }
-
-    public void setIdentificadorEntity(IdentificadorEntity identificadorEntity) {
-        this.identificadorEntity = identificadorEntity;
     }
 
     public ProyectoEntity getProyectoEntity() {

@@ -6,16 +6,18 @@ import com.grupod.activosfijos.categoria.CategoriaEntity;
 import com.grupod.activosfijos.custodio.CustodioEntity;
 import com.grupod.activosfijos.depreciacion.DepreciacionEntity;
 import com.grupod.activosfijos.estadoActivo.EstadoactivoEntity;
-import com.grupod.activosfijos.identificador.IdentificadorEntity;
 import com.grupod.activosfijos.modelo.ModeloEntity; // Importación de ModeloEntity
 import com.grupod.activosfijos.proyecto.ProyectoEntity;
 import com.grupod.activosfijos.utils.ResponseDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,31 +31,41 @@ public class ActivoService {
         this.activoRepository = activoRepository;
     }
 
-    public ActivoDto crearActivo(ActivoDto activoDto) {
+    public ResponseEntity<ResponseDto<ActivoDto>> crearActivo(ActivoDto activoDto) {
         logger.info("Creando nuevo activo: {}", activoDto.getNombre());
         ActivoEntity activoEntity = convertirDtoAEntidad(activoDto);
         ActivoEntity nuevoActivo = activoRepository.save(activoEntity);
-        return convertirEntidadADto(nuevoActivo);
+        ActivoDto nuevoActivoDto = convertirEntidadADto(nuevoActivo);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseDto<>(true, "Activo creado exitosamente", nuevoActivoDto));
     }
 
-    public List<ActivoDto> obtenerTodosLosActivos() {
+    public ResponseEntity<ResponseDto<List<ActivoDto>>> obtenerTodosLosActivos() {
         logger.info("Obteniendo todos los activos");
         List<ActivoEntity> activos = activoRepository.findAll();
-        return activos.stream().map(this::convertirEntidadADto).collect(Collectors.toList());
+        List<ActivoDto> activosDto = activos.stream().map(this::convertirEntidadADto).collect(Collectors.toList());
+        return ResponseEntity.ok(new ResponseDto<>(true, "Activos obtenidos exitosamente", activosDto));
     }
 
-    public ActivoDto obtenerActivoPorId(Integer id) {
+    public ResponseEntity<ResponseDto<ActivoDto>> obtenerActivoPorId(Integer id) {
         logger.info("Obteniendo activo con ID: {}", id);
-        ActivoEntity activo = activoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Activo no encontrado con ID: " + id));
-        return convertirEntidadADto(activo);
+        Optional<ActivoEntity> activoOpt = activoRepository.findById(id);
+        if (activoOpt.isEmpty()) {
+            logger.warn("Activo con ID {} no encontrado", id);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseDto<>(false, "Activo no encontrado", null));
+        }
+        ActivoDto activoDto = convertirEntidadADto(activoOpt.get());
+        return ResponseEntity.ok(new ResponseDto<>(true, "Activo obtenido exitosamente", activoDto));
     }
 
-    public ActivoDto actualizarActivo(Integer id, ActivoDto activoDto) {
+    public ResponseEntity<ResponseDto<ActivoDto>> actualizarActivo(Integer id, ActivoDto activoDto) {
         logger.info("Actualizando activo con ID: {}", id);
-        ActivoEntity activoEntity = activoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Activo no encontrado con ID: " + id));
+        Optional<ActivoEntity> activoOpt = activoRepository.findById(id);
+        if (activoOpt.isEmpty()) {
+            logger.warn("Activo con ID {} no encontrado", id);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseDto<>(false, "Activo no encontrado", null));
+        }
 
+        ActivoEntity activoEntity = activoOpt.get();
         activoEntity.setNombre(activoDto.getNombre());
         activoEntity.setValorActual(activoDto.getValorActual());
         activoEntity.setValorInicial(activoDto.getValorInicial());
@@ -63,7 +75,7 @@ public class ActivoService {
         activoEntity.setPrecio(activoDto.getPrecio());
         activoEntity.setComprobanteCompra(activoDto.getComprobanteCompra());
 
-        // Actualizar el modelo si el ID del modelo se proporciona
+        // Actualizar la relación con Modelo si el ID de modelo se proporciona
         if (activoDto.getIdModelo() != null) {
             ModeloEntity modeloEntity = new ModeloEntity();
             modeloEntity.setIdModelo(activoDto.getIdModelo());
@@ -71,21 +83,23 @@ public class ActivoService {
         }
 
         ActivoEntity activoActualizado = activoRepository.save(activoEntity);
-        return convertirEntidadADto(activoActualizado);
+        ActivoDto activoActualizadoDto = convertirEntidadADto(activoActualizado);
+        return ResponseEntity.ok(new ResponseDto<>(true, "Activo actualizado exitosamente", activoActualizadoDto));
     }
 
-    public void eliminarActivo(Integer id) {
+    public ResponseEntity<ResponseDto<Void>> eliminarActivo(Integer id) {
         logger.info("Eliminando activo con ID: {}", id);
         if (!activoRepository.existsById(id)) {
-            throw new RuntimeException("Activo no encontrado con ID: " + id);
+            logger.warn("Activo con ID {} no encontrado", id);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseDto<>(false, "Activo no encontrado", null));
         }
         activoRepository.deleteById(id);
+        logger.info("Activo con ID {} eliminado exitosamente", id);
+        return ResponseEntity.ok(new ResponseDto<>(true, "Activo eliminado exitosamente", null));
     }
 
     private ActivoEntity convertirDtoAEntidad(ActivoDto activoDto) {
         ActivoEntity activoEntity = new ActivoEntity();
-
-        // Asignar valores simples
         activoEntity.setNombre(activoDto.getNombre());
         activoEntity.setValorActual(activoDto.getValorActual());
         activoEntity.setValorInicial(activoDto.getValorInicial());
@@ -132,12 +146,6 @@ public class ActivoService {
             activoEntity.setEstadoactivoEntity(estadoactivo);
         }
 
-        if (activoDto.getIdIdentificador() != null) {
-            IdentificadorEntity identificador = new IdentificadorEntity();
-            identificador.setIdIdentificador(activoDto.getIdIdentificador());
-            activoEntity.setIdentificadorEntity(identificador);
-        }
-
         if (activoDto.getIdProyecto() != null) {
             ProyectoEntity proyecto = new ProyectoEntity();
             proyecto.setIdProyecto(activoDto.getIdProyecto());
@@ -152,7 +160,6 @@ public class ActivoService {
 
         return activoEntity;
     }
-
 
     private ActivoDto convertirEntidadADto(ActivoEntity activoEntity) {
         return new ActivoDto(
@@ -171,7 +178,6 @@ public class ActivoService {
                 activoEntity.getCustodioEntity() != null ? activoEntity.getCustodioEntity().getIdCustodio() : null,
                 activoEntity.getDepreciacionEntity() != null ? activoEntity.getDepreciacionEntity().getIdDepreciacion() : null,
                 activoEntity.getEstadoactivoEntity() != null ? activoEntity.getEstadoactivoEntity().getIdEstado() : null,
-                activoEntity.getIdentificadorEntity() != null ? activoEntity.getIdentificadorEntity().getIdIdentificador() : null,
                 activoEntity.getProyectoEntity() != null ? activoEntity.getProyectoEntity().getIdProyecto() : null,
                 activoEntity.getModeloEntity() != null ? activoEntity.getModeloEntity().getIdModelo() : null
         );
