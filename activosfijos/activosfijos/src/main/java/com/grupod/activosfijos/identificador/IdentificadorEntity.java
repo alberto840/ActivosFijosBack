@@ -1,5 +1,6 @@
 package com.grupod.activosfijos.identificador;
 
+import com.grupod.activosfijos.activo.ActivoEntity; // Importación de la entidad ActivoEntity
 import jakarta.persistence.*;
 import java.io.Serializable;
 
@@ -23,14 +24,20 @@ public class IdentificadorEntity implements Serializable {
     @Column(name = "codigo_barra")
     private String codigoBarra;
 
+    // Relación ManyToOne con ActivoEntity
+    @ManyToOne
+    @JoinColumn(name = "activo_id", referencedColumnName = "id_activo")
+    private ActivoEntity activoEntity;
+
     // Constructor vacío
     public IdentificadorEntity() {}
 
     // Constructor completo
-    public IdentificadorEntity(Integer idIdentificador, String codigoQr, String codigoBarra) {
+    public IdentificadorEntity(Integer idIdentificador, String codigoQr, String codigoBarra, ActivoEntity activoEntity) {
         this.idIdentificador = idIdentificador;
         this.codigoQr = codigoQr;
         this.codigoBarra = codigoBarra;
+        this.activoEntity = activoEntity;
     }
 
     // Getters y Setters
@@ -58,6 +65,14 @@ public class IdentificadorEntity implements Serializable {
         this.codigoBarra = codigoBarra;
     }
 
+    public ActivoEntity getActivoEntity() {
+        return activoEntity;
+    }
+
+    public void setActivoEntity(ActivoEntity activoEntity) {
+        this.activoEntity = activoEntity;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -76,6 +91,6 @@ public class IdentificadorEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "IdentificadorEntity[ idIdentificador=" + idIdentificador + " ]";
+        return "IdentificadorEntity[ idIdentificador=" + idIdentificador + ", codigoQr=" + codigoQr + ", codigoBarra=" + codigoBarra + " ]";
     }
 }

@@ -1,19 +1,32 @@
 package com.grupod.activosfijos.activo;
 
+
+
 import com.grupod.activosfijos.aula.AulaEntity;
+import com.grupod.activosfijos.aula.AulaRepository;
 import com.grupod.activosfijos.bloque.BloqueEntity;
+import com.grupod.activosfijos.bloque.BloqueRepository;
 import com.grupod.activosfijos.categoria.CategoriaEntity;
 import com.grupod.activosfijos.custodio.CustodioEntity;
+import com.grupod.activosfijos.departamento.DepartamentoEntity;
+import com.grupod.activosfijos.departamento.DepartamentoRepository;
 import com.grupod.activosfijos.depreciacion.DepreciacionEntity;
+import com.grupod.activosfijos.direccion.DireccionEntity;
+import com.grupod.activosfijos.direccion.DireccionRepository;
 import com.grupod.activosfijos.estadoActivo.EstadoactivoEntity;
-import com.grupod.activosfijos.modelo.ModeloEntity; // Importación de ModeloEntity
+import com.grupod.activosfijos.modelo.ModeloEntity;
+import com.grupod.activosfijos.municipio.MunicipioEntity;
+import com.grupod.activosfijos.municipio.MunicipioRepository;
+import com.grupod.activosfijos.pais.PaisEntity;
+import com.grupod.activosfijos.pais.PaisRepository;
+import com.grupod.activosfijos.provincia.ProvinciaEntity;
+import com.grupod.activosfijos.provincia.ProvinciaRepository;
 import com.grupod.activosfijos.proyecto.ProyectoEntity;
-import com.grupod.activosfijos.utils.ResponseDto;
+import com.grupod.activosfijos.sucursal.SucursalEntity;
+import com.grupod.activosfijos.sucursal.SucursalRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,44 +38,62 @@ public class ActivoService {
 
     private static final Logger logger = LoggerFactory.getLogger(ActivoService.class);
     private final ActivoRepository activoRepository;
+    private final AulaRepository aulaRepository;
+    private final BloqueRepository bloqueRepository;
+    private final DireccionRepository direccionRepository;
+    private final SucursalRepository sucursalRepository;
+    private final MunicipioRepository municipioRepository;
+    private final ProvinciaRepository provinciaRepository;
+    private final DepartamentoRepository departamentoRepository;
+    private final PaisRepository paisRepository;
 
     @Autowired
-    public ActivoService(ActivoRepository activoRepository) {
+    public ActivoService(
+            ActivoRepository activoRepository,
+            AulaRepository aulaRepository,
+            BloqueRepository bloqueRepository,
+            DireccionRepository direccionRepository,
+            SucursalRepository sucursalRepository,
+            MunicipioRepository municipioRepository,
+            ProvinciaRepository provinciaRepository,
+            DepartamentoRepository departamentoRepository,
+            PaisRepository paisRepository) {
         this.activoRepository = activoRepository;
+        this.aulaRepository = aulaRepository;
+        this.bloqueRepository = bloqueRepository;
+        this.direccionRepository = direccionRepository;
+        this.sucursalRepository = sucursalRepository;
+        this.municipioRepository = municipioRepository;
+        this.provinciaRepository = provinciaRepository;
+        this.departamentoRepository = departamentoRepository;
+        this.paisRepository = paisRepository;
     }
 
-    public ResponseEntity<ResponseDto<ActivoDto>> crearActivo(ActivoDto activoDto) {
+    public ActivoDto crearActivo(ActivoDto activoDto) {
         logger.info("Creando nuevo activo: {}", activoDto.getNombre());
         ActivoEntity activoEntity = convertirDtoAEntidad(activoDto);
         ActivoEntity nuevoActivo = activoRepository.save(activoEntity);
-        ActivoDto nuevoActivoDto = convertirEntidadADto(nuevoActivo);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseDto<>(true, "Activo creado exitosamente", nuevoActivoDto));
+        return convertirEntidadADto(nuevoActivo);
     }
 
-    public ResponseEntity<ResponseDto<List<ActivoDto>>> obtenerTodosLosActivos() {
+    public List<ActivoDto> obtenerTodosLosActivos() {
         logger.info("Obteniendo todos los activos");
         List<ActivoEntity> activos = activoRepository.findAll();
-        List<ActivoDto> activosDto = activos.stream().map(this::convertirEntidadADto).collect(Collectors.toList());
-        return ResponseEntity.ok(new ResponseDto<>(true, "Activos obtenidos exitosamente", activosDto));
+        return activos.stream().map(this::convertirEntidadADto).collect(Collectors.toList());
     }
 
-    public ResponseEntity<ResponseDto<ActivoDto>> obtenerActivoPorId(Integer id) {
+    public ActivoDto obtenerActivoPorId(Integer id) {
         logger.info("Obteniendo activo con ID: {}", id);
         Optional<ActivoEntity> activoOpt = activoRepository.findById(id);
-        if (activoOpt.isEmpty()) {
-            logger.warn("Activo con ID {} no encontrado", id);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseDto<>(false, "Activo no encontrado", null));
-        }
-        ActivoDto activoDto = convertirEntidadADto(activoOpt.get());
-        return ResponseEntity.ok(new ResponseDto<>(true, "Activo obtenido exitosamente", activoDto));
+        return activoOpt.map(this::convertirEntidadADto).orElse(null);
     }
 
-    public ResponseEntity<ResponseDto<ActivoDto>> actualizarActivo(Integer id, ActivoDto activoDto) {
+    public ActivoDto actualizarActivo(Integer id, ActivoDto activoDto) {
         logger.info("Actualizando activo con ID: {}", id);
         Optional<ActivoEntity> activoOpt = activoRepository.findById(id);
         if (activoOpt.isEmpty()) {
             logger.warn("Activo con ID {} no encontrado", id);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseDto<>(false, "Activo no encontrado", null));
+            return null;
         }
 
         ActivoEntity activoEntity = activoOpt.get();
@@ -75,50 +106,73 @@ public class ActivoService {
         activoEntity.setPrecio(activoDto.getPrecio());
         activoEntity.setComprobanteCompra(activoDto.getComprobanteCompra());
 
-        // Actualizar la relación con Modelo si el ID de modelo se proporciona
-        if (activoDto.getIdModelo() != null) {
-            ModeloEntity modeloEntity = new ModeloEntity();
-            modeloEntity.setIdModelo(activoDto.getIdModelo());
-            activoEntity.setModeloEntity(modeloEntity);
-        }
+        // Actualizar las relaciones con otras entidades si se proporcionan los IDs
+        actualizarRelaciones(activoEntity, activoDto);
 
         ActivoEntity activoActualizado = activoRepository.save(activoEntity);
-        ActivoDto activoActualizadoDto = convertirEntidadADto(activoActualizado);
-        return ResponseEntity.ok(new ResponseDto<>(true, "Activo actualizado exitosamente", activoActualizadoDto));
+        return convertirEntidadADto(activoActualizado);
     }
 
-    public ResponseEntity<ResponseDto<Void>> eliminarActivo(Integer id) {
+    public boolean eliminarActivo(Integer id) {
         logger.info("Eliminando activo con ID: {}", id);
         if (!activoRepository.existsById(id)) {
             logger.warn("Activo con ID {} no encontrado", id);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseDto<>(false, "Activo no encontrado", null));
+            return false;
         }
         activoRepository.deleteById(id);
-        logger.info("Activo con ID {} eliminado exitosamente", id);
-        return ResponseEntity.ok(new ResponseDto<>(true, "Activo eliminado exitosamente", null));
+        return true;
     }
 
-    private ActivoEntity convertirDtoAEntidad(ActivoDto activoDto) {
-        ActivoEntity activoEntity = new ActivoEntity();
-        activoEntity.setNombre(activoDto.getNombre());
-        activoEntity.setValorActual(activoDto.getValorActual());
-        activoEntity.setValorInicial(activoDto.getValorInicial());
-        activoEntity.setFechaRegistro(activoDto.getFechaRegistro());
-        activoEntity.setDetalle(activoDto.getDetalle());
-        activoEntity.setEstado(activoDto.getEstado());
-        activoEntity.setPrecio(activoDto.getPrecio());
-        activoEntity.setComprobanteCompra(activoDto.getComprobanteCompra());
+    public UbicacionDto obtenerUbicacionCompletaPorIdActivo(Integer idActivo) {
+        ActivoEntity activoEntity = activoRepository.findById(idActivo).orElse(null);
+        if (activoEntity == null) {
+            logger.warn("Activo con ID {} no encontrado", idActivo);
+            return null;
+        }
 
-        // Asignar entidades relacionadas si los IDs no son nulos
+        ActivoDto activoDto = convertirEntidadADto(activoEntity);
+
+        // Obtención de relaciones utilizando las entidades correctas y sus métodos
+        AulaEntity aula = aulaRepository.findById(activoDto.getIdAula()).orElse(null);
+        if (aula == null || aula.getBloqueEntity() == null) return null;
+
+        BloqueEntity bloque = aula.getBloqueEntity();
+        if (bloque.getDireccionEntity() == null || bloque.getSucursalEntity() == null) return null;
+
+        DireccionEntity direccion = bloque.getDireccionEntity();
+        SucursalEntity sucursal = bloque.getSucursalEntity();
+
+        MunicipioEntity municipio = sucursal.getMunicipioEntity();
+        if (municipio == null || municipio.getProvinciaId() == null) return null;
+
+        ProvinciaEntity provincia = municipio.getProvinciaId();
+        if (provincia.getDepartamentoId() == null) return null;
+
+        DepartamentoEntity departamento = provincia.getDepartamentoId();
+        PaisEntity pais = departamento.getPaisEntity();
+
+        return new UbicacionDto(
+                aula.getNombre(),
+                bloque.getNombre(),
+                direccion.getCalle(),
+                direccion.getDetalle(),
+                direccion.getZona(),
+                municipio.getNombre(),
+                provincia.getNombre(),
+                departamento.getNombre(),
+                pais != null ? pais.getNombre() : "N/A",
+                sucursal.getNombre()
+        );
+    }
+
+    private void actualizarRelaciones(ActivoEntity activoEntity, ActivoDto activoDto) {
         if (activoDto.getIdAula() != null) {
-            AulaEntity aula = new AulaEntity();
-            aula.setIdAula(activoDto.getIdAula());
+            AulaEntity aula = aulaRepository.findById(activoDto.getIdAula()).orElse(null);
             activoEntity.setAulaEntity(aula);
         }
 
         if (activoDto.getIdBloque() != null) {
-            BloqueEntity bloque = new BloqueEntity();
-            bloque.setIdBloque(activoDto.getIdBloque());
+            BloqueEntity bloque = bloqueRepository.findById(activoDto.getIdBloque()).orElse(null);
             activoEntity.setBloqueEntity(bloque);
         }
 
@@ -157,8 +211,32 @@ public class ActivoService {
             modelo.setIdModelo(activoDto.getIdModelo());
             activoEntity.setModeloEntity(modelo);
         }
+    }
+
+    // Conversión de Dto a Entidad y Entidad a Dto
+    private ActivoEntity convertirDtoAEntidad(ActivoDto activoDto) {
+        ActivoEntity activoEntity = new ActivoEntity();
+        activoEntity.setNombre(activoDto.getNombre());
+        activoEntity.setValorActual(activoDto.getValorActual());
+        activoEntity.setValorInicial(activoDto.getValorInicial());
+        activoEntity.setFechaRegistro(activoDto.getFechaRegistro());
+        activoEntity.setDetalle(activoDto.getDetalle());
+        activoEntity.setEstado(activoDto.getEstado());
+        activoEntity.setPrecio(activoDto.getPrecio());
+        activoEntity.setComprobanteCompra(activoDto.getComprobanteCompra());
+
+        // Asignar las entidades relacionadas si los IDs no son nulos
+        actualizarRelaciones(activoEntity, activoDto);
 
         return activoEntity;
+    }
+
+    public List<UbicacionDto> obtenerUbicacionesDeTodosLosActivos() {
+        List<ActivoEntity> activos = activoRepository.findAll();
+        return activos.stream()
+                .map(activo -> obtenerUbicacionCompletaPorIdActivo(activo.getIdActivo()))
+                .filter(ubicacion -> ubicacion != null)  // Filtrar activos sin ubicación
+                .collect(Collectors.toList());
     }
 
     private ActivoDto convertirEntidadADto(ActivoEntity activoEntity) {
@@ -182,5 +260,4 @@ public class ActivoService {
                 activoEntity.getModeloEntity() != null ? activoEntity.getModeloEntity().getIdModelo() : null
         );
     }
-
 }

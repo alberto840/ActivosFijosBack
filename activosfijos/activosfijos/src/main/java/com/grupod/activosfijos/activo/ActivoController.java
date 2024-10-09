@@ -119,4 +119,39 @@ public class ActivoController {
         activoService.eliminarActivo(id);
         return ResponseEntity.ok(new ResponseDto<>(true, "Activo eliminado exitosamente", null));
     }
+
+    @GetMapping("/{id}/ubicacion")
+    public ResponseEntity<ResponseDto<UbicacionDto>> obtenerUbicacionCompletaPorIdActivo(
+            @PathVariable Integer id,
+            @RequestHeader("Authorization") String token) {
+
+        String extractedToken = token.replace("Bearer ", "");
+        String username = jwtConfig.extractUsername(extractedToken);
+
+        if (username == null || !jwtConfig.validateToken(extractedToken, username)) {
+            logger.warn("Token inválido o usuario no autorizado para obtener la ubicación del activo");
+            return ResponseEntity.status(401)
+                    .body(new ResponseDto<>(false, "Token inválido o usuario no autorizado", null));
+        }
+
+        logger.info("Usuario autorizado para obtener la ubicación del activo con ID: {}", id);
+
+        // Obtener la ubicación completa del activo
+        UbicacionDto ubicacion = activoService.obtenerUbicacionCompletaPorIdActivo(id);
+
+        if (ubicacion == null) {
+            logger.warn("No se encontró la ubicación del activo con ID: {}", id);
+            return ResponseEntity.status(404)
+                    .body(new ResponseDto<>(false, "Ubicación del activo no encontrada", null));
+        }
+
+        return ResponseEntity.ok(new ResponseDto<>(true, "Ubicación del activo obtenida exitosamente", ubicacion));
+    }
+
+    @GetMapping("/ubicaciones")
+    public ResponseEntity<ResponseDto<List<UbicacionDto>>> obtenerUbicacionesDeTodosLosActivos() {
+        List<UbicacionDto> ubicaciones = activoService.obtenerUbicacionesDeTodosLosActivos();
+        return ResponseEntity.ok(new ResponseDto<>(true, "Ubicaciones obtenidas exitosamente", ubicaciones));
+    }
+
 }
